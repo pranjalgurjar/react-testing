@@ -1,0 +1,13 @@
+.scrollmenu {
+	overflow-x: auto;
+	flex-wrap: nowrap;
+	display: flex;
+}
+
+.scrollmenu::-webkit-scrollbar {
+	width: 0;
+}
+
+div.scrollmenu button {
+	margin-right: 2px;
+}
