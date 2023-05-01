@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { TEST_endPointUrl } from '../../common/api/endPointUrl'
 import { Tokens } from "../../App"
-import "./liveclasses.css"
+
 
 
 const LiveClasses = (props) => {
@@ -62,7 +62,7 @@ const LiveClasses = (props) => {
 
       <div className="course-details-tab style-2">
         <nav>
-          <div className="nav nav-tabs justify-content-start tab-auto scrollmenu" id="nav-tab" role="tablist">
+          <div className="nav nav-tabs justify-content-start tab-auto itemscroll" id="nav-tab" role="tablist">
             {course_slug?.subscriptions.map((item, index) => <button className={((each_coures && each_coures.length) ? each_coures[0] : course_slug?.subscriptions[0]?.course?.slug) === item.course?.slug ? "nav-link line active" : "nav-link line"} onClick={() => changeButton(item?.course?.slug)} id="nav-about-tab" key={index} type="button" role="tab" aria-selected="true">{item?.course?.name}</button>)}
 
           </div>

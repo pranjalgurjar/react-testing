@@ -17,51 +17,51 @@ const CourseCategories = () => {
 
     useEffect(() => {
         const saveData = () => {
-          if(ProtectUrl(slug)){
-            var config = {
-                method: 'post',
-                url: TEST_endPointUrl + 'api/student/course_details1/' + slug + "/",
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
-            };
-            axios(config)
-                .then((response) => {
-                    if (response) {
-                        // console.log(response.data, "response")
-                        setCategories(response.data)
+            if (ProtectUrl(slug)) {
+                var config = {
+                    method: 'post',
+                    url: TEST_endPointUrl + 'api/student/course_details1/' + slug + "/",
+                    headers: {
+                        'Authorization': 'Bearer ' + token
                     }
-                })
-                .catch(function (error) {
-                    // console.log(error);
-                });
-            }else{
+                };
+                axios(config)
+                    .then((response) => {
+                        if (response) {
+                            // console.log(response.data, "response")
+                            setCategories(response.data)
+                        }
+                    })
+                    .catch(function (error) {
+                        // console.log(error);
+                    });
+            } else {
                 navigate(`/courses/${slug}`)
             }
         }
         saveData()
-    }, [token,slug,navigate])
+    }, [token, slug, navigate])
 
 
     useEffect(() => {
         const response = () => {
-            if(ProtectUrl(slug)){
-            fetch(TEST_endPointUrl + `api/student/get_live_classes/${slug}/`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Accept': "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                    'Content-Type': 'application/json'
-                },
+            if (ProtectUrl(slug)) {
+                fetch(TEST_endPointUrl + `api/student/get_live_classes/${slug}/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Accept': "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                        'Content-Type': 'application/json'
+                    },
 
-            }).then(res => res.json())
-                .then(result => {
-                    if (result) {
-                        setLive(result)
-                        // console.log(result, "res")
-                    }
-                })
+                }).then(res => res.json())
+                    .then(result => {
+                        if (result) {
+                            setLive(result)
+                            // console.log(result, "res")
+                        }
+                    })
             }
         }
         response()
@@ -135,7 +135,7 @@ const CourseCategories = () => {
                                                     </div>
                                                     <div className="text-center mt-20">
                                                         <Link to={`/liveclasses/${item?.course?.slug}`} onClick={() => { sessionStorage.setItem("li_ve", JSON.stringify(item)) }}><img src={`${item?.thumbnail}`} alt="" height={150} /></Link>
-                                                        <p className="faculty-name">BY:{item?.instructor?.name}</p>
+                                                        <p className="faculty-name">BY :{item?.instructor?.name}</p>
                                                     </div>
                                                     <div className="text-center">
                                                         <span className="live-title">Live at {new Date(item?.streaming_time).toLocaleTimeString()} {new Date(item?.streaming_time).toDateString()}</span>
@@ -154,7 +154,7 @@ const CourseCategories = () => {
                                             <div className="courses-bx">
                                                 <div className="dlab-info">
                                                     <h6 className="text-primary">
-                                                        <i className="bi-journals" />{item?.course?.name}
+                                                        <i className="bi-journals" /> {item?.course?.name}
                                                     </h6>
                                                     <h5><Link to={`/liveclasses/${item?.course?.slug}`} onClick={() => { sessionStorage.setItem("li_ve", JSON.stringify(item)) }}>{item?.title}</Link>
                                                     </h5>

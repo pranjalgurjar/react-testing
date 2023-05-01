@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Tokens } from '../../App';
 import { TEST_endPointUrl } from '../../common/api/endPointUrl';
 import Loader from '../../components/loader/Loader';
-import "./testseries.css"
+
 const TestSeries = () => {
     const token = useContext(Tokens)
     const studentID = localStorage.getItem("eXvctIdv")
@@ -81,7 +81,7 @@ const TestSeries = () => {
                 </h4>
                 <div className="course-details-tab style-2">
                     <nav>
-                        <div className="nav nav-tabs justify-content-start tab-auto scrollmenu" id="nav-tab" role="tablist">
+                        <div className="nav nav-tabs justify-content-start tab-auto itemscroll" id="nav-tab" role="tablist">
                             {prefrence?.courses?.map((item, index) => <button className={(checking && checking.id ? checking.id : prefrence?.courses?.[0]?.id) === item?.id ? "nav-link active" : "nav-link"} onClick={() => FindLableId(item?.id)} id="nav-about-tab" key={index} >{item?.name}</button>)}
                         </div>
                     </nav>

@@ -36,7 +36,7 @@ const LivePanel = () => {
 		} else {
 			navigate(`/courses/${slug}`)
 		}
-	}, [token,navigate])
+	}, [token, navigate])
 	useEffect(() => {
 		livepanel(lslug)
 	}, [livepanel, lslug])
@@ -57,7 +57,7 @@ const LivePanel = () => {
 						<div className="card h-auto">
 							<div className="card-body">
 								<div className="live-img position-relative">
-									<iframe width="100%" height="335" src={(playlist && playlist.id) ? playlist?.url?.replace('watch?v=', 'embed/') : liveClasses?.url?.replace('watch?v=', 'embed/')} title={(playlist && playlist.id) ? playlist?.title : liveClasses?.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+									<iframe width="100%" height="485" src={(playlist && playlist.id) ? playlist?.url?.replace('watch?v=', 'embed/') : liveClasses?.url?.replace('watch?v=', 'embed/')} title={(playlist && playlist.id) ? playlist?.title : liveClasses?.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 									<div className="live-tag">
 										<svg className="me-2" width={8} height={9} viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<circle cx={4} cy="4.5" r={4} fill="#FC6B57" />
@@ -65,10 +65,10 @@ const LivePanel = () => {
 										Live
 									</div>
 									<div className="row mt-4">
-										<div className="col-md-9 col-lg-9">
+										<div className="col-md-10 col-lg-10">
 											<h4>{(playlist && playlist.id) ? playlist?.title : liveClasses?.title}</h4>
 										</div>
-										<div className="col-md-3 col-lg-3">
+										<div className="col-md-2 col-lg-2">
 											<div className="pagination-down mt-4">
 												<div className="d-flex align-items-center justify-content-right">
 													<ul>
@@ -100,13 +100,14 @@ const LivePanel = () => {
 								<div className="card">
 									<div className="card-body py-2">
 										<div className="custome-accordion style-1">
-											<div className="accordion" id="accordionExample">
+											<div className="" id="accordionExample">
 												<div className="accordion-item">
-													<h2 className="accordion-header border-0" id="headingOne">
-														<button className="accordion-button  mt-1 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+													<h4 className="accordion-header border-0 mb-2 mt-2" id="headingOne">
+														{/* <button className="accordion-button  mt-1 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 															<span className="acc-heading">Other  live Classes</span>
-														</button>
-													</h2>
+														</button> */}
+														<b>Other  live Classes</b>
+													</h4>
 													<div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
 														{((live_video && live_video.length) ? live_video : [])?.map((item, index) => <div className="accordion-body card-body p-0" key={index}>
 															<div className="acc-courses">

@@ -14,10 +14,10 @@ import puzzle from "./images/svg/puzzle.svg"
 
 let postsPerPage = 5
 const MyProfile = (props) => {
-    const { issubs, profileData,ProfileApi} = props
+    const { issubs, profileData, ProfileApi } = props
     const mypro = JSON.parse(localStorage.getItem("userdata"))
     const [user, setUser] = useState([])
-    const [showModal,setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(false)
     const [searchData, setSearchData] = useState([])
     const [currentPage, setCurrentPage] = useState(0);
     const indexOfLastPost = (currentPage + 1) * postsPerPage;
@@ -46,16 +46,16 @@ const MyProfile = (props) => {
         setUser(profileData)
         setShowModal(true)
     }
-    
+
     const Search = (e) => {
         let search = e.target.value
         let data = mypro?.subscriptions?.filter(item => item.course.name.toLowerCase().includes(search.toLowerCase()))
         setSearchData(data)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         ProfileApi()
-    },[ProfileApi])
+    }, [ProfileApi])
     // console.log(profileData);
     return (
         <div>
@@ -170,7 +170,7 @@ const MyProfile = (props) => {
                                     <div className="card-schedule mb-4">
                                         <div className="d-flex justify-content-between content align-items-center">
                                             <button className="btn btn-primary btn-sm text-left"
-                                                 onClick={handleEditClick}>
+                                                onClick={handleEditClick}>
                                                 <i className="bi-pencil-square"></i> Edit details
                                             </button>
 
@@ -208,34 +208,29 @@ const MyProfile = (props) => {
                                                 <input type="search" className="" placeholder="" aria-controls="example3" onChange={Search} />
                                             </label>
                                         </div>
-                                        {issubs ? <table id="example3" className="display dataTable no-footer" role="grid" aria-describedby="example3_info">
+                                        {issubs ? <table id="example3" className="display dataTable no-footer " >
                                             <thead>
-                                                <tr role="row">
-                                                    <th className="sorting_asc" tabIndex="0" aria-controls="example3" rowSpan="1" colSpan="1" aria-sort="ascending" aria-label="Purchase Date: activate to sort column descending" style={{ "width": "148.75px" }}>Purchase Date</th>
-                                                    <th className="sorting" tabIndex="0" aria-controls="example3" rowSpan="1" colSpan="1" aria-label="Expiry Date: activate to sort column ascending" style={{ "width": "144.781px" }}>Expiry Date</th>
-                                                    <th className="sorting" tabIndex="0" aria-controls="example3" rowSpan="1" colSpan="1" aria-label="Course Name: activate to sort column ascending" style={{ "width": "442.188px" }}>Course Name</th>
-                                                    <th className="sorting" tabIndex="0" aria-controls="example3" rowSpan="1" colSpan="1" aria-label="Amount: activate to sort column ascending" style={{ "width": "95.25px" }}>Amount</th>
-                                                    <th className="sorting" tabIndex="0" aria-controls="example3" rowSpan="1" colSpan="1" aria-label=": activate to sort column ascending" style={{ "width": "50.2812px" }}>Invoice</th>
+                                                <tr className="text-center">
+                                                    <th className="sorting" style={{ "width": "148.75px" }}>Purchase Date</th>
+                                                    <th className="sorting" style={{ "width": "144.781px" }}>Expiry Date</th>
+                                                    <th className="sorting" style={{ "width": "442.188px" }}>Course Name</th>
+                                                    <th className="sorting" style={{ "width": "123.25px" }}>Amount</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {(searchData && searchData.length ? searchData : currentTableData)?.map((sub, index) => (
-                                                    <tr role="row" className="odd" key={index}>
+                                                    <tr className="odd text-center" key={index}>
                                                         <td className="sorting_1">{new Date(sub?.subscription?.created_at).toDateString()}</td>
                                                         <td>{new Date(sub?.expiry_date).toDateString()}</td>
-                                                        <td className="text-primary">{sub?.course?.name}
-                                                        </td>
-                                                        <td>{sub?.subscription?.plan_price}</td>
-                                                        <td>
-                                                            <Link>
-                                                                <i className="btn btn-danger shadow btn-xs sharp bi-download"></i>
-                                                            </Link>
-                                                        </td>
+                                                        <td className="text-primary">{sub?.course?.name}</td>
+                                                        <td className="text-center">{sub?.subscription?.plan_price}</td>
+
                                                     </tr>))}
                                             </tbody>
                                         </table> : <div className="text-center"><h4 className="text-center text-primary">You Have Not Purchased Any Subscriptions</h4></div>}
 
-                                        <div className="dataTables_info" id="example3_info" role="status" aria-live="polite">Showing {mypro?.subscriptions.length} of {mypro?.subscriptions.length} entries</div>
+                                        <div className="dataTables_info mt-3" id="example3_info" >Showing {mypro?.subscriptions.length} of {mypro?.subscriptions.length} entries</div>
 
                                         <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} incrementPageNumber={incrementPageNumber} decrementPageNumber={decrementPageNumber} pageNumbers={pageNumbers} />
                                     </div>
@@ -246,7 +241,7 @@ const MyProfile = (props) => {
                 </div>
             </div>
             <Module user={user} ProfileApi={ProfileApi} setShowModal={setShowModal} showModal={showModal} />
-            <div className={showModal?"modal-backdrop fade show":""}></div>
+            <div className={showModal ? "modal-backdrop fade show" : ""}></div>
         </div>
 
     )

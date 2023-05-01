@@ -1,19 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react'
 const Support = () => {
+    const[tab1,setTab1] = useState(true)
+    const[tab2,setTab2] = useState(false)
+    const[tab3,setTab3] = useState(false)
+    const[tab4,setTab4] = useState(false)
+    
+    const tabs = (id)=>{
+
+  if(id==="Contact"){
+    setTab1(true)
+    setTab2(false)
+    setTab3(false)
+    setTab4(false)
+  }else if(id==="Privacy"){
+    setTab1(false)
+    setTab2(true)
+    setTab3(false)
+    setTab4(false)
+  }else if(id==="Terms"){
+    setTab1(false)
+    setTab2(false)
+    setTab3(true)
+    setTab4(false)
+  } else if(id==="Disclaimer"){
+    setTab1(false)
+    setTab2(false)
+    setTab3(false)
+    setTab4(true)
+  }
+    }
     return (
         <>
             <div className="container-fluid">
                 <div className="course-details-tab style-2">
                     <nav>
                         <div className="nav nav-tabs justify-content-start tab-auto" id="nav-tab" role="tablist">
-                            <button className="nav-link active" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about" type="button" role="tab" aria-controls="nav-about" aria-selected="true">Contact Us</button>
-                            <button className="nav-link" id="nav-privacy-tab" data-bs-toggle="tab" data-bs-target="#nav-privacy" type="button" role="tab" aria-controls="nav-privacy" aria-selected="false">Privacy Policy</button>
-                            <button className="nav-link" id="nav-terms-tab" data-bs-toggle="tab" data-bs-target="#nav-terms" type="button" role="tab" aria-controls="nav-terms" aria-selected="false">Terms &amp; Conditions</button>
-                            <button className="nav-link" id="nav-disclaimer-tab" data-bs-toggle="tab" data-bs-target="#nav-disclaimer" type="button" role="tab" aria-controls="nav-disclaimer" aria-selected="false">Disclaimer</button>
+                            <button className={tab1?"nav-link active":"nav-link"} id="nav-about-tab" onClick={()=>tabs("Contact")} >Contact Us</button>
+                            <button className={tab2?"nav-link active":"nav-link"} id="nav-privacy-tab" onClick={()=>tabs("Privacy")} >Privacy Policy</button>
+                            <button className={tab3?"nav-link active":"nav-link"} id="nav-terms-tab" onClick={()=>tabs("Terms")} >Terms &amp; Conditions</button>
+                            <button className={tab4?"nav-link active":"nav-link"} id="nav-disclaimer-tab" onClick={()=>tabs("Disclaimer")} >Disclaimer</button>
                         </div>
                     </nav>
                     <div className="tab-content" id="nav-tabContent">
-                        <div className="tab-pane active show" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                        <div className={tab1?"tab-pane active show":"tab-pane"} id="nav-about" >
                             <div className="card all-crs-wid h-auto mt-4">
                                 <div className="card-body">
                                     <div className="row align-items-center">
@@ -46,7 +75,7 @@ const Support = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="tab-pane" id="nav-disclaimer" role="tabpanel" aria-labelledby="nav-disclaimer-tab">
+                        <div className={tab2?"tab-pane active show":"tab-pane"} id="nav-disclaimer" >
                             <div className="row mt-4">
                                 <div className="col-xl-12 col-md-12">
                                     <div className="card all-crs-wid h-auto">
@@ -66,7 +95,7 @@ const Support = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="tab-pane" id="nav-privacy" role="tabpanel" aria-labelledby="nav-privacy-tab">
+                        <div className={tab3?"tab-pane active show":"tab-pane"} id="nav-privacy" >
                             <div className="row mt-4">
                                 <div className="col-xl-12 col-md-12">
                                     <div className="card all-crs-wid h-auto">
@@ -117,7 +146,7 @@ const Support = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="tab-pane" id="nav-terms" role="tabpanel" aria-labelledby="nav-terms-tab">
+                        <div className={tab4?"tab-pane active show":"tab-pane"} id="nav-terms" >
                             <div className="row mt-4">
                                 <div className="col-xl-12 col-md-12">
                                     <div className="card all-crs-wid">

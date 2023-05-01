@@ -45,65 +45,67 @@ function AppRoutes(props) {
         })
             .then(response => response.json())
             .then((data) => {
-                if(data?.id){
-                localStorage.setItem("userdata", JSON.stringify(data))
-                setProfileData(data)
+                if (data?.id) {
+                    localStorage.setItem("userdata", JSON.stringify(data))
+                    setProfileData(data)
                 }
             });
-        }
+    }
 
     // console.log(profileData);
     return (<>
-        <Routes>
-            <Route exact path='/' element={<Layout profileData={profileData} />} >
-                <Route path='/' element={<PrivateRoutes />}>
-                    <Route path='/' element={<Navigate to={issubs ? 'subscription' : 'courses'} />} />
+        <div className='cotainer-fluid'>
+            <Routes>
+                <Route exact path='/' element={<Layout profileData={profileData} />} >
+                    <Route path='/' element={<PrivateRoutes />}>
+                        <Route path='/' element={<Navigate to={issubs ? 'subscription' : 'courses'} />} />
 
-                    <Route exact path={issubs ? '/courses' : 'courses'} element={<PrivateRoutes />}>
-                        <Route index element={<Courses />} />
-                        <Route exact path=':cslug' element={<Package ProfileApi={ProfileApi} />} />
-                        <Route exact path='details/:cdslug' element={<CourseDetailsOne />} />
-                    </Route>
-                    {/* my subscriptions Route */}
-                    <Route path={issubs ? 'subscription' : '/subscription'} element={<PrivateRoutes />} >
-                        <Route index element={<MySubscription issubs={issubs} />} />
-                        <Route path=':slug' element={<PrivateRoutes />} >
-                            <Route index element={<CourseCategories />} />
-                            <Route path=':cslug' element={<PrivateRoutes />} >
-                                <Route index element={<CoursedetailsTwo />} />
-                                <Route path='que/:id/:nameindex/:title' element={<PrivateRoutes />} >
-                                    <Route index element={<TestseriesAttempt />} />
-                                    <Route path='report' element={<PrivateRoutes />} >
-                                        <Route index element={<Testseriesreport />} />
-                                        <Route path='testsolution' element={<TestSolution />} />
+                        <Route exact path={issubs ? '/courses' : 'courses'} element={<PrivateRoutes />}>
+                            <Route index element={<Courses />} />
+                            <Route exact path=':cslug' element={<Package ProfileApi={ProfileApi} />} />
+                            <Route exact path='details/:cdslug' element={<CourseDetailsOne />} />
+                        </Route>
+                        {/* my subscriptions Route */}
+                        <Route path={issubs ? 'subscription' : '/subscription'} element={<PrivateRoutes />} >
+                            <Route index element={<MySubscription issubs={issubs} />} />
+                            <Route path=':slug' element={<PrivateRoutes />} >
+                                <Route index element={<CourseCategories />} />
+                                <Route path=':cslug' element={<PrivateRoutes />} >
+                                    <Route index element={<CoursedetailsTwo />} />
+                                    <Route path='que/:id/:nameindex/:title' element={<PrivateRoutes />} >
+                                        <Route index element={<TestseriesAttempt />} />
+                                        <Route path='report' element={<PrivateRoutes />} >
+                                            <Route index element={<Testseriesreport />} />
+                                            <Route path='testsolution' element={<TestSolution />} />
+                                        </Route>
                                     </Route>
+                                    <Route path='vid/:vslug' element={<VideoPannel />} />
                                 </Route>
-                                <Route path='vid/:vslug' element={<VideoPannel />} />
                             </Route>
                         </Route>
-                    </Route>
-                    {/* end */}
+                        {/* end */}
 
-                    <Route path='/liveclasses' element={<PrivateRoutes />} >
-                        <Route index element={<LiveClasses issubs={issubs} />} />
-                        <Route path=':lslug' element={<LivePanel />} />
+                        <Route path='/liveclasses' element={<PrivateRoutes />} >
+                            <Route index element={<LiveClasses issubs={issubs} />} />
+                            <Route path=':lslug' element={<LivePanel />} />
+                        </Route>
+                        <Route path='/currentAffairs' element={<CurrentAffairs />} />
+                        <Route path='/testseries' element={<PrivateRoutes />}>
+                            <Route index element={<TestSeries />} />
+                            <Route path=':tid' element={<Testseriesexplore />} />
+                        </Route>
+                        <Route path='/studymaterial' element={<StudyMaterial />} />
+                        <Route path='/prevyearpapers' element={<PrevYearPapers />} />
+                        <Route path='/myprofile' element={<MyProfile profileData={profileData} ProfileApi={ProfileApi} issubs={issubs} />} />
+                        <Route path='/support' element={<Support />} />
                     </Route>
-                    <Route path='/currentAffairs' element={<CurrentAffairs />} />
-                    <Route path='/testseries' element={<PrivateRoutes />}>
-                        <Route index element={<TestSeries />} />
-                        <Route path=':tid' element={<Testseriesexplore />} />
-                    </Route>
-                    <Route path='/studymaterial' element={<StudyMaterial />} />
-                    <Route path='/prevyearpapers' element={<PrevYearPapers />} />
-                    <Route path='/myprofile' element={<MyProfile profileData={profileData} ProfileApi={ProfileApi} issubs={issubs} />} />
-                    <Route path='/support' element={<Support />} />
                 </Route>
-            </Route>
-            <Route path='/forgot' element={<Forgetpassword />} />
-            <Route path='/login' element={<Login Handlechange={Handlechange} setProfileData={setProfileData} />} />
-            <Route path='/registration' element={<Registration />} />
-            <Route path='*' element={<ErrorPage />} />
-        </Routes >
+                <Route path='/forgot' element={<Forgetpassword />} />
+                <Route path='/login' element={<Login Handlechange={Handlechange} setProfileData={setProfileData} />} />
+                <Route path='/registration' element={<Registration />} />
+                <Route path='*' element={<ErrorPage />} />
+            </Routes >
+        </div>
     </>)
 }
 

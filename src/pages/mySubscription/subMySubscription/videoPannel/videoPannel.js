@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import JoLPlayer from "jol-player"
 
 const VideoPannel = () => {
@@ -50,7 +50,7 @@ const VideoPannel = () => {
                                             option={{
                                                 videoSrc:
                                                     `${(playlist && playlist.id) ? playlist?.video_540 : VideoData?.video_540}`,
-                                                height: 335,
+                                                height: 485,
                                                 width: "100%",
                                                 theme: "#8A2BE2",
                                                 poster:
@@ -59,7 +59,8 @@ const VideoPannel = () => {
                                                 language: "en",
                                                 pausePlacement: "center",
                                                 isShowWebFullScreen: false,
-                                                isShowScreenshot : false,
+                                                isShowScreenshot: false,
+                                                isShowSet: false,
 
                                                 quality: [
                                                     {
@@ -92,11 +93,11 @@ const VideoPannel = () => {
                                     </div>
                                     <div className="row user-pic2">
                                         <div className="col-lg-1 col-md-1">
-                                            <img src="https://toppng.com//public/uploads/preview/man-icon-icon-11553432006itw46zhhk8.png"  alt=''/>
+                                            <img src="https://toppng.com//public/uploads/preview/man-icon-icon-11553432006itw46zhhk8.png" alt='' />
                                         </div>
                                         <div className="col-lg-10 col-md-10 mt-2">
                                             <small>Faculty By:</small>
-                                            <h4>Dr. Kuldeep Sarkar (M.B.B.S)</h4>
+                                            <h4> Dr. Kuldeep Sarkar (M.B.B.S)</h4>
                                         </div>
                                         <div className="col-lg-1 col-md-1 mt-3">
 
@@ -162,7 +163,7 @@ const VideoPannel = () => {
                                                 <div className="card-body">
                                                     <h4 className='text-center'>No Comments Available</h4>
                                                 </div>
-                                                
+
                                                 <div className="card-footer"></div>
                                             </div>
                                         </div>
@@ -193,7 +194,7 @@ const VideoPannel = () => {
                                                     {(searchData && searchData.length ? searchData : categories?.CategoryLectures)?.map((item, index) =>
                                                     (
                                                         <div className="col-md-12 col-lg-12 col-sm-12" key={index} >
-                                                            <div className="card h-auto" id={index} onMouseOver={()=>document.getElementById(index).style.backgroundColor="lightyellow"} onMouseLeave={()=>document.getElementById(index).style.backgroundColor=""}>
+                                                            <div className="card h-auto" id={index} onMouseOver={() => document.getElementById(index).style.backgroundColor = "lightyellow"} onMouseLeave={() => document.getElementById(index).style.backgroundColor = ""}>
                                                                 <div className="card-body" style={{ color: `${((playlist && playlist.id ? playlist?.id : VideoData?.id) === item?.id) ? "blue" : ""}` }}>
                                                                     <div className="card-schedule plan">
                                                                         <div className="row justify-content-between content align-items-center">
@@ -236,7 +237,7 @@ const VideoPannel = () => {
                                                 </div>
                                                 <div className="card-footer">
                                                     <div className="d-flex justify-content-between content align-items-center">
-                                                        
+
                                                         <a href="coursecategories.html" className="btn btn-primary btn-sm"> submit</a>
                                                     </div>
                                                 </div>
@@ -264,7 +265,7 @@ const VideoPannel = () => {
                     </div>
                 </div>
             </div>
-            
+
         </>
     )
 }

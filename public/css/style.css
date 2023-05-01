@@ -6407,6 +6407,22 @@ fieldset:disabled .btn {
 
 }
 
+/* for scrolling sidebar & tabs*/
+.itemscroll {
+	overflow-x: overlay;
+	flex-wrap: nowrap;
+	display: flex;
+  overflow-anchor: none;
+}
+
+.itemscroll::-webkit-scrollbar {
+	width: 0;
+}
+
+div.itemscroll button {
+	margin-right: 2px;
+}
+
 .bg-v {
   background: #fffaee;
 }
@@ -41259,7 +41275,7 @@ table.dataTable.display tbody td {
 }
 
 .video-img .view-demo img {
-  border-radius: 15px;
+  border-radius: 10px 10px 0px 0px;
   object-fit: cover;
 }
 
@@ -41643,7 +41659,7 @@ table.dataTable.display tbody td {
 }
 
 .course-details-tab.style-2 .nav-tabs.tab-auto .nav-link {
-  flex:none;
+  flex: none;
 }
 
 .profile-widget:hover {
@@ -43207,8 +43223,8 @@ table.dataTable.display tbody td {
 
 /* for poster overright player */
 .course-video-tab .JoL-player-container .JoL-player {
-    object-fit:fill;
-   
+  object-fit: fill;
+
 }
 
 .live-img img {
