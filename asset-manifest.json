@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7aa4a9c7.css",
+    "main.js": "/static/js/main.7a2e4fd6.js",
+    "static/media/3.gif": "/static/media/3.03c27158217fbecbb160.gif",
+    "static/media/course3.jpg": "/static/media/course3.0a698c46e6d7caeb949c.jpg",
+    "static/media/bg-1.jpg": "/static/media/bg-1.2ddb0f17a2f7226600dd.jpg",
+    "static/media/faq-right.png": "/static/media/faq-right.2eb3c138ac524312f727.png",
+    "static/media/img.png": "/static/media/img.d8fdee58f2fc178cc351.png",
+    "static/media/liveclass.gif": "/static/media/liveclass.be869d1903f3ca67a954.gif",
+    "static/media/favicon.png": "/static/media/favicon.7f322ce4fe512fc8818e.png",
+    "static/media/skill.svg": "/static/media/skill.578852b765f1eda98b178641136fed4c.svg",
+    "static/media/readingtime.svg": "/static/media/readingtime.59ccd3c0eaa6eea47fc1577700fd927d.svg",
+    "static/media/education-website.svg": "/static/media/education-website.4624f7b66f02515a30cd89fe6eb3adf4.svg",
+    "static/media/microscope.svg": "/static/media/microscope.4f5f959b093232e4632ed7a9fb9f37cd.svg",
+    "static/media/cup.svg": "/static/media/cup.6abebdbcc12800fa9f1f449cc4477b45.svg",
+    "static/media/degree-certificate.svg": "/static/media/degree-certificate.9b0e291c12905acf1ea8084b54a2ad13.svg",
+    "static/media/planet.svg": "/static/media/planet.2aa71bca235a623b54dfd09ad10da6b5.svg",
+    "index.html": "/index.html",
+    "static/media/puzzle.svg": "/static/media/puzzle.9c3f08f2b6c84283dab7f5dab5e0ae95.svg",
+    "main.7aa4a9c7.css.map": "/static/css/main.7aa4a9c7.css.map",
+    "main.7a2e4fd6.js.map": "/static/js/main.7a2e4fd6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7aa4a9c7.css",
+    "static/js/main.7a2e4fd6.js"
+  ]
+}
