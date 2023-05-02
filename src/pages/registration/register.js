@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { TEST_endPointUrl } from '../../common/api/endPointUrl'
 import "./res.scss";
 import { Tokens } from '../../App';
-import { regExpEmail,regExpMobile,regExpName,regExpPassword } from '../../RegExp/RegExp';
-import  Image1  from './images/3.gif';
+import { regExpEmail, regExpMobile, regExpName, regExpPassword } from '../../RegExp/RegExp';
+import Image1 from './images/3.gif';
 import bgImg from "./images/bg-1.jpg"
 const Registration = () => {
     const navigate = useNavigate()
@@ -23,8 +23,8 @@ const Registration = () => {
             email: '',
             fullname: ''
         },
-    }) 
-   
+    })
+
 
     const formValid = (state) => {
         let isValid = false;
@@ -63,14 +63,14 @@ const Registration = () => {
         switch (name) {
             case "fullname":
                 isError.fullname =
-                   (value.length === 0) ? "Please enter name" : value.length < 2 ? "Atleast 2 Characaters Required" :regExpName(value)?"Please Enter valid Name":""
+                    (value.length === 0) ? "Please enter name" : value.length < 2 ? "Atleast 2 Characaters Required" : regExpName(value) ? "Please Enter valid Name" : ""
                 setNam(value)
                 setMsg(false)
                 setServerError(false)
                 break;
             case "mobile":
                 isError.mobile =
-                    (value.length===0) ? "Please enter mobile number " :regExpMobile(value)?"Please Enter valid Mobile Number" :(value.length !== 10) ?"Atleast 10 digits required":"";
+                    (value.length === 0) ? "Please enter mobile number " : regExpMobile(value) ? "Please Enter valid Mobile Number" : (value.length !== 10) ? "Atleast 10 digits required" : "";
                 setMob(value)
                 setMsg(false)
                 setServerError(false)
@@ -78,7 +78,7 @@ const Registration = () => {
                 break;
             case "password":
                 isError.password =
-                    (value.length === 0) ? "Please enter password" :regExpPassword(value)?"(Use a combination of uppercase letters, lower case letters, numbers, and special characters (for example: !, @, &, %, +) in all passwords)":(value.length < 6) ?"Atleast 6 characaters required":"";
+                    (value.length === 0) ? "Please enter password" : regExpPassword(value) ? "(Use a combination of uppercase letters, lower case letters, numbers, and special characters (for example: !, @, &, %, +) in all passwords)" : (value.length < 6) ? "Atleast 6 characaters required" : "";
                 setPass(value)
                 setMsg(false)
                 setServerError(false)
@@ -139,7 +139,7 @@ const Registration = () => {
             });
     }
     return (
-        <div className="" style={{ backgroundImage: `url(${bgImg})`, backgroundSize: 'cover', width: "100%" }}>
+        <div className="" style={{ backgroundImage: `url(${bgImg})`, backgroundSize: 'cover', height: "100vh" }}>
             <div className="container">
                 <div className="row align-items-center justify-contain-center">
                     <div className="col-xl-12 mt-3">
@@ -148,7 +148,7 @@ const Registration = () => {
                                 <div className="row m-0">
                                     <div className="col-xl-7 col-md-7 sign text-center">
                                         <div>
-                                            <img src={Image1} width="100%" alt=''/>
+                                            <img src={Image1} width="100%" alt='' />
                                         </div>
                                     </div>
                                     <div className="col-xl-5 col-md-5">
