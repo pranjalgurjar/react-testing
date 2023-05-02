@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/react-testing/static/css/main.9613892d.css",
-    "main.js": "/react-testing/static/js/main.001b1276.js",
+    "main.css": "/react-testing/static/css/main.48ebbbad.css",
+    "main.js": "/react-testing/static/js/main.ebc09a80.js",
     "static/media/3.gif": "/react-testing/static/media/3.03c27158217fbecbb160.gif",
     "static/media/course3.jpg": "/react-testing/static/media/course3.0a698c46e6d7caeb949c.jpg",
     "static/media/bg-1.jpg": "/react-testing/static/media/bg-1.2ddb0f17a2f7226600dd.jpg",
@@ -18,11 +18,11 @@
     "static/media/planet.svg": "/react-testing/static/media/planet.2aa71bca235a623b54dfd09ad10da6b5.svg",
     "index.html": "/react-testing/index.html",
     "static/media/puzzle.svg": "/react-testing/static/media/puzzle.9c3f08f2b6c84283dab7f5dab5e0ae95.svg",
-    "main.9613892d.css.map": "/react-testing/static/css/main.9613892d.css.map",
-    "main.001b1276.js.map": "/react-testing/static/js/main.001b1276.js.map"
+    "main.48ebbbad.css.map": "/react-testing/static/css/main.48ebbbad.css.map",
+    "main.ebc09a80.js.map": "/react-testing/static/js/main.ebc09a80.js.map"
   },
   "entrypoints": [
-    "static/css/main.9613892d.css",
-    "static/js/main.001b1276.js"
+    "static/css/main.48ebbbad.css",
+    "static/js/main.ebc09a80.js"
   ]
 }
