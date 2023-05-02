@@ -4,9 +4,9 @@ import React from 'react';
 function Loader() {
   return (<>
     <h4 className='text-center mt-2'>Please Wait...</h4>
-    <div class="text-center text-primary">
-      <div class="spinner-border" role="status" style={{ marginTop: "20%" }}>
-        <span class="sr-only">Loading...</span>
+    <div className="text-center text-primary">
+      <div className="spinner-border" role="status" style={{ marginTop: "20%" }}>
+        <span className="sr-only">Loading...</span>
       </div>
     </div>
   </>);

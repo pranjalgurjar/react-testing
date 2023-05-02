@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { TEST_endPointUrl } from '../../common/api/endPointUrl'
 import { Tokens } from '../../App';
 import { regExpMobile } from '../../RegExp/RegExp';
-import  Image1  from './images/3.gif';
+import Image1 from './images/3.gif';
 import bgImg from "./images/bg-1.jpg"
 
 
@@ -124,8 +124,8 @@ function Login(props) {
 
     return (
         <>
-            <div style={{ backgroundImage: `url(${bgImg})`,backgroundSize:"cover" ,height:"100vh"}}>
-                <div className="container">
+            <div style={{ backgroundImage: `url(${bgImg})`, backgroundSize: "cover", height: "60rem", backgroundRepeat: "no-repeat" }}>
+                <div className="container" style={{ width: "65%" }}>
                     <div className="row align-items-center justify-contain-center">
                         <div className="col-xl-12 mt-4">
                             <div className="card mt-4">

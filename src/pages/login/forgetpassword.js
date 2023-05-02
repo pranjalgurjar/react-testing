@@ -125,8 +125,8 @@ const Forgetpassword = () => {
 		}
 	}
 	return (
-		<> <div className="body" style={{ backgroundImage: `url(${bgImg})`, backgroundSize: "cover", height: "100vh" }}>
-			<div className="container">
+		<> <div className="body" style={{ backgroundImage: `url(${bgImg})`, backgroundSize: "cover", height: "54rem" }}>
+			<div className="container" style={{width:"90%"}}>
 				<div className="row align-items-center justify-contain-center">
 					<div className="col-xl-12 mt-4">
 						<div className="card mt-4">
