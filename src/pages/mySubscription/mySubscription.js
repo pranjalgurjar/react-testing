@@ -12,52 +12,52 @@ const MySubscription = (props) => {
     const [paginate, setpaginate] = useState(2)
     const token = useContext(Tokens)
     const myId = JSON.parse(localStorage.getItem("userdata"))
-    const [myCourseTab,setMyCourseTab] = useState(true)
-    const [testSeriesTab,setTestSeriesTab] = useState(false)
-    const [studyMaterialTab,setStudyMaterialTab] = useState(false)
+    const [myCourseTab, setMyCourseTab] = useState(true)
+    const [testSeriesTab, setTestSeriesTab] = useState(false)
+    const [studyMaterialTab, setStudyMaterialTab] = useState(false)
     //  console.log(student)
 
-const SliderTab = (id)=>{
-if(id==="mycourse"){
-    setMyCourseTab(true)
-    setTestSeriesTab(false)
-    setStudyMaterialTab(false)
-}else if(id==="testseries"){
-    setMyCourseTab(false)
-    setTestSeriesTab(true)
-    setStudyMaterialTab(false)
-}else if(id==="studymaterial"){
-    setMyCourseTab(false)
-    setTestSeriesTab(false)
-    setStudyMaterialTab(true)
-}
+    const SliderTab = (id) => {
+        if (id === "mycourse") {
+            setMyCourseTab(true)
+            setTestSeriesTab(false)
+            setStudyMaterialTab(false)
+        } else if (id === "testseries") {
+            setMyCourseTab(false)
+            setTestSeriesTab(true)
+            setStudyMaterialTab(false)
+        } else if (id === "studymaterial") {
+            setMyCourseTab(false)
+            setTestSeriesTab(false)
+            setStudyMaterialTab(true)
+        }
 
 
-}
+    }
 
     useEffect(() => {
         const response = () => {
-            if(issubs){
-            fetch(TEST_endPointUrl + "api/student/mobile/check", {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Accept': "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ mobile: myId.mobile })
-            }).then(res => res.json())
-                .then(result => {
-                    if (result.status) {
-                        setStudent(result)
-                        // console.log(result, "res")
-                    }
-                })
+            if (issubs) {
+                fetch(TEST_endPointUrl + "api/student/mobile/check", {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Accept': "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ mobile: myId.mobile })
+                }).then(res => res.json())
+                    .then(result => {
+                        if (result.status) {
+                            setStudent(result)
+                            // console.log(result, "res")
+                        }
+                    })
             }
         }
         response()
-    }, [myId.mobile, token,issubs])
+    }, [myId.mobile, token, issubs])
 
     const load_more = (event) => {
         setpaginate((prevValue) => prevValue + 2);
@@ -71,18 +71,18 @@ if(id==="mycourse"){
                     <div className="course-details-tab style-2">
                         <nav>
                             <div className="nav nav-tabs tab-auto" id="nav-tab" role="tablist">
-                                <button className={myCourseTab?"nav-link active":"nav-link"}  type="button" onClick={()=>SliderTab("mycourse")} >
+                                <button className={myCourseTab ? "nav-link active" : "nav-link"} type="button" onClick={() => SliderTab("mycourse")} >
                                     <i className="bi-journals" /> My Courses ({student?.message?.subscriptions?.length}) </button>
-                                <button className={testSeriesTab?"nav-link active":"nav-link"} type="button" onClick={()=>SliderTab("testseries")} >
+                                <button className={testSeriesTab ? "nav-link active" : "nav-link"} type="button" onClick={() => SliderTab("testseries")} >
                                     <i className="bi-journal-text" /> Test Series (0) </button>
-                                <button className={studyMaterialTab?"nav-link active":"nav-link"}  type="button" onClick={()=>SliderTab("studymaterial")} >
+                                <button className={studyMaterialTab ? "nav-link active" : "nav-link"} type="button" onClick={() => SliderTab("studymaterial")} >
                                     <i className="bi bi-book-half" /> Study Material (0) </button>
                             </div>
                         </nav>
                         <div className="tab-content" id="nav-tabContent">
                             {student?.message?.subscriptions?.slice(0, paginate).map((ele, index) => {
                                 return (
-                                    < div className={myCourseTab?"tab-pane fade show active":"tab-pane fade"} id="nav-about" role="tabpanel"  key={index} >
+                                    < div className={myCourseTab ? "tab-pane fade show active" : "tab-pane fade"} id="nav-about" role="tabpanel" key={index} >
                                         <div className="row mt-4">
                                             <div className="col-xl-12 col-md-12">
                                                 <div className="card all-crs-wid">
@@ -164,7 +164,7 @@ if(id==="mycourse"){
                             })}
                         </div>
 
-                        <div className='text-center mb-4'>
+                        <div className='text-center mt-2 mb-4'>
                             <button className='btn btn-primary btn-md' onClick={load_more}>Load More...</button>
                         </div>
                     </div>

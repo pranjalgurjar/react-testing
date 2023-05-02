@@ -1,14 +1,14 @@
 import React from 'react';
-import "./loader.scss"
+// import "./loader.scss"
 
-function Loader(props) {
+function Loader() {
   return (<>
-    <div className='spinLoader'>
-      <div className='spinner-border text-primary circle' role='status'>
-        <span className='sr-only' ></span>
+    <h4 className='text-center mt-2'>Please Wait...</h4>
+    <div class="text-center text-primary">
+      <div class="spinner-border" role="status" style={{ marginTop: "20%" }}>
+        <span class="sr-only">Loading...</span>
       </div>
     </div>
-      <h4 className='text-center'>Please Wait...</h4>
   </>);
 }
 
