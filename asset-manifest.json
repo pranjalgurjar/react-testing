@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/react-testing/static/css/main.2998cb18.css",
-    "main.js": "/react-testing/static/js/main.b28bd917.js",
+    "main.js": "/react-testing/static/js/main.18209d32.js",
     "static/media/3.gif": "/react-testing/static/media/3.03c27158217fbecbb160.gif",
     "static/media/course3.jpg": "/react-testing/static/media/course3.0a698c46e6d7caeb949c.jpg",
     "static/media/bg-1.jpg": "/react-testing/static/media/bg-1.2ddb0f17a2f7226600dd.jpg",
@@ -19,10 +19,10 @@
     "index.html": "/react-testing/index.html",
     "static/media/puzzle.svg": "/react-testing/static/media/puzzle.9c3f08f2b6c84283dab7f5dab5e0ae95.svg",
     "main.2998cb18.css.map": "/react-testing/static/css/main.2998cb18.css.map",
-    "main.b28bd917.js.map": "/react-testing/static/js/main.b28bd917.js.map"
+    "main.18209d32.js.map": "/react-testing/static/js/main.18209d32.js.map"
   },
   "entrypoints": [
     "static/css/main.2998cb18.css",
-    "static/js/main.b28bd917.js"
+    "static/js/main.18209d32.js"
   ]
 }
