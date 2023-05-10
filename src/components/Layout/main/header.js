@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { pathName } from '../../../utils'
+import logo from "./logo.png"
 
 
 const Header = (props) => {
@@ -9,7 +10,7 @@ const Header = (props) => {
     const navigate = useNavigate()
     const [dp, setDp] = useState(false)
     const [showNotification, setShowNotification] = useState(false)
-    
+
 
     const LogOut = (e) => {
         setDp(!dp)
@@ -22,9 +23,9 @@ const Header = (props) => {
 
     return (
         <>
-            <div className="nav-header bg-black">
+            <div className="nav-header bg-black" style={{"width":"15rem"}}>
                 <Link to="/" className="brand-logo" >
-                    <img src="https://imagnus.in/images/logo.png" alt='' />
+                    <img src={logo} alt='' />
                 </Link>
             </div>
             <div className="header">

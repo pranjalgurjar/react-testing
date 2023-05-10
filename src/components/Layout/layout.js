@@ -13,7 +13,7 @@ return (
     <div id="main-wrapper" className="show">
       <Header setPathname={setPathname} profileData={profileData} />
       <Sidebar  pathname={pathname}/>
-      <div className="content-body mt-2">
+      <div className="content-body mt-1">
         <PrivateRoutes />
       </div>
     </div>

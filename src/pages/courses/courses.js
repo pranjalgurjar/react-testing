@@ -1,14 +1,11 @@
-import { useContext, useEffect, useState } from "react"
+import {useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import { TEST_endPointUrl } from "../../common/api/endPointUrl"
 import Loader from "../../components/loader/Loader"
-import { Tokens } from "../../App"
 
-const Courses = () => {
 
-    const token = useContext(Tokens)
-
-    const [All_prefences, setAll_prefences] = useState([])
+const Courses = (props) => {
+    const {couresPageData} = props
+    const [All_prefences, setAll_prefences] = useState()
     const [each_prefrence, setEachprefrence] = useState()
     const [filterdata, setFilterdata] = useState()
 
@@ -19,23 +16,11 @@ const Courses = () => {
         setFilterdata(filter)
 
     }
-    useEffect(() => {
-        var Alldata = (token) => {
 
-            fetch(TEST_endPointUrl + "api/student/get_all_preferences/", {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
-                }
-            }).then(response => response.json()).then(res => {
-                if (res.length) {
-                    setAll_prefences(res)
-                }
-            })
-        }
-        Alldata(token)
-    }, [token])
+    useEffect(()=>{
+        setAll_prefences(couresPageData) 
+    },[couresPageData])
+   
 
     return (<>
         {(All_prefences && All_prefences?.length) ? <>

@@ -5,11 +5,11 @@ import axios from 'axios';
 import { TEST_endPointUrl } from './common/api/endPointUrl';
 import { createContext } from "react"
 
-
 const Tokens = createContext();
 function App() {
   const [token, setToken] = useState()
   const [issubs, setSubs] = useState()
+  const [couresPageData, setCouresPageData] = useState()
 
   // for client requirement
   const Handlechange = useCallback(() => {
@@ -48,10 +48,28 @@ function App() {
     Handlechange()
   }, [Handlechange])
 
+  useEffect(() => {
+    var Alldata = (token) => {
+
+      fetch(TEST_endPointUrl + "api/student/get_all_preferences/", {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then(response => response.json()).then(res => {
+        if (res.length) {
+          setCouresPageData(res)
+        }
+      })
+    }
+    Alldata(token)
+  }, [token])
+
   return (
     <>
       <Tokens.Provider value={token}>
-        <AppRoutes issubs={issubs} Handlechange={Handlechange} />
+        <AppRoutes issubs={issubs} Handlechange={Handlechange} couresPageData={couresPageData} />
       </Tokens.Provider>
     </>
   );

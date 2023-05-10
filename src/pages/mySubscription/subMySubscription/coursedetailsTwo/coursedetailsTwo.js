@@ -15,7 +15,7 @@ const CoursedetailsTwo = () => {
     const [indexdata, setIndexdata] = useState()
     const [details, setDetails] = useState()
     const [getSearchData, setGetSearchData] = useState([])
-    console.log(getSearchData);
+    // console.log(getSearchData);
     const [searchData, setSearchData] = useState([])
     const [searchError, setSearchError] = useState(false)
     const [videoLecturesTab, setVideolectureTab] = useState(true)
@@ -201,7 +201,7 @@ const CoursedetailsTwo = () => {
                                                 </div>
                                             </>}
                                         </div>
-                                        <div className={pdfNotesTab ? "tab-pane fade show active" : "tab-pane fade"} id="nav-pdfnotes" role="tabpanel" aria-labelledby="nav-pdfnotes-tab">
+                                        <div className={pdfNotesTab ? "tab-pane fade show active" : "tab-pane fade"} id="nav-pdfnotes">
                                             {(details?.Notes?.length) ? <>
                                                 {(searchData && searchData.length ? searchData : details?.Notes)?.map((coursePdf, index) => {
                                                     return (

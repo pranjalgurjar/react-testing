@@ -998,6 +998,12 @@ progress {
   margin-left: calc(var(--bs-gutter-x) / -2);
 }
 
+.scrollspy.mrleft_height {
+  --bs-gutter-x: 0;
+  height: 200px;
+  justify-content: right;
+}
+
 .row>* {
   flex-shrink: 0;
   width: 100%;
@@ -6409,18 +6415,18 @@ fieldset:disabled .btn {
 
 /* for scrolling sidebar & tabs*/
 .itemscroll {
-	overflow-x: overlay;
-	flex-wrap: nowrap;
-	display: flex;
+  overflow-x: overlay;
+  flex-wrap: nowrap;
+  display: flex;
   overflow-anchor: none;
 }
 
 .itemscroll::-webkit-scrollbar {
-	width: 0;
+  width: 0;
 }
 
 div.itemscroll button {
-	margin-right: 2px;
+  margin-right: 2px;
 }
 
 .bg-v {

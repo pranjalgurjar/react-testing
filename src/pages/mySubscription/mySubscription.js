@@ -1,22 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Tokens } from '../../App'
-import { TEST_endPointUrl } from '../../common/api/endPointUrl'
 import Loader from '../../components/loader/Loader'
-import couresImg from "./images/course3.jpg"
+import { AssemblePrefData, SubscriptionPageData } from './js/assembledata'
+
 
 
 const MySubscription = (props) => {
-    const { issubs } = props
-    const [student, setStudent] = useState()
+    const { issubs, couresPageData } = props
     const [paginate, setpaginate] = useState(2)
-    const token = useContext(Tokens)
-    const myId = JSON.parse(localStorage.getItem("userdata"))
+    const BS = JSON.parse(localStorage.getItem("userdata"))
+    const BuySubscriptions = BS?.subscriptions
+    let data = AssemblePrefData(couresPageData)?.flat()
+    let SubscriptionData = SubscriptionPageData(data)
     const [myCourseTab, setMyCourseTab] = useState(true)
     const [testSeriesTab, setTestSeriesTab] = useState(false)
     const [studyMaterialTab, setStudyMaterialTab] = useState(false)
-    //  console.log(student)
-
+    
     const SliderTab = (id) => {
         if (id === "mycourse") {
             setMyCourseTab(true)
@@ -31,48 +30,21 @@ const MySubscription = (props) => {
             setTestSeriesTab(false)
             setStudyMaterialTab(true)
         }
-
-
     }
-
-    useEffect(() => {
-        const response = () => {
-            if (issubs) {
-                fetch(TEST_endPointUrl + "api/student/mobile/check", {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                        'Accept': "application/json",
-                        "Access-Control-Allow-Origin": "*",
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ mobile: myId.mobile })
-                }).then(res => res.json())
-                    .then(result => {
-                        if (result.status) {
-                            setStudent(result)
-                            // console.log(result, "res")
-                        }
-                    })
-            }
-        }
-        response()
-    }, [myId.mobile, token, issubs])
 
     const load_more = (event) => {
         setpaginate((prevValue) => prevValue + 2);
     };
 
-
     return (
         <> {issubs ? <>
-            {student?.message.subscriptions.length ? <>
+            {BuySubscriptions?.length ? <>
                 <div className="container-fluid ">
                     <div className="course-details-tab style-2">
                         <nav>
                             <div className="nav nav-tabs tab-auto" id="nav-tab" role="tablist">
                                 <button className={myCourseTab ? "nav-link active" : "nav-link"} type="button" onClick={() => SliderTab("mycourse")} >
-                                    <i className="bi-journals" /> My Courses ({student?.message?.subscriptions?.length}) </button>
+                                    <i className="bi-journals" /> My Courses ({BuySubscriptions?.length}) </button>
                                 <button className={testSeriesTab ? "nav-link active" : "nav-link"} type="button" onClick={() => SliderTab("testseries")} >
                                     <i className="bi-journal-text" /> Test Series (0) </button>
                                 <button className={studyMaterialTab ? "nav-link active" : "nav-link"} type="button" onClick={() => SliderTab("studymaterial")} >
@@ -80,7 +52,7 @@ const MySubscription = (props) => {
                             </div>
                         </nav>
                         <div className="tab-content" id="nav-tabContent">
-                            {student?.message?.subscriptions?.slice(0, paginate).map((ele, index) => {
+                            {BuySubscriptions?.slice(0, paginate).map((ele, index) => {
                                 return (
                                     < div className={myCourseTab ? "tab-pane fade show active" : "tab-pane fade"} id="nav-about" role="tabpanel" key={index} >
                                         <div className="row mt-4">
@@ -91,7 +63,7 @@ const MySubscription = (props) => {
                                                             <div className="row">
                                                                 <div className="col-xl-4 col-md-4">
                                                                     <div className="dlab-media mb-2">
-                                                                        <img src={couresImg} alt="img" />
+                                                                        <img src={SubscriptionData?.[index]?.web_icon} alt="img" />
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-xl-8 col-md-8">

@@ -33,7 +33,7 @@ import { Tokens } from '../App';
 function AppRoutes(props) {
     const token = useContext(Tokens)
     const id = localStorage.getItem("eXvctIdv")
-    const { issubs, Handlechange } = props
+    const { issubs, Handlechange,couresPageData } = props
     const [profileData, setProfileData] = useState();
     const ProfileApi = () => {
 
@@ -62,13 +62,13 @@ function AppRoutes(props) {
                     <Route path='/' element={<Navigate to={issubs ? 'subscription' : 'courses'} />} />
 
                     <Route exact path={issubs ? '/courses' : 'courses'} element={<PrivateRoutes />}>
-                        <Route index element={<Courses />} />
+                        <Route index element={<Courses couresPageData={couresPageData} />} />
                         <Route exact path=':cslug' element={<Package ProfileApi={ProfileApi} />} />
                         <Route exact path='details/:cdslug' element={<CourseDetailsOne />} />
                     </Route>
                     {/* my subscriptions Route */}
                     <Route path={issubs ? 'subscription' : '/subscription'} element={<PrivateRoutes />} >
-                        <Route index element={<MySubscription issubs={issubs} />} />
+                        <Route index element={<MySubscription issubs={issubs} couresPageData={couresPageData} />} />
                         <Route path=':slug' element={<PrivateRoutes />} >
                             <Route index element={<CourseCategories />} />
                             <Route path=':cslug' element={<PrivateRoutes />} >

@@ -21,9 +21,9 @@ const Modale = (props) => {
                             </thead>
                             <tbody>
                                 <tr className="fs-18">
-                                    <th>{student?.[0]?.CategoryTestSeriesQuestions?.length}</th>
-                                    <td>{Attempt}</td>
-                                    <td>{notAttempt}</td>
+                                    <td>{student.length? student[0]?.CategoryTestSeriesQuestions?.length:"0"}</td>
+                                    <td>{student.length?Attempt:"0"}</td>
+                                    <td>{student.length?notAttempt:"0"}</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -7,10 +7,11 @@ const VideoPannel = () => {
     const VideoData = JSON.parse(sessionStorage.getItem("vid"))
     const categories = JSON.parse(sessionStorage.getItem("cate"))
     const student = JSON.parse(localStorage.getItem("userdata"))
-
-
+    
+    
     const [playlist, setPlaylist] = useState()
     const [searchData, setSearchData] = useState()
+    // console.log(playlist);
 
     const Search = (e) => {
         let search = e.target.value
@@ -61,6 +62,7 @@ const VideoPannel = () => {
                                                 isShowWebFullScreen: false,
                                                 isShowScreenshot: false,
                                                 isShowSet: false,
+                                                autoPlay: true,
 
                                                 quality: [
                                                     {

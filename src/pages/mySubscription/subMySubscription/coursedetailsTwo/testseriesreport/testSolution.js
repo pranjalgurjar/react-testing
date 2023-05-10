@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom'
 
 
 const TestSolution = () => {
-	
+
 	const result = JSON.parse(sessionStorage.getItem("test_result"))
 	const name = result?.student?.[0]?.title
 	const iddata = result?.option
-	const [showQuestions,setShowQuestions] = useState(true)
+	const [showQuestions, setShowQuestions] = useState(true)
 
 	return (
-	   <div className="container">
+		<div className="container">
 			<ol className="breadcrumb">
 				<li className="breadcrumb-item active">
 					<Link className="d-flex align-self-center" onClick={() => window.history.back()}>
@@ -30,12 +30,12 @@ const TestSolution = () => {
 									<div className="course-details-tab style-2">
 										<nav>
 											<div className="nav nav-tabs tab-auto fixed" id="nav-tab" role="tablist">
-												<button className={showQuestions?"nav-link active":"nav-link"} id="nav-about-tab"  type="button" onClick={()=>setShowQuestions(true)} >
+												<button className={showQuestions ? "nav-link active" : "nav-link"} id="nav-about-tab" type="button" onClick={() => setShowQuestions(true)} >
 													<span className="mrr-2">
 														<i className="bi-info-square" /> {data?.CategoryTestSeriesQuestions?.length} Questions
 													</span>
 												</button>
-												<button className={showQuestions?"nav-link":"nav-link active"} id="nav-discussion-tab"  type="button" onClick={()=>setShowQuestions(false)} >
+												<button className={showQuestions ? "nav-link" : "nav-link active"} id="nav-discussion-tab" type="button" onClick={() => setShowQuestions(false)} >
 													<span className="mrr-2">
 														<i className="bi-newspaper" /> Question Paper
 													</span>
@@ -43,10 +43,10 @@ const TestSolution = () => {
 											</div>
 										</nav>
 										<div className="tab-content mt-4" id="nav-tabContent">
-											<div className={showQuestions?"tab-pane fade show active":"tab-pane fade"} id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+											<div className={showQuestions ? "tab-pane fade show active" : "tab-pane fade"} id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
 												{data?.CategoryTestSeriesQuestions?.map((test, index) => {
 													const { question, opt_1, opt_2, opt_3, opt_4, solution, answer, id } = test
-													console.log(test, "test")
+													// console.log(test, "test")
 													var file = iddata?.find(item => item.id === id)
 													// console.log(file);
 													return (
@@ -75,7 +75,7 @@ const TestSolution = () => {
 																						{opt_1}
 																					</div>
 																					<div className={(Object.keys(test)?.[3].trim() === answer.trim()) ? "alert alert-success solid alert-dismissible fade show show mt-4" : (Object.keys(test)?.[3].trim() === file?.answer) ? "alert alert-danger solid alert-dismissible fade show show mt-4" : "alert alert  alert-dismissible fade show show mt-4"}>
-{/* 
+																						{/* 
 																						<svg viewBox="0 0 24 24" width={24} height={24} stroke="currentColor" strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" className="me-2">
 																							<polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2">
 																							</polygon>
@@ -122,14 +122,14 @@ const TestSolution = () => {
 													)
 												})}
 											</div>
-											<div className={showQuestions?"tab-pane fade show":"tab-pane fade show active"} id="nav-discussion" >
+											<div className={showQuestions ? "tab-pane fade show" : "tab-pane fade show active"} id="nav-discussion" >
 												<div className="about-content" key={index}>
 													<div className="card-header d-flex">
 														<h4 className="modal-title text-center">Question Paper</h4>
 													</div>
 													{data?.CategoryTestSeriesQuestions?.map((test, index) => {
 														return (
-															<div className="card-header d-flex d-block">
+															<div className="card-header d-flex d-block" key={index}>
 																<h4 className="modal-title">Ques.{index + 1}:- {test?.question}</h4>
 															</div>
 														)
