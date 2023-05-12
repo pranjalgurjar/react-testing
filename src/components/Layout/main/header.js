@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { pathName } from '../../../utils'
-import logo from "./logo.png"
+
 
 
 const Header = (props) => {
@@ -25,7 +25,7 @@ const Header = (props) => {
         <>
             <div className="nav-header bg-black" style={{"width":"15rem"}}>
                 <Link to="/" className="brand-logo" >
-                    <img src={logo} alt='' />
+                    <img src="https://imagnus.in/images/logo.png" alt='' />
                 </Link>
             </div>
             <div className="header">

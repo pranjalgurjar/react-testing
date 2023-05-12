@@ -7,6 +7,7 @@ import Modale from './module';
 import { Tokens } from '../../../../../App';
 import { ProtectUrl } from '../../../../../utils';
 
+
 const TestSeriesAttempt = () => {
     const navigate = useNavigate()
     const { slug } = useParams()
@@ -51,7 +52,7 @@ const TestSeriesAttempt = () => {
         };
     }
 
-    const startTimer = (e) => {
+    const startTimer = useCallback((e) => {
         let { total, hours, minutes, seconds }
             = getTimeRemaining(e);
         if (total >= 0) {
@@ -61,9 +62,9 @@ const TestSeriesAttempt = () => {
                 + (seconds > 9 ? seconds : '0' + seconds)
             )
         }
-    }
+    }, [])
 
-    const clearTimer = (e) => {
+    const clearTimer = useCallback((e) => {
         setTimer();
         if (Ref.current) clearInterval(Ref.current);
         const id = setInterval(() => {
@@ -71,14 +72,14 @@ const TestSeriesAttempt = () => {
 
         }, 1000)
         Ref.current = id;
-    }
+    }, [startTimer])
 
-    const getDeadTime = () => {
+    const getDeadTime = useCallback(() => {
         let deadline = new Date();
         deadline.setHours(deadline.getHours() + (time / 60));
         deadline.setMinutes(deadline.getMinutes() + (time % 60));
         return deadline;
-    }
+    }, [time])
     /* test timer function*/
 
     useEffect(() => {
@@ -108,7 +109,7 @@ const TestSeriesAttempt = () => {
         testData()
         clearTimer(getDeadTime());
 
-    }, [time, id, token, slug, navigate])
+    }, [time, id, token, slug, navigate, clearTimer, getDeadTime])
 
     /* test testAttempt function*/
     const handalOption = (opt, Obj) => {
@@ -147,6 +148,8 @@ const TestSeriesAttempt = () => {
         let notatt = student?.[0]?.CategoryTestSeriesQuestions?.length - option?.length
         setNotAttempt(notatt)
         setAttempt(option?.length)
+        window.onpopstate = null
+        window.onbeforeunload = null
     }
 
     const handleSubmit = useCallback(() => {
@@ -173,76 +176,103 @@ const TestSeriesAttempt = () => {
 
     }, [timer, dataSubmit])
 
+    /* for back button click massege   */
+    const confirmBack = useCallback(() => {
+        const back = window.confirm('Your current test progress will be lost!')
+        if (back) {
+            window.removeEventListener('popstate', confirmBack);
+            window.history.back()
+            window.oncontextmenu = null
+            window.onbeforeunload = null
+        } else {
+            window.history.pushState(null, document.title, window.location.href)
+        }
+    }, [])
 
-    /* test modal function*/
+
+    useEffect(() => {
+        window.oncontextmenu = (e) => {
+            e.preventDefault()
+        }
+        window.onbeforeunload = (e) => {
+            e.preventDefault();
+            return "Unloading this page may lose data. What do you want to do..."
+        }
+        window.history.pushState(null, document.title, window.location.href); // preventing back initially
+        window.addEventListener('popstate', confirmBack);
+        return () => { window.removeEventListener('popstate', confirmBack) };
+
+    }, [confirmBack])
+    /*    close           */
 
     return (
         <>
-            <div className="container-fluid">
+            <div className="container-fluid" id="disabledRightMenu">
                 <div className="row">
-                <div className="col-lg-8 col-md-7 col-sm-12" >
-                    {(student && student.length ? student : [])?.map((data, index) => {
-                        return (                           
+                    <div className="col-lg-8 col-md-7 col-sm-12" >
+                        {(student && student.length ? student : [])?.map((data, index) => {
+                            return (
                                 <div key={index}>
-                                <div className="card-header d-flex d-block">
-                                    <h4 className="modal-title text-bold">Test:{nameindex} {data?.title}</h4>
-                                </div>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="course-details-tab style-2 mt-4">
-                                            <nav>
-                                                <div className="nav nav-tabs tab-auto fixed" id="nav-tab">
-                                                    <button className={showQuestions ? "nav-link active" : "nav-link"} id="nav-about-tab" onClick={() => setShowQuestions(true)}>
-                                                        <span className="mrr-2">
-                                                            <i className="bi-info-square" />  {data?.CategoryTestSeriesQuestions?.length} Questions
-                                                        </span>
-                                                    </button>
-                                                    <button className={showQuestions ? "nav-link" : "nav-link active"} id="nav-discussion-tab" onClick={() => setShowQuestions(false)}>
-                                                        <span className="mrr-2">
-                                                            <i className="bi-newspaper" /> Question Paper
-                                                        </span>
-                                                    </button>
-                                                </div>
-                                            </nav>
-                                            <div className="tab-content mt-4" id="nav-tabContent">
-                                                <div className={showQuestions ? "tab-pane fade show active" : "tab-pane fade"} id="nav-about" key={index}>
-                                                <div className="chatbox_right" >
-                                                    {data?.CategoryTestSeriesQuestions?.map((test, index) => {
-                                                        const { question, opt_1, opt_2, opt_3, opt_4 } = test
-                                                        return (                                                          
-                                                                <div className="messages-line simplebar-content-wrapper2  scrollstyle_4" key={index}>
-                                                                    <div className="simplebar-content-wrapper activee">
-                                                                        <div className="user-status">
-                                                                            <div className="ques_item">
-                                                                                <div className="ques_title">
-                                                                                    <span>Ques.<span id="new_qsn_no">({index + 1})</span>:- </span>
-                                                                                    <span id="new_qsn"> {question}
-                                                                                    </span>
-                                                                                </div>
-                                                                                <div className="ui form">
-                                                                                    <div className="grouped fields" onChange={(e) => handalOption(e.target.value, test)}   >
-                                                                                        <div className="card field fltr-radio">
-                                                                                            <div className="ui radio checkbox">
-                                                                                                <input type="radio" value="opt_1" name={index + 1} tabIndex={0} className="hidden mr-2" />
-                                                                                                <label id="opt_1_text">{opt_1}</label>
+                                    <div className="card-header d-flex d-block">
+                                        <h4 className="modal-title text-bold">Test:{nameindex} {data?.title}</h4>
+                                    </div>
+                                    <div className="card">
+                                        <div className="card-body">
+                                            <div className="course-details-tab style-2 mt-4">
+                                                <nav>
+                                                    <div className="nav nav-tabs tab-auto fixed" id="nav-tab">
+                                                        <button className={showQuestions ? "nav-link active" : "nav-link"} id="nav-about-tab" onClick={() => setShowQuestions(true)}>
+                                                            <span className="mrr-2">
+                                                                <i className="bi-info-square" />  {data?.CategoryTestSeriesQuestions?.length} Questions
+                                                            </span>
+                                                        </button>
+                                                        <button className={showQuestions ? "nav-link" : "nav-link active"} id="nav-discussion-tab" onClick={() => setShowQuestions(false)}>
+                                                            <span className="mrr-2">
+                                                                <i className="bi-newspaper" /> Question Paper
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                </nav>
+                                                <div className="tab-content mt-4" id="nav-tabContent">
+                                                    <div className={showQuestions ? "tab-pane fade show active" : "tab-pane fade"} id="nav-about" key={index}>
+                                                        <div className="chatbox_right" >
+                                                            {data?.CategoryTestSeriesQuestions?.map((test, index) => {
+                                                                const { question, opt_1, opt_2, opt_3, opt_4 } = test
+                                                                return (
+                                                                    <div className="messages-line simplebar-content-wrapper2  scrollstyle_4" key={index}>
+                                                                        <div className="simplebar-content-wrapper activee">
+                                                                            <div className="user-status">
+                                                                                <div className="ques_item">
+                                                                                    <div className="ques_title">
+                                                                                        <span>Ques.<span id="new_qsn_no">({index + 1})</span>:- </span>
+                                                                                        <span id="new_qsn"> {question}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                    <div className="ui form">
+                                                                                        <div className="grouped fields" onChange={(e) => handalOption(e.target.value, test)}   >
+                                                                                            <div className="card field fltr-radio">
+                                                                                                <div className="ui radio checkbox">
+                                                                                                    <input type="radio" value="opt_1" name={index + 1} tabIndex={0} className="hidden mr-2" />
+                                                                                                    <label id="opt_1_text">{opt_1}</label>
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div className="field fltr-radio">
-                                                                                            <div className="ui radio checkbox checked">
-                                                                                                <input type="radio" value="opt_2" name={index + 1} tabIndex={0} className="hidden mr-2" />
-                                                                                                <label id="opt_2_text">{opt_2}</label>
+                                                                                            <div className="field fltr-radio">
+                                                                                                <div className="ui radio checkbox checked">
+                                                                                                    <input type="radio" value="opt_2" name={index + 1} tabIndex={0} className="hidden mr-2" />
+                                                                                                    <label id="opt_2_text">{opt_2}</label>
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div className="card field fltr-radio mt-4">
-                                                                                            <div className="ui radio checkbox">
-                                                                                                <input type="radio" value="opt_3" name={index + 1} tabIndex={0} className="hidden mr-2" />
-                                                                                                <label id="opt_3_text">{opt_3}</label>
+                                                                                            <div className="card field fltr-radio mt-4">
+                                                                                                <div className="ui radio checkbox">
+                                                                                                    <input type="radio" value="opt_3" name={index + 1} tabIndex={0} className="hidden mr-2" />
+                                                                                                    <label id="opt_3_text">{opt_3}</label>
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div className="card field fltr-radio">
-                                                                                            <div className="ui radio checkbox">
-                                                                                                <input type="radio" value="opt_4" name={index + 1} tabIndex={0} className="hidden mr-2" />
-                                                                                                <label id="opt_4_text">{opt_4}</label>
+                                                                                            <div className="card field fltr-radio">
+                                                                                                <div className="ui radio checkbox">
+                                                                                                    <input type="radio" value="opt_4" name={index + 1} tabIndex={0} className="hidden mr-2" />
+                                                                                                    <label id="opt_4_text">{opt_4}</label>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -250,38 +280,37 @@ const TestSeriesAttempt = () => {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>                                                          
-                                                        )
-                                                    })}
-                                                    </div>
-                                                </div>
-                                                <div className={showQuestions ? "tab-pane fade show" : "tab-pane fade show active"} id="nav-discussion" role="tabpanel"  >
-                                                    <div className="about-content">
-                                                        <div className="card-header d-flex">
-                                                            <h4 className="modal-title text-center">Question Paper</h4>
+                                                                )
+                                                            })}
                                                         </div>
-                                                        {data?.CategoryTestSeriesQuestions?.map((test, index) => {
-                                                            return (
-                                                                <div className="card-header d-flex d-block" key={index}>
-                                                                    <h4 className="modal-title">Ques.({index + 1}):-{test?.question}
-                                                                    </h4>
-                                                                </div>
-                                                            )
-                                                        })}
+                                                    </div>
+                                                    <div className={showQuestions ? "tab-pane fade show" : "tab-pane fade show active"} id="nav-discussion" role="tabpanel"  >
+                                                        <div className="about-content">
+                                                            <div className="card-header d-flex">
+                                                                <h4 className="modal-title text-center">Question Paper</h4>
+                                                            </div>
+                                                            {data?.CategoryTestSeriesQuestions?.map((test, index) => {
+                                                                return (
+                                                                    <div className="card-header d-flex d-block" key={index}>
+                                                                        <h4 className="modal-title">Ques.({index + 1}):-{test?.question}
+                                                                        </h4>
+                                                                    </div>
+                                                                )
+                                                            })}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                </div>                          
-                        )
-                    })}
-                     </div>
-                     <div className="col-lg-4 col-md-5" >
-                    {(student && student.length ? student : [])?.map((data, index) => {
-                        return (                         
-                                <div className="bg-v fixedd mt-6" style={{width:"300px",position:"sticky"}} key={index}>
+                            )
+                        })}
+                    </div>
+                    <div className="col-lg-4 col-md-5" >
+                        {(student && student.length ? student : [])?.map((data, index) => {
+                            return (
+                                <div className="bg-v fixedd mt-6" style={{ width: "300px", position: "sticky" }} key={index}>
                                     <div className="card-header d-block">
                                         <h5 className="card-title">Time Left
                                             {option.length ? timer === "00:00:00" ? document.getElementById('button').click() : "" : ""}
@@ -299,7 +328,7 @@ const TestSeriesAttempt = () => {
                                         })}
                                     </div>
                                     <div className="card-footer d-sm-flex justify-content-between align-items-center">
-                                    <Button type="button" variant="btn btn-secondary" onClick={dataAdd}>
+                                        <Button type="button" variant="btn btn-secondary" onClick={dataAdd}>
                                             Submit Test
                                         </Button>
                                         <div className="card-footer-link mb-4 mb-sm-0">
@@ -320,9 +349,9 @@ const TestSeriesAttempt = () => {
                                         </div>
                                     </div>
 
-                                </div>                           
-                        )
-                    })}
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
             </div>

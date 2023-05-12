@@ -1,6 +1,6 @@
 import './App.css';
 import AppRoutes from './routes/AppRoutes';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { TEST_endPointUrl } from './common/api/endPointUrl';
 import { createContext } from "react"
@@ -8,15 +8,7 @@ import { createContext } from "react"
 const Tokens = createContext();
 function App() {
   const [token, setToken] = useState()
-  const [issubs, setSubs] = useState()
   const [couresPageData, setCouresPageData] = useState()
-
-  // for client requirement
-  const Handlechange = useCallback(() => {
-    let userdata = JSON.parse(localStorage.getItem("userdata"))
-    let subst = userdata?.subscriptions
-    setSubs(subst?.length ? true : false)
-  }, [setSubs])
 
 
   useEffect(() => {
@@ -45,10 +37,6 @@ function App() {
   }, [token])
 
   useEffect(() => {
-    Handlechange()
-  }, [Handlechange])
-
-  useEffect(() => {
     var Alldata = (token) => {
 
       fetch(TEST_endPointUrl + "api/student/get_all_preferences/", {
@@ -69,7 +57,7 @@ function App() {
   return (
     <>
       <Tokens.Provider value={token}>
-        <AppRoutes issubs={issubs} Handlechange={Handlechange} couresPageData={couresPageData} />
+        <AppRoutes couresPageData={couresPageData} />
       </Tokens.Provider>
     </>
   );

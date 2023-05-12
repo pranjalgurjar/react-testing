@@ -15,8 +15,10 @@ const Package = (props) => {
 
     const { cslug } = useParams()
     const [user, setUser] = useState([])
+    // console.log(user);
     const [coupons, setCoupons] = useState()
     const [subscription, setSubscription] = useState()
+    // console.log(subscription);
     // for filter coupans data
     const [applyCoupan, setApply] = useState(0)
     const [coupanData, setCoupanData] = useState([])
@@ -267,14 +269,14 @@ const Package = (props) => {
     return (
         <>
             <div className="container-fluid">
-                {payMsg ? <div class="alert alert-success" role="alert">
+                {payMsg ? <div className="alert alert-success" role="alert">
                     <p style={{ fontSize: "16px" }}>Your Subscription plan successfully added to My Subscription Section. Go and Checkout It.</p>
                 </div> : ""}
-                {PaymetSuccessData?.status ? <div class="alert alert-success" role="alert">
-                    <h3 class="alert-heading">Payment Success !</h3>
+                {PaymetSuccessData?.status ? <div className="alert alert-success" role="alert">
+                    <h3 className="alert-heading">Payment Success !</h3>
                     <p style={{ fontSize: "16px" }}>Your Subscription plan successfully added to My Subscription Section. Go and Checkout It.</p>
                     <hr />
-                    <p class="mb-0" style={{ fontSize: "16px" }}>{PaymetSuccessData?.message}.To get invoice go to My profile page</p>
+                    <p className="mb-0" style={{ fontSize: "16px" }}>{PaymetSuccessData?.message}.To get invoice go to My profile page</p>
                 </div> : ""}
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item active">
@@ -421,7 +423,7 @@ const Package = (props) => {
                                     <strong>₹{isCheck ? totalPrice : subscription?.plan_price}</strong>
                                 </li>
                             </ul><br />
-                            {alreadyBuy ? <div class="alert alert-warning" role="alert">
+                            {alreadyBuy ? <div className="alert alert-warning" role="alert">
                                 You have already parchase this course !
                             </div> : ""}
                             {isCheck ? loading ? <div className="text-center text-primary">

@@ -27,13 +27,14 @@ import TestSolution from '../pages/mySubscription/subMySubscription/coursedetail
 import Forgetpassword from '../pages/login/forgetpassword';
 import { TEST_endPointUrl } from '../common/api/endPointUrl';
 import { Tokens } from '../App';
+import { isSubscription } from '../utils';
 
 
 
 function AppRoutes(props) {
     const token = useContext(Tokens)
     const id = localStorage.getItem("eXvctIdv")
-    const { issubs, Handlechange,couresPageData } = props
+    const { couresPageData } = props
     const [profileData, setProfileData] = useState();
     const ProfileApi = () => {
 
@@ -59,16 +60,16 @@ function AppRoutes(props) {
             <Route path='/react-testing' element={<Navigate to="/" />} />
             <Route exact path='/' element={<Layout profileData={profileData} />} >
                 <Route path='/' element={<PrivateRoutes />}>
-                    <Route path='/' element={<Navigate to={issubs ? 'subscription' : 'courses'} />} />
+                    <Route path='/' element={<Navigate to={isSubscription() ? 'subscription' : 'courses'} />} />
 
-                    <Route exact path={issubs ? '/courses' : 'courses'} element={<PrivateRoutes />}>
+                    <Route exact path={isSubscription() ? '/courses' : 'courses'} element={<PrivateRoutes />}>
                         <Route index element={<Courses couresPageData={couresPageData} />} />
                         <Route exact path=':cslug' element={<Package ProfileApi={ProfileApi} />} />
                         <Route exact path='details/:cdslug' element={<CourseDetailsOne />} />
                     </Route>
                     {/* my subscriptions Route */}
-                    <Route path={issubs ? 'subscription' : '/subscription'} element={<PrivateRoutes />} >
-                        <Route index element={<MySubscription issubs={issubs} couresPageData={couresPageData} />} />
+                    <Route path={isSubscription() ? 'subscription' : '/subscription'} element={<PrivateRoutes />} >
+                        <Route index element={<MySubscription couresPageData={couresPageData} />} />
                         <Route path=':slug' element={<PrivateRoutes />} >
                             <Route index element={<CourseCategories />} />
                             <Route path=':cslug' element={<PrivateRoutes />} >
@@ -87,7 +88,7 @@ function AppRoutes(props) {
                     {/* end */}
 
                     <Route path='/liveclasses' element={<PrivateRoutes />} >
-                        <Route index element={<LiveClasses issubs={issubs} />} />
+                        <Route index element={<LiveClasses />} />
                         <Route path=':lslug' element={<LivePanel />} />
                     </Route>
                     <Route path='/currentAffairs' element={<CurrentAffairs />} />
@@ -97,12 +98,12 @@ function AppRoutes(props) {
                     </Route>
                     <Route path='/studymaterial' element={<StudyMaterial />} />
                     <Route path='/prevyearpapers' element={<PrevYearPapers />} />
-                    <Route path='/myprofile' element={<MyProfile profileData={profileData} ProfileApi={ProfileApi} issubs={issubs} />} />
+                    <Route path='/myprofile' element={<MyProfile profileData={profileData} ProfileApi={ProfileApi} />} />
                     <Route path='/support' element={<Support />} />
                 </Route>
             </Route>
             <Route path='/forgot' element={<Forgetpassword />} />
-            <Route path='/login' element={<Login Handlechange={Handlechange} setProfileData={setProfileData} />} />
+            <Route path='/login' element={<Login setProfileData={setProfileData} />} />
             <Route path='/registration' element={<Registration />} />
             <Route path='*' element={<ErrorPage />} />
         </Routes >

@@ -8,8 +8,9 @@ const Courses = (props) => {
     const [All_prefences, setAll_prefences] = useState()
     const [each_prefrence, setEachprefrence] = useState()
     const [filterdata, setFilterdata] = useState()
+    // console.log(filterdata);
 
-    // console.log(All_prefences.flatMap(item=>item));
+    
     const EachPrefrence = (item) => {
         setEachprefrence(item)
         const filter = All_prefences?.find(dt => dt.slug === item.slug)
@@ -21,7 +22,6 @@ const Courses = (props) => {
         setAll_prefences(couresPageData) 
     },[couresPageData])
    
-
     return (<>
         {(All_prefences && All_prefences?.length) ? <>
             <div className="container-fluid">
@@ -35,7 +35,9 @@ const Courses = (props) => {
                     <div className="tab-content" id="nav-tabContent">
                         <div className="tab-pane fade active show" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
                             <div className="row mt-4">
-                                {(filterdata && filterdata.is_active ? filterdata?.courses : All_prefences?.[0]?.courses)?.map((item, index) =>
+                                {(filterdata && filterdata.is_active ? filterdata?.courses : All_prefences?.[0]?.courses)?.map((item, index) => {
+                                    // console.log(item?.CourseSubscriptionPlans_course)
+                                    return(
                                     <div className="col-xl-4 col-md-4" key={index}>
                                         <div className="card all-crs-wid h-auto">
                                             <div className="card-body">
@@ -62,25 +64,25 @@ const Courses = (props) => {
                                                                 <li>
                                                                     <div className="timeline-badge info"></div>
                                                                     <Link className="timeline-panel text-muted" to="">
-                                                                        <h6 className="mb-0"><i className="bi-file-earmark-play"></i> {item?.CourseSubscriptionPlans_course?.reduce((min, price) => price.plan_price < min ? price.no_of_videos : min, item?.CourseSubscriptionPlans_course[0]?.no_of_videos)}+ Video Lectures</h6>
+                                                                        <h6 className="mb-0"><i className="bi-file-earmark-play"></i> {item?.CourseSubscriptionPlans_course?.reduce((min, sum) =>min+sum?.no_of_videos,0)}+ Video Lectures</h6>
                                                                     </Link>
                                                                 </li>
                                                                 <li>
                                                                     <div className="timeline-badge success"></div>
                                                                     <Link className="timeline-panel text-muted" to="">
-                                                                        <h6 className="mb-0"><i className="bi-book"></i> {item?.CourseSubscriptionPlans_course?.reduce((min, price) => price.plan_price > min ? price.no_of_notes : min, item?.CourseSubscriptionPlans_course[0]?.no_of_notes)}+ PDF Notes </h6>
+                                                                        <h6 className="mb-0"><i className="bi-book"></i> {item?.CourseSubscriptionPlans_course?.reduce((min, sum) =>min+sum?.no_of_notes,0 )}+ PDF Notes </h6>
                                                                     </Link>
                                                                 </li>
                                                                 <li>
                                                                     <div className="timeline-badge dark"></div>
                                                                     <Link className="timeline-panel text-muted" to="">
-                                                                        <h6 className="mb-0"><i className="bi-journal-text"></i> {item?.CourseSubscriptionPlans_course?.reduce((min, price) => price.plan_price > min ? price.no_of_tests : min, item?.CourseSubscriptionPlans_course[0]?.no_of_tests)}+ Test Series</h6>
+                                                                        <h6 className="mb-0"><i className="bi-journal-text"></i> {item?.CourseSubscriptionPlans_course?.reduce((min, sum) =>min+sum?.no_of_tests,0)}+ Test Series</h6>
                                                                     </Link>
                                                                 </li>
                                                                 <li>
                                                                     <div className="timeline-badge danger"></div>
                                                                     <Link className="timeline-panel text-muted" to="">
-                                                                        <h6 className="mb-0"><i className="bi-camera-reels"></i> Live Classes - {item?.CourseSubscriptionPlans_course?.reduce((min, price) => price.plan_price > min ? price.live_classes_access ? "Available" : "Not Available" : min, item?.CourseSubscriptionPlans_course[0]?.live_classes_access ? "Available" : "Not Available")}</h6>
+                                                                        <h6 className="mb-0"><i className="bi-camera-reels"></i> Live Classes - {item?.liveClasses_course?.length?"Available":"Not Available"}</h6>
                                                                     </Link>
                                                                 </li>
                                                             </ul>
@@ -97,7 +99,7 @@ const Courses = (props) => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>)}
+                                    </div>)})}
                             </div>
                         </div>
                     </div>

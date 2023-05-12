@@ -11,10 +11,12 @@ import planet from "./images/svg/planet.svg"
 import skill from "./images/svg/skill.svg"
 import readingtime from "./images/svg/readingtime.svg"
 import puzzle from "./images/svg/puzzle.svg"
+import { isSubscription } from "../../utils";
 
 let postsPerPage = 5
 const MyProfile = (props) => {
-    const { issubs, profileData, ProfileApi } = props
+    const { profileData, ProfileApi } = props
+    let issubs = isSubscription()
     const mypro = JSON.parse(localStorage.getItem("userdata"))
     const [user, setUser] = useState([])
     const [showModal, setShowModal] = useState(false)

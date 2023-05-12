@@ -5,6 +5,17 @@ export const isLogin = () => {
     }
     return false;
 }
+
+ // for client requirement
+ export const isSubscription = () => {
+    let userdata = JSON.parse(localStorage.getItem("userdata"))
+    let subst = userdata?.subscriptions
+	if(subst?.length){
+		return true;
+	}else{
+		 return false
+	}
+  }
  
 // for path match
 export const pathName = () => {

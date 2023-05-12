@@ -9,7 +9,7 @@ import bgImg from "./images/bg-1.jpg"
 
 
 function Login(props) {
-    let { Handlechange, setProfileData } = props
+    let {setProfileData } = props
     const navigate = useNavigate()
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [passShow, setPassShow] = useState(false);
@@ -106,7 +106,6 @@ function Login(props) {
                     setServerError(false)
                     localStorage.setItem("eXvctIdv", response.data.message.id)
                     localStorage.setItem("userdata", JSON.stringify(response.data.message))
-                    Handlechange()
                     navigate("/");
                     setIsSubmitted(false)
                 } else {
