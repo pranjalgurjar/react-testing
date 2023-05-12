@@ -1,12 +1,11 @@
 {
   "files": {
     "main.css": "/react-testing/static/css/main.2998cb18.css",
-    "main.js": "/react-testing/static/js/main.e9002f25.js",
+    "main.js": "/react-testing/static/js/main.115d77d1.js",
     "static/media/3.gif": "/react-testing/static/media/3.03c27158217fbecbb160.gif",
     "static/media/bg-1.jpg": "/react-testing/static/media/bg-1.2ddb0f17a2f7226600dd.jpg",
     "static/media/faq-right.png": "/react-testing/static/media/faq-right.2eb3c138ac524312f727.png",
     "static/media/img.png": "/react-testing/static/media/img.d8fdee58f2fc178cc351.png",
-    "static/media/logo.png": "/react-testing/static/media/logo.36fed17651fa44c58eb9.png",
     "static/media/liveclass.gif": "/react-testing/static/media/liveclass.be869d1903f3ca67a954.gif",
     "static/media/favicon.png": "/react-testing/static/media/favicon.7f322ce4fe512fc8818e.png",
     "static/media/skill.svg": "/react-testing/static/media/skill.578852b765f1eda98b178641136fed4c.svg",
@@ -19,10 +18,10 @@
     "index.html": "/react-testing/index.html",
     "static/media/puzzle.svg": "/react-testing/static/media/puzzle.9c3f08f2b6c84283dab7f5dab5e0ae95.svg",
     "main.2998cb18.css.map": "/react-testing/static/css/main.2998cb18.css.map",
-    "main.e9002f25.js.map": "/react-testing/static/js/main.e9002f25.js.map"
+    "main.115d77d1.js.map": "/react-testing/static/js/main.115d77d1.js.map"
   },
   "entrypoints": [
     "static/css/main.2998cb18.css",
-    "static/js/main.e9002f25.js"
+    "static/js/main.115d77d1.js"
   ]
 }
