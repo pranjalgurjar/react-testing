@@ -6,7 +6,7 @@ export const isLogin = () => {
     return false;
 }
 
- // for client requirement
+ // for client requirement, if user has subscription then show scription page otherwise show buy course page
  export const isSubscription = () => {
     let userdata = JSON.parse(localStorage.getItem("userdata"))
     let subst = userdata?.subscriptions
@@ -41,6 +41,7 @@ export const pathName = () => {
 	}
 }
 
+/* for url checking is subscription available or not   */
 export const ProtectUrl = (slug)=>{
 let user = JSON.parse(localStorage.getItem("userdata"))
 const issubscrip = user?.subscriptions?.filter(item=>item?.course?.slug===slug)

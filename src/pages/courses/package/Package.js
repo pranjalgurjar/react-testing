@@ -6,6 +6,7 @@ import img from "./favicon.png"
 import img2 from "./faq-right.png"
 import CouponModel from './couponModel'
 import { Tokens } from '../../../App'
+import Loader from '../../../components/loader/Loader'
 
 const Package = (props) => {
     const { ProfileApi } = props
@@ -295,6 +296,7 @@ const Package = (props) => {
                                 </h4>
                             </span>
                         </h4>
+                        {user?.length?
                         <div className="basic-form">
                             <form>
                                 <div className="mb-3 mb-0">
@@ -370,7 +372,8 @@ const Package = (props) => {
                                     })}
                                 </div>
                             </form>
-                        </div>
+                        </div>:
+                        <div className='mt-5'><Loader/></div>}
                     </div>
                     <div className="col-xl-1 col-xxl-1" />
 

@@ -207,7 +207,7 @@ const TestSeriesAttempt = () => {
 
     return (
         <>
-            <div className="container-fluid" id="disabledRightMenu">
+            <div className="container-fluid">
                 <div className="row">
                     <div className="col-lg-8 col-md-7 col-sm-12" >
                         {(student && student.length ? student : [])?.map((data, index) => {

@@ -14,7 +14,6 @@ const LiveClasses = (props) => {
   // console.log(token)
   const [live, setLive] = useState()
   const [loading,setloading] = useState(false)
-  console.log(live);
   const [each_coures, setEach_course] = useState()
   const course_slug = JSON.parse(localStorage.getItem("userdata"))
   
@@ -59,7 +58,6 @@ const LiveClasses = (props) => {
         <nav>
           <div className="nav nav-tabs justify-content-start tab-auto itemscroll" id="nav-tab" role="tablist">
             {course_slug?.subscriptions.map((item, index) => <button className={((each_coures && each_coures.length) ? each_coures[0] : course_slug?.subscriptions[0]?.course?.slug) === item.course?.slug ? "nav-link line active" : "nav-link line"} onClick={() => { liveClasses(item?.course?.slug); setEach_course([item?.course?.slug]) }} id="nav-about-tab" key={index} type="button" role="tab" aria-selected="true">{item?.course?.name}</button>)}
-
           </div>
         </nav>
       </div>

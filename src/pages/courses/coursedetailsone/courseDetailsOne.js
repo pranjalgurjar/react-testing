@@ -322,16 +322,11 @@ const CourseDetailsOne = () => {
                                     </nav>
                                     <div className="tab-content" id="nav-tabContent">
                                         <div className={showAboutExam?"tab-pane fade show active":"tab-pane fade"} id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-
                                             {course?.[0]?.course_overview?.map((item, index) => <div className="about-content" key={index}>
                                                 <h4 >About This Course</h4>
                                                 <p>{item?.syllabus}</p>
                                             </div>)}
-
-
-
                                         </div>
-
                                         <div className={showAboutExam?"tab-pane fade show":"tab-pane fade show active"} id="nav-discussion" role="tabpanel" aria-labelledby="nav-discussion-tab">
                                             {course?.[0]?.course_overview?.map((item, index) => <div className="about-content" key={index}>
                                                 <h4 >examination </h4>

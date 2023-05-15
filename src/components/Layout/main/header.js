@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { pathName } from '../../../utils'
 
 
 
 const Header = (props) => {
     const profileDp = JSON.parse(localStorage.getItem("userdata"))
-    const { setPathname, profileData } = props
+    const { pathname, profileData } = props
     const navigate = useNavigate()
     const [dp, setDp] = useState(false)
     const [showNotification, setShowNotification] = useState(false)
@@ -33,7 +32,7 @@ const Header = (props) => {
                     <nav className="navbar navbar-expand">
                         <div className="collapse navbar-collapse justify-content-between">
                             <div className="header-left">
-                                <div className="dashboard_bar">{setPathname(pathName())}{pathName()?.toLocaleUpperCase()}</div>
+                                <div className="dashboard_bar">{pathname?.toLocaleUpperCase()}</div>
                             </div>
                             <div className="navbar-nav header-right">
                                 <div className="nav-item d-flex align-items-center">

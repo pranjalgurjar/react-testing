@@ -27,7 +27,8 @@ import TestSolution from '../pages/mySubscription/subMySubscription/coursedetail
 import Forgetpassword from '../pages/login/forgetpassword';
 import { TEST_endPointUrl } from '../common/api/endPointUrl';
 import { Tokens } from '../App';
-import { isSubscription } from '../utils';
+import { isSubscription} from '../utils';
+
 
 
 
@@ -36,6 +37,7 @@ function AppRoutes(props) {
     const id = localStorage.getItem("eXvctIdv")
     const { couresPageData } = props
     const [profileData, setProfileData] = useState();
+    
     const ProfileApi = () => {
 
         fetch(TEST_endPointUrl + `api/student/${id}`, {
@@ -52,13 +54,13 @@ function AppRoutes(props) {
                 }
             });
     }
-
+    
     // console.log(profileData);
     return (<>
 
         <Routes>
             <Route path='/react-testing' element={<Navigate to="/" />} />
-            <Route exact path='/' element={<Layout profileData={profileData} />} >
+            <Route exact path='/' element={<Layout profileData={profileData}/>} >
                 <Route path='/' element={<PrivateRoutes />}>
                     <Route path='/' element={<Navigate to={isSubscription() ? 'subscription' : 'courses'} />} />
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
 import { Tokens } from '../../App';
 import { TEST_endPointUrl } from '../../common/api/endPointUrl';
@@ -14,29 +14,8 @@ const TestSeries = () => {
     const [label, setLabel] = useState()
     const [testseries, setestseries] = useState()
     // console.log(testseries);
-    
-    const FindLableId = (id) => {
-        setestseries([])
-        setChecking({ id })
-        fetch(TEST_endPointUrl + "api/study_material_labels/v1/" + id + "/" + studentID + "/", {
-            method: "GET",
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
-            }
-        }).then(response => response.json()).then(result => {
-            // console.log(result,"testid")
-            let res = result?.content?.find(item => item.label === "Test Series")
-            setLabel(true)
-            if (res.label_id) {
-                Test(res.label_id, id)
-            }
-        }).catch(err => {
-            //  console.log(err)
-        })
-    }
 
-    const Test = (id, cid) => {
+    const Test = useCallback((id, cid) => {
         fetch(TEST_endPointUrl + "api/exam_study_material/test_series/package/", {
             method: "POST",
             headers: {
@@ -57,7 +36,38 @@ const TestSeries = () => {
                 setIsloading(false)
             }
         })
-    }
+    }, [studentID, token])
+
+    const FindLableId = useCallback((id) => {
+        setLabel(true)
+        setestseries([])
+        setChecking({ id })
+        if (id === undefined) {
+            id = prefrence?.courses?.[0]?.id
+        }
+        fetch(TEST_endPointUrl + "api/study_material_labels/v1/" + id + "/" + studentID + "/", {
+            method: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json()).then(result => {
+            // console.log(result,"testid")
+            let res = result?.content?.find(item => item.label === "Test Series")
+            if (res.label_id) {
+                Test(res.label_id, id)
+            }
+        }).catch(err => {
+            //  console.log(err)
+        })
+    }, [Test, studentID, token, prefrence?.courses])
+
+    useEffect(() => {
+        FindLableId()
+    }, [FindLableId])
+
+
+
     useEffect(() => {
         const Pref = () => {
             // for prefrence course
@@ -75,7 +85,7 @@ const TestSeries = () => {
     }, [token])
     // console.log(testseries,);
     return (
-        <>{(prefrence && prefrence?.courses?.length) ? <div className="container-fluid">
+        <> <div className="container-fluid">
             <div className="course-details-tab style-2">
                 <h4 className="card-title"><i className="bi-journal-text me-2"></i> Test Series ({(testseries?.length) ? testseries?.length : (label?.label_id) ? "..." : 0})
                 </h4>
@@ -87,6 +97,7 @@ const TestSeries = () => {
                     </nav>
                 </div>
 
+                {(prefrence && prefrence?.courses?.length) ?
                 <div className="row mt-3">
                     {isloading ? (testseries && testseries?.length ? testseries : [])?.map((item, index) =>
                         <div className="col-xl-4 col-md-4" key={index}>
@@ -144,35 +155,17 @@ const TestSeries = () => {
                                 </div>
                             </div>
                         </div>
-                    ) : (label) ? <div className="mt-4">
-                        <div className="mr-2">
-                            <h5 className="text-primary text-center">Loading....</h5>
-                        </div>
-                    </div> : <div className="mt-4">
-                        <div className=" mr-2">
-                            <h5 className="text-red text-center">TestSeries Not Available</h5>
+                    ) : (label) ? <div className="container-fluid">
+                        <Loader />
+                    </div> : <div className="card mt-4">
+                        <div className="card-body mr-2">
+                            <h5 className="text-red text-center"> No TestSeries Available</h5>
                         </div>
                     </div>}
                 </div>
-
-
-
-
-
-
-
-
-            </div>
-            <div className="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
-                <div className="row mt-4">
-                </div>
-            </div>
-        </div> : <div className="container-fluid">
-            <Loader />
-        </div>}
-
-
-
+            : <Loader />}
+        </div>
+        </div>
         </>
     )
 }

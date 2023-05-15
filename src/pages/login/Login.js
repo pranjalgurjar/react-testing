@@ -145,14 +145,14 @@ function Login(props) {
                                                     <div className="input-group">
                                                         <span className="input-group-text"> <i className="bi bi-phone fs-20" style={{ color: '#886FFE' }} />
                                                         </span>
-                                                        <input type="tel" name='mobile' maxLength={10} className="form-control" placeholder="Enter Mobile Number.." value={state.mobile !== "" ? state.mobile : ""} onChange={formValChange} />
+                                                        <input type="tel" name='mobile' maxLength={10} className="form-control" placeholder="Enter Mobile Number.." value={mob} onChange={formValChange} />
                                                     </div>
                                                     <p className="loginerror mt-1" style={{ "color": "red" }}><strong>{state.isError.mobile}</strong></p>
                                                     <label className="mb-2 fs-16"><strong>Password </strong></label>
                                                     <div className="input-group">
                                                         <span className="input-group-text"> <i className="bi bi-shield-lock fs-20" style={{ color: '#886FFE' }} />
                                                         </span>
-                                                        <input type={!passShow ? "password" : "text"} name='password' className="form-control" value={state.password !== "" ? state.password : ""} placeholder="Enter Your password" onChange={formValChange} required />
+                                                        <input type={!passShow ? "password" : "text"} name='password' className="form-control" value={pass} placeholder="Enter Your password" onChange={formValChange} required />
                                                         <span className="input-group-text show-pass showpass" onClick={() => setPassShow(!passShow)}>
                                                             <i className="bi bi-eye-slash" />
                                                         </span>
