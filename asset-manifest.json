@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/react-testing/static/css/main.2998cb18.css",
-    "main.js": "/react-testing/static/js/main.115d77d1.js",
+    "main.js": "/react-testing/static/js/main.9e369f12.js",
     "static/media/3.gif": "/react-testing/static/media/3.03c27158217fbecbb160.gif",
     "static/media/bg-1.jpg": "/react-testing/static/media/bg-1.2ddb0f17a2f7226600dd.jpg",
     "static/media/faq-right.png": "/react-testing/static/media/faq-right.2eb3c138ac524312f727.png",
@@ -18,10 +18,10 @@
     "index.html": "/react-testing/index.html",
     "static/media/puzzle.svg": "/react-testing/static/media/puzzle.9c3f08f2b6c84283dab7f5dab5e0ae95.svg",
     "main.2998cb18.css.map": "/react-testing/static/css/main.2998cb18.css.map",
-    "main.115d77d1.js.map": "/react-testing/static/js/main.115d77d1.js.map"
+    "main.9e369f12.js.map": "/react-testing/static/js/main.9e369f12.js.map"
   },
   "entrypoints": [
     "static/css/main.2998cb18.css",
-    "static/js/main.115d77d1.js"
+    "static/js/main.9e369f12.js"
   ]
 }
