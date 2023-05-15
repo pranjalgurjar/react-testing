@@ -28,6 +28,8 @@ import Forgetpassword from '../pages/login/forgetpassword';
 import { TEST_endPointUrl } from '../common/api/endPointUrl';
 import { Tokens } from '../App';
 import { isSubscription} from '../utils';
+import { useEffect } from 'react';
+import { useCallback } from 'react';
 
 
 
@@ -38,7 +40,7 @@ function AppRoutes(props) {
     const { couresPageData } = props
     const [profileData, setProfileData] = useState();
     
-    const ProfileApi = () => {
+    const ProfileApi = useCallback(() => {
 
         fetch(TEST_endPointUrl + `api/student/${id}`, {
             method: 'GET',
@@ -49,13 +51,14 @@ function AppRoutes(props) {
             .then(response => response.json())
             .then((data) => {
                 if (data?.id) {
-                    localStorage.setItem("userdata", JSON.stringify(data))
                     setProfileData(data)
                 }
             });
-    }
+    },[id,token])
     
-    // console.log(profileData);
+   useEffect(()=>{
+    ProfileApi()
+   },[ProfileApi])
     return (<>
 
         <Routes>
@@ -71,7 +74,7 @@ function AppRoutes(props) {
                     </Route>
                     {/* my subscriptions Route */}
                     <Route path={isSubscription() ? 'subscription' : '/subscription'} element={<PrivateRoutes />} >
-                        <Route index element={<MySubscription couresPageData={couresPageData} />} />
+                        <Route index element={<MySubscription couresPageData={couresPageData} profileData={profileData} />} />
                         <Route path=':slug' element={<PrivateRoutes />} >
                             <Route index element={<CourseCategories />} />
                             <Route path=':cslug' element={<PrivateRoutes />} >

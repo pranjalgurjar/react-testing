@@ -54,10 +54,6 @@ const MyProfile = (props) => {
         let data = mypro?.subscriptions?.filter(item => item.course.name.toLowerCase().includes(search.toLowerCase()))
         setSearchData(data)
     }
-
-    useEffect(() => {
-        ProfileApi()
-    }, [ProfileApi])
     // console.log(profileData);
     return (
         <div>

@@ -7,14 +7,11 @@ import { isSubscription } from '../../utils'
 
 
 const MySubscription = (props) => {
-    const { couresPageData } = props
-    // console.log(couresPageData);
+    const { couresPageData ,profileData } = props
     let issubs = isSubscription()
     couresPageData?.filter(item => item)
 
     const [paginate, setpaginate] = useState(2)
-    const BS = JSON.parse(localStorage.getItem("userdata"))
-    const BuySubscriptions = BS?.subscriptions
     let data = AssemblePrefData(couresPageData)?.flat()
     let SubscriptionData = SubscriptionPageData(data)
     const [myCourseTab, setMyCourseTab] = useState(true)
@@ -47,15 +44,16 @@ const MySubscription = (props) => {
                     <nav>
                         <div className="nav nav-tabs tab-auto" id="nav-tab" role="tablist">
                             <button className={myCourseTab ? "nav-link active" : "nav-link"} type="button" onClick={() => SliderTab("mycourse")} >
-                                <i className="bi-journals" /> My Courses ({BuySubscriptions?.length}) </button>
+                                <i className="bi-journals" /> My Courses ({profileData?.subscriptions?.length}) </button>
                             <button className={testSeriesTab ? "nav-link active" : "nav-link"} type="button" onClick={() => SliderTab("testseries")} >
                                 <i className="bi-journal-text" /> Test Series (0) </button>
                             <button className={studyMaterialTab ? "nav-link active" : "nav-link"} type="button" onClick={() => SliderTab("studymaterial")} >
                                 <i className="bi bi-book-half" /> Study Material (0) </button>
                         </div>
                     </nav>
-                    {BuySubscriptions?.length ? <><div className="tab-content" id="nav-tabContent">
-                        {BuySubscriptions?.slice(0, paginate)?.map((ele, index) => {
+                    {profileData?.subscriptions?.length ? <><div className="tab-content" id="nav-tabContent">
+                        {profileData?.subscriptions?.slice(0, paginate)?.map((ele, index) => {
+    
                             return (
                                 < div className={myCourseTab ? "tab-pane fade show active" : "tab-pane fade"} id="nav-about" role="tabpanel" key={index} >
                                     <div className="row mt-4">
@@ -78,7 +76,7 @@ const MySubscription = (props) => {
                                                                                 <span className="text-success"><i className="bi-basket" /> Purchase at: <span className="text-black">{new Date(ele?.subscription?.created_at)?.toDateString()}</span></span>
                                                                             </small>
                                                                         </h4>
-                                                                        <a href={ele?.course?.telegram_link} >
+                                                                        <a href={ele?.course?.telegram_link} style={{"cursor":"pointer"}} >
                                                                             <img src="https://cdn3.iconfinder.com/data/icons/social-media-chamfered-corner/154/telegram-512.png" height={40} className="mb-2" alt='' />
                                                                         </a>
                                                                     </div>
@@ -138,7 +136,7 @@ const MySubscription = (props) => {
                         })}
                     </div>
                         <div className='text-center mt-2 mb-4'>
-                           {(paginate === BuySubscriptions?.length)?"": <button className='btn btn-primary btn-md' onClick={load_more}>Load More...</button>}
+                           {(paginate === profileData?.subscriptions?.length)?"": <button className='btn btn-primary btn-md' onClick={load_more}>Load More...</button>}
                         </div>
                     </> :<Loader />}
                 </div>
