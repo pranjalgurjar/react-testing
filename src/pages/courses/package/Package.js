@@ -26,23 +26,25 @@ const Package = (props) => {
     const [totalPrice, setTotalprice] = useState()
     const [isCheck, setIscheck] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [packageLoading, setPackageLoading] = useState(true)
     const [coupanName, setCoupanName] = useState()
-    const [showCoupanModal,setShowCoupanModal] = useState(false)
+    const [showCoupanModal, setShowCoupanModal] = useState(false)
     /* for payment */
     const [PaymetSuccessData, setPaymetSuccessData] = useState()
     const [alreadyBuy, setAlreadyBuy] = useState(false)
     const [payMsg, setPayMsg] = useState(false)
     const id = student_data?.id
     /* for expand FAQ's Questions */
-    const [showQues1,setShowQues1] = useState(false)
-    const [showQues2,setShowQues2] = useState(false)
-    const [showQues3,setShowQues3] = useState(false)
-    
+    const [showQues1, setShowQues1] = useState(false)
+    const [showQues2, setShowQues2] = useState(false)
+    const [showQues3, setShowQues3] = useState(false)
+
 
 
     useEffect(() => {
         // for pakage data 
         const saveData = () => {
+            setPackageLoading(false)
             var config = {
                 method: 'GET',
                 url: TEST_endPointUrl + "api/student/subscription_plans/course/" + cslug + "/" + id + "/",
@@ -54,6 +56,7 @@ const Package = (props) => {
                 .then((response) => {
                     // console.log(response.data, "response")
                     setUser(response.data)
+                    setPackageLoading(true)
                     setSubscription(response.data?.[0])
                 })
                 .catch((error) => {
@@ -296,84 +299,85 @@ const Package = (props) => {
                                 </h4>
                             </span>
                         </h4>
-                        {user?.length?
-                        <div className="basic-form">
-                            <form>
-                                <div className="mb-3 mb-0">
-                                    {user?.map((pdata, index) => {
-                                        // console.log(pdata, "pdata")
-                                        return (
-                                            <div className="form-check custom-checkbox mb-2" key={index}>
-                                                <input type="radio" value={pdata} defaultChecked={index === 0}
-                                                    onChange={() => redioButton(pdata)} className="form-check-input" id="customRadioBox7" name="pdata" />
-                                                <label className="form-check-label" htmlFor="customRadioBox7" style={{ width: '100%' }}>
-                                                    <div className="alert alert-white left-icon-big fade show">
-                                                        <div className="media">
-                                                            <div className="alert-left-icon-big">
-                                                                <span><i className="mdi mdi-help-circle-outline" /></span>
-                                                            </div>
-                                                            <div className="media-body">
-                                                                <div className="dlab-info">
-                                                                    <div className="dlab-title d-flex justify-content-between">
-                                                                        <div className="mt-2">
-                                                                            <h5>
-                                                                                <Link >{corsename?.name}
-                                                                                </Link><br />
-                                                                                <p className="mt-2 text-primary"><i className="bi-clipboard" /> {pdata?.SubscriptionPlan?.name} - {pdata.validity} months</p>
-
-                                                                            </h5>
+                        {packageLoading ? user?.length ?
+                            <div className="basic-form">
+                                <form>
+                                    <div className="mb-3 mb-0">
+                                        {user?.map((pdata, index) => {
+                                            // console.log(pdata, "pdata")
+                                            return (
+                                                <div className="form-check custom-checkbox mb-2" key={index}>
+                                                    <input type="radio" value={pdata} defaultChecked={index === 0}
+                                                        onChange={() => redioButton(pdata)} className="form-check-input" id="customRadioBox7" name="pdata" />
+                                                    <label className="form-check-label" htmlFor="customRadioBox7" style={{ width: '100%' }}>
+                                                        <div className="alert alert-white left-icon-big fade show">
+                                                            <div className="media">
+                                                                <div className="alert-left-icon-big">
+                                                                    <span><i className="mdi mdi-help-circle-outline" /></span>
+                                                                </div>
+                                                                <div className="media-body">
+                                                                    <div className="dlab-info">
+                                                                        <div className="dlab-title d-flex justify-content-between">
+                                                                            <div className="mt-2">
+                                                                                <h5>
+                                                                                    <Link >{corsename?.name}
+                                                                                    </Link><br />
+                                                                                    <p className="mt-2 text-primary"><i className="bi-clipboard" /> {pdata?.SubscriptionPlan?.name} - {pdata.validity} months</p>
+                                                                                </h5>
+                                                                            </div>
+                                                                            <div className="course_price ml-auto text-primary">
+                                                                                <span>₹0</span>
+                                                                                <br />₹{pdata?.plan_price}
+                                                                            </div>
                                                                         </div>
-                                                                        <div className="course_price ml-auto text-primary">
-                                                                            <span>₹0</span>
-                                                                            <br />₹{pdata?.plan_price}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row mt-2">
-                                                                        <div id="DZ_W_TimeLine" className="col-xl-6 col-md-6 widget-timeline dlab-scroll ps">
-                                                                            <ul className="timeline">
-                                                                                <li>
-                                                                                    <div className="timeline-badge info" />
-                                                                                    <Link className="timeline-panel text-muted" >
-                                                                                        <p className="mb-0">{pdata?.no_of_videos ? pdata?.no_of_videos : 0}+ Video Lectures</p>
-                                                                                    </Link>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <div className="timeline-badge success" />
-                                                                                    <Link className="timeline-panel text-muted" >
-                                                                                        <p className="mb-0">{pdata?.no_of_tests}+ Test Series </p>
-                                                                                    </Link>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                        <div id="DZ_W_TimeLine" className="col-xl-6 col-md-6 widget-timeline dlab-scroll ps ps--active-y">
-                                                                            <ul className="timeline">
-                                                                                <li>
-                                                                                    <div className="timeline-badge dark" />
-                                                                                    <Link className="timeline-panel text-muted" >
-                                                                                        <p className="mb-0">{pdata?.no_of_notes}+ PDF Notess</p>
-                                                                                    </Link>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <div className="timeline-badge danger" />
-                                                                                    <Link className="timeline-panel text-muted" >
-                                                                                        <p className="mb-0">Live Classes-{pdata?.live_classes_access ? "Available" : "Not Available"} </p>
-                                                                                    </Link>
-                                                                                </li>
-                                                                            </ul>
+                                                                        <div className="row mt-2">
+                                                                            <div id="DZ_W_TimeLine" className="col-xl-6 col-md-6 widget-timeline dlab-scroll ps">
+                                                                                <ul className="timeline">
+                                                                                    <li>
+                                                                                        <div className="timeline-badge info" />
+                                                                                        <Link className="timeline-panel text-muted" >
+                                                                                            <p className="mb-0">{pdata?.no_of_videos ? pdata?.no_of_videos : 0}+ Video Lectures</p>
+                                                                                        </Link>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <div className="timeline-badge success" />
+                                                                                        <Link className="timeline-panel text-muted" >
+                                                                                            <p className="mb-0">{pdata?.no_of_tests}+ Test Series </p>
+                                                                                        </Link>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                            <div id="DZ_W_TimeLine" className="col-xl-6 col-md-6 widget-timeline dlab-scroll ps ps--active-y">
+                                                                                <ul className="timeline">
+                                                                                    <li>
+                                                                                        <div className="timeline-badge dark" />
+                                                                                        <Link className="timeline-panel text-muted" >
+                                                                                            <p className="mb-0">{pdata?.no_of_notes}+ PDF Notess</p>
+                                                                                        </Link>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <div className="timeline-badge danger" />
+                                                                                        <Link className="timeline-panel text-muted" >
+                                                                                            <p className="mb-0">Live Classes-{pdata?.live_classes_access ? "Available" : "Not Available"} </p>
+                                                                                        </Link>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            </form>
-                        </div>:
-                        <div className='mt-5'><Loader/></div>}
+                                                    </label>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </form>
+                            </div> : <div className="alert alert-white text-center mt-5" role="alert">
+                                <h5 className='text-danger'>This course Package are unavailable !</h5>
+                            </div> :
+                            <div className='mt-5'><Loader /></div>}
                     </div>
                     <div className="col-xl-1 col-xxl-1" />
 
@@ -450,12 +454,12 @@ const Package = (props) => {
                             <div className="card-body">
                                 <div className="accordion accordion-start-indicator" id="accordion-five">
                                     <div className="accordion-item">
-                                        <div className={showQues1?"accordion-header rounded-lg":"accordion-header rounded-lg collapsed"} id="accord-5One" onClick={()=>setShowQues1(!showQues1)} >
+                                        <div className={showQues1 ? "accordion-header rounded-lg" : "accordion-header rounded-lg collapsed"} id="accord-5One" onClick={() => setShowQues1(!showQues1)} >
                                             <h5 className="accordion-header-text">Why should I enroll in the MPPSC Mains (Shaurya English Batch)?
                                             </h5>
                                             <span className="accordion-header-indicator" />
                                         </div>
-                                        <div id="collapse5One" className={showQues1?"accordion__body collapse show":"accordion__body collapse"} >
+                                        <div id="collapse5One" className={showQues1 ? "accordion__body collapse show" : "accordion__body collapse"} >
                                             <div className="accordion-body-text">
                                                 <p style={{ fontSize: '13px' }}>iMagnus provides the learners preparing for MPPSC Mains Dhamaka Pack
                                                     exam access to courses by more than 10+ Super Teachers at a minimal fee. iMagnus is curated in
@@ -466,11 +470,11 @@ const Package = (props) => {
                                         </div>
                                     </div>
                                     <div className="accordion-item">
-                                        <div className={showQues2?"accordion-header rounded-lg":"accordion-header collapsed rounded-lg"} id="accord-5Two" role="button" onClick={()=>setShowQues2(!showQues2)}>
+                                        <div className={showQues2 ? "accordion-header rounded-lg" : "accordion-header collapsed rounded-lg"} id="accord-5Two" role="button" onClick={() => setShowQues2(!showQues2)}>
                                             <h5 className="accordion-header-text">Who are Super Teachers?</h5>
                                             <span className="accordion-header-indicator" />
                                         </div>
-                                        <div id="collapse5Two" className={showQues2?"collapse accordion__body show":"collapse accordion__body"} >
+                                        <div id="collapse5Two" className={showQues2 ? "collapse accordion__body show" : "collapse accordion__body"} >
                                             <div className="accordion-body-text">
                                                 <p style={{ fontSize: '13px' }}>Super Teachers are notably the best set of teachers across the
                                                     country in their respective subjects &amp; domains. They are not only known for their
@@ -481,11 +485,11 @@ const Package = (props) => {
                                         </div>
                                     </div>
                                     <div className="accordion-item">
-                                        <div className={showQues3?"accordion-header rounded-lg":"accordion-header collapsed rounded-lg"} id="accord-5Three" role="button" onClick={()=>setShowQues3(!showQues3)}>
+                                        <div className={showQues3 ? "accordion-header rounded-lg" : "accordion-header collapsed rounded-lg"} id="accord-5Three" role="button" onClick={() => setShowQues3(!showQues3)}>
                                             <h5 className="accordion-header-text">How can I get FREE Demo Lessons for Shaurya English Batch?</h5>
                                             <span className="accordion-header-indicator" />
                                         </div>
-                                        <div id="collapse5Three" className={showQues3?"collapse accordion__body show":"collapse accordion__body"} aria-labelledby="accord-5Three" data-bs-parent="#accordion-five">
+                                        <div id="collapse5Three" className={showQues3 ? "collapse accordion__body show" : "collapse accordion__body"} aria-labelledby="accord-5Three" data-bs-parent="#accordion-five">
                                             <div className="accordion-body-text">
                                                 <p style={{ fontSize: '13px' }}>The iMagnus users simply have to click on “Start Free Demo” to
                                                     access the Free sessions of each Super Teacher &amp; can get additional access to the Study Notes,
@@ -504,7 +508,7 @@ const Package = (props) => {
                 </div>
             </div>
             <CouponModel coupanData={coupanData} setIscheck={setIscheck} isCheck={isCheck} ApplyCoupan={ApplyCoupan} setShowCoupanModal={setShowCoupanModal} showCoupanModal={showCoupanModal} />
-            <div className={showCoupanModal?"modal-backdrop fade show":""}></div>
+            <div className={showCoupanModal ? "modal-backdrop fade show" : ""}></div>
         </>
     )
 }
