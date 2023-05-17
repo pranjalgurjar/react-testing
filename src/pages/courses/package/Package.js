@@ -91,6 +91,7 @@ const Package = (props) => {
 
     // for amount and order id generate
     const handlePayment = async (Amount, sid) => {
+        console.log(Amount);
         let isSubscription = student_data?.subscriptions?.find(item => item?.subscription?.id === sid)
         if (isSubscription?.subscription?.id === sid) {
             setAlreadyBuy(true)
@@ -437,11 +438,11 @@ const Package = (props) => {
                                 <div className="spinner-border" role="status">
                                     <span className="visually-hidden">Loading...</span>
                                 </div>
-                            </div> : <button onClick={() => handlePayment(totalPrice, subscription?.id)} className="btn btn-primary btn-xl w-100">Buy Now</button> : loading ? <div className="text-center text-primary">
+                            </div> : <button onClick={() => handlePayment(totalPrice, subscription?.id)} className="btn btn-primary btn-xl w-100" disabled={user?.length?false:true} >Buy Now</button> : loading ? <div className="text-center text-primary">
                                 <div className="spinner-border" role="status">
                                     <span className="visually-hidden">Loading...</span>
                                 </div>
-                            </div> : <button onClick={() => handlePayment(subscription?.plan_price, subscription?.id)} className="btn btn-primary btn-xl w-100">Buy Now</button>}
+                            </div> : <button onClick={() => handlePayment(subscription?.plan_price, subscription?.id)} className="btn btn-primary btn-xl w-100" disabled={user?.length?false:true}>Buy Now</button>}
                         </div>
                     </div>
                 </div>

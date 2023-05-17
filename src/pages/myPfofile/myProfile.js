@@ -12,6 +12,7 @@ import skill from "./images/svg/skill.svg"
 import readingtime from "./images/svg/readingtime.svg"
 import puzzle from "./images/svg/puzzle.svg"
 import { isSubscription } from "../../utils";
+import { useEffect } from "react";
 
 let postsPerPage = 5
 const MyProfile = (props) => {
@@ -54,6 +55,9 @@ const MyProfile = (props) => {
         let data = mypro?.subscriptions?.filter(item => item.course.name.toLowerCase().includes(search.toLowerCase()))
         setSearchData(data)
     }
+    useEffect(()=>{
+        ProfileApi()
+    },[ProfileApi])
     // console.log(profileData);
     return (
         <div>

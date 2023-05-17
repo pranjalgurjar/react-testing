@@ -27,21 +27,20 @@ import TestSolution from '../pages/mySubscription/subMySubscription/coursedetail
 import Forgetpassword from '../pages/login/forgetpassword';
 import { TEST_endPointUrl } from '../common/api/endPointUrl';
 import { Tokens } from '../App';
-import { isSubscription} from '../utils';
+import { isLogin, isSubscription} from '../utils';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
-
-
 
 
 function AppRoutes(props) {
     const token = useContext(Tokens)
     const id = localStorage.getItem("eXvctIdv")
-    const { couresPageData } = props
+    const { couresPageData,Alldata } = props
     const [profileData, setProfileData] = useState();
     
     const ProfileApi = useCallback(() => {
-
+        let isLog = isLogin()
+       if(isLog){
         fetch(TEST_endPointUrl + `api/student/${id}`, {
             method: 'GET',
             headers: {
@@ -53,7 +52,8 @@ function AppRoutes(props) {
                 if (data?.id) {
                     setProfileData(data)
                 }
-            });
+            })
+        }
     },[id,token])
     
    useEffect(()=>{
@@ -108,7 +108,7 @@ function AppRoutes(props) {
                 </Route>
             </Route>
             <Route path='/forgot' element={<Forgetpassword />} />
-            <Route path='/login' element={<Login setProfileData={setProfileData} />} />
+            <Route path='/login' element={<Login setProfileData={setProfileData} Alldata={Alldata} />} />
             <Route path='/registration' element={<Registration />} />
             <Route path='*' element={<ErrorPage />} />
         </Routes >
