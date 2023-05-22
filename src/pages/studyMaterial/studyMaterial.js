@@ -1,9 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 const StudyMaterial = () => {
-    useEffect(() => {
-
-    }, [])
     return (
         <>
             <div className="container-fluid">

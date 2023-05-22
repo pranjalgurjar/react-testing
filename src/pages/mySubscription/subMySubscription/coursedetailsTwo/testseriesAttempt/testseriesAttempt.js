@@ -14,10 +14,8 @@ const TestSeriesAttempt = () => {
     const token = useContext(Tokens)
     const { id, nameindex } = useParams()
     const [student, setStudent] = useState([])
-
     /* showing questions and questions paper */
     const [showQuestions, setShowQuestions] = useState(true)
-
 
     /* test timer state*/
     const [time, setTime] = useState()
@@ -140,20 +138,11 @@ const TestSeriesAttempt = () => {
 
     const dataAdd = () => {
         setShow(true)
-        var rightAnswer = option?.filter(item => item.check === true)
-        rightAnswer = rightAnswer.length
-        setRight(rightAnswer)
-        let wrongAnswer = option.length - rightAnswer
-        setWrong(wrongAnswer)
-        let notatt = student?.[0]?.CategoryTestSeriesQuestions?.length - option?.length
-        setNotAttempt(notatt)
         setAttempt(option?.length)
-        window.onpopstate = null
-        window.onbeforeunload = null
+        setNotAttempt(student?.[0]?.CategoryTestSeriesQuestions?.length - option?.length)
     }
 
     const handleSubmit = useCallback(() => {
-
         var rightAnswer = option?.filter(item => item.check === true)
         rightAnswer = rightAnswer.length
         setRight(rightAnswer)
@@ -171,40 +160,42 @@ const TestSeriesAttempt = () => {
         sessionStorage.setItem("test_result", JSON.stringify({ Right, Wrong, student, notAttempt, option }))
     }, [Right, Wrong, student, notAttempt, option, handleSubmit])
 
-    useEffect((e) => {
+    useEffect(() => {
         dataSubmit()
-
     }, [timer, dataSubmit])
 
     /* for back button click massege   */
-    const confirmBack = useCallback(() => {
-        const back = window.confirm('Your current test progress will be lost!')
-        if (back) {
-            window.removeEventListener('popstate', confirmBack);
-            window.history.back()
-            window.oncontextmenu = null
-            window.onbeforeunload = null
-        } else {
-            window.history.pushState(null, document.title, window.location.href)
-        }
-    }, [])
-
 
     useEffect(() => {
-        window.oncontextmenu = (e) => {
-            e.preventDefault()
+        const confirmBack = () => {
+            const back = window.confirm('Your current test progress will be lost!')
+            if (back) {
+                window.removeEventListener('popstate', confirmBack);
+                window.history.back()
+            } else {
+                window.history.pushState(null, null, window.location.href)
+            }
         }
-        window.onbeforeunload = (e) => {
-            e.preventDefault();
-            return "Unloading this page may lose data. What do you want to do..."
-        }
-        window.history.pushState(null, document.title, window.location.href); // preventing back initially
+        window.history.pushState(null, null, window.location.pathname); // preventing back initially
         window.addEventListener('popstate', confirmBack);
         return () => { window.removeEventListener('popstate', confirmBack) };
 
-    }, [confirmBack])
+    }, [])
     /*    close           */
+    useEffect(() => {
+        const disableRightClick = (e) => {
+            e.preventDefault()
+        }
+        window.addEventListener('contextmenu', disableRightClick)
+        return () => { window.removeEventListener('contextmenu', disableRightClick) }
+    }, [])
 
+    useEffect(() => {
+        window.onbeforeunload = (e) => {
+            e.preventDefault()
+            return "you lost your data"
+        }
+    }, [])
     return (
         <>
             <div className="container-fluid">
@@ -356,41 +347,6 @@ const TestSeriesAttempt = () => {
                 </div>
             </div>
             <Modale show={show} onHide={handleClose} handleClose={handleClose} student={student} Attempt={Attempt} notAttempt={notAttempt} dataSubmit={dataSubmit} />
-            <div className="modal fade bd-example-modal-lg" tabIndex="-1" role="dialog" aria-hidden="true">
-                <div className="modal-dialog modal-lg">
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <div className="col-lg-12">
-                                <h4 className="text-center">Submit Your Test</h4>
-                                <div className="table-responsive mt-4 text-center">
-                                    <table className="table success-table-bordered">
-                                        <thead className="thead-warning">
-                                            <tr>
-                                                <th scope="col">No. of questions</th>
-                                                <th scope="col">Attempted</th>
-                                                <th scope="col">Not Attempted</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr className="fs-18">
-                                                {/* <th>{(student.length)?student[0]?.CategoryTestSeriesQuestions?.length:0}</th>
-                                                <td>{(student.length)?Attempt:0}</td>
-                                                <td>{(student.length)?notAttempt:0}</td> */}
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-danger dark" data-bs-dismiss="modal">Close</button>
-                            <Link to="report">
-                                <button id='button' onClick={dataSubmit} className="btn btn-warning" >Submit Test</button>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </>
     )
 }

@@ -3,16 +3,22 @@ import { Link } from "react-router-dom";
 import { Tokens } from '../../App';
 import { TEST_endPointUrl } from '../../common/api/endPointUrl';
 import Loader from '../../components/loader/Loader';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { Box, Tab } from '@mui/material';
 
 const TestSeries = () => {
     const token = useContext(Tokens)
     const studentID = localStorage.getItem("eXvctIdv")
     const [prefrence, setPrefrence] = useState()
-    const [checking, setChecking] = useState()
     const [isloading, setIsloading] = useState(false)
-    // console.log(prefrence);
     const [label, setLabel] = useState()
     const [testseries, setestseries] = useState()
+    const [value, setValue] = useState()
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
+    FindLableId(newValue)
+  }
     // console.log(testseries);
 
     const Test = useCallback((id, cid) => {
@@ -41,7 +47,6 @@ const TestSeries = () => {
     const FindLableId = useCallback((id) => {
         setLabel(true)
         setestseries([])
-        setChecking({ id })
         if (id === undefined) {
             id = prefrence?.courses?.[0]?.id
         }
@@ -77,27 +82,32 @@ const TestSeries = () => {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/json'
                 }
-            }).then(response => response.json()).then(result => { setPrefrence(result) }).catch(err => {
+            }).then(response => response.json()).then(result => { setPrefrence(result);setValue(result?.courses[0]?.id) }).catch(err => {
                 // console.log(err)
             })
         }
         Pref()
     }, [token])
-    // console.log(testseries,);
     return (
         <> <div className="container-fluid">
             <div className="course-details-tab style-2">
                 <h4 className="card-title"><i className="bi-journal-text me-2"></i> Test Series ({(testseries?.length) ? testseries?.length : (label?.label_id) ? "..." : 0})
                 </h4>
                 <div className="course-details-tab style-2">
-                    <nav>
-                        <div className="nav nav-tabs justify-content-start tab-auto itemscroll" id="nav-tab" role="tablist">
-                            {prefrence?.courses?.map((item, index) => <button className={(checking && checking.id ? checking.id : prefrence?.courses?.[0]?.id) === item?.id ? "nav-link active" : "nav-link"} onClick={() => FindLableId(item?.id)} id="nav-about-tab" key={index} >{item?.name}</button>)}
-                        </div>
-                    </nav>
-                </div>
-
-                {(prefrence && prefrence?.courses?.length) ?
+                <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList
+            onChange={handleChange}
+            variant='scrollable'
+            scrollButtons='auto'
+            aria-label="secondary tabs example"
+            TabIndicatorProps={{style:{background:'#886ffe',color:"#886ffe"}}}
+            >
+             {prefrence?.courses?.map((item, index) =><Tab style={value===item?.id?{color:"#886ffe"}:{}} label={item?.name} value={(value ===undefined)?prefrence?.courses?.[0]?.id:item?.id} key={index}/>)}
+          </TabList>
+        </Box>
+        <TabPanel value={value}>
+                     {(prefrence && prefrence?.courses?.length) ?
                 <div className="row mt-3">
                     {isloading ? (testseries && testseries?.length ? testseries : [])?.map((item, index) =>
                         <div className="col-xl-4 col-md-4" key={index}>
@@ -164,6 +174,9 @@ const TestSeries = () => {
                     </div>}
                 </div>
             : <Loader />}
+                    </TabPanel>
+            </TabContext>
+                </div>            
         </div>
         </div>
         </>

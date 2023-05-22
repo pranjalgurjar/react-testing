@@ -62,7 +62,7 @@ const TestSolution = () => {
 																			</div>
 																			<div className="ui form">
 																				<div className="grouped fields">
-																					<div className={(Object.keys(test)?.[2].trim() === answer.trim()) ? "alert alert-success solid alert-dismissible fade show show mt-4" : (Object.keys(test)?.[2].trim() === file?.answer) ? "alert alert-danger solid alert-dismissible fade show show mt-4" : "alert alert  alert-dismissible fade show show mt-4"}>
+																					<div className={(Object.keys(test)?.[2].trim() === answer?.trim()?.replace("-","")) ? "alert alert-success solid alert-dismissible fade show show mt-4" : (Object.keys(test)?.[2].trim() === file?.answer) ? "alert alert-danger solid alert-dismissible fade show show mt-4" : "alert alert  alert-dismissible fade show show mt-4"}>
 																						{/* <svg viewBox="0 0 24 24" width={24} height={24} stroke="currentColor" strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" className="me-2">
 																							<circle cx={12} cy={12} r={10} />
 																							<path d="M8 14s1.5 2 4 2 4-2 4-2">
@@ -74,7 +74,7 @@ const TestSolution = () => {
 																						</svg> */}
 																						{opt_1}
 																					</div>
-																					<div className={(Object.keys(test)?.[3].trim() === answer.trim()) ? "alert alert-success solid alert-dismissible fade show show mt-4" : (Object.keys(test)?.[3].trim() === file?.answer) ? "alert alert-danger solid alert-dismissible fade show show mt-4" : "alert alert  alert-dismissible fade show show mt-4"}>
+																					<div className={(Object.keys(test)?.[3].trim() === answer?.trim()?.replace("-","")) ? "alert alert-success solid alert-dismissible fade show show mt-4" : (Object.keys(test)?.[3].trim() === file?.answer) ? "alert alert-danger solid alert-dismissible fade show show mt-4" : "alert alert  alert-dismissible fade show show mt-4"}>
 																						{/* 
 																						<svg viewBox="0 0 24 24" width={24} height={24} stroke="currentColor" strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" className="me-2">
 																							<polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2">
@@ -86,7 +86,7 @@ const TestSolution = () => {
 																						</svg> */}
 																						{opt_2}
 																					</div>
-																					<div className={(Object.keys(test)?.[4].trim() === answer.trim()) ? "alert alert-success solid alert-dismissible fade show show mt-4" : (Object.keys(test)?.[4].trim() === file?.answer) ? "alert alert-danger solid alert-dismissible fade show show mt-4" : "alert alert  alert-dismissible fade show show mt-4"}>
+																					<div className={(Object.keys(test)?.[4].trim() === answer?.trim()?.replace("-","")) ? "alert alert-success solid alert-dismissible fade show show mt-4" : (Object.keys(test)?.[4].trim() === file?.answer) ? "alert alert-danger solid alert-dismissible fade show show mt-4" : "alert alert  alert-dismissible fade show show mt-4"}>
 
 																						{/* <svg viewBox="0 0 24 24" width={24} height={24} stroke="currentColor" strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" className="me-2">
 																							<circle cx={12} cy={12} r={10} />
@@ -99,7 +99,7 @@ const TestSolution = () => {
 																						</svg> */}
 																						{opt_3}
 																					</div>
-																					<div className={(Object.keys(test)?.[5].trim() === answer.trim()) ? "alert alert-success solid alert-dismissible fade show show mt-4" : (Object.keys(test)?.[5].trim() === file?.answer) ? "alert alert-danger solid alert-dismissible fade show show mt-4" : "alert alert  alert-dismissible fade show show mt-4"}>
+																					<div className={(Object.keys(test)?.[5].trim() === answer?.trim()?.replace("-","")) ? "alert alert-success solid alert-dismissible fade show show mt-4" : (Object.keys(test)?.[5].trim() === file?.answer) ? "alert alert-danger solid alert-dismissible fade show show mt-4" : "alert alert  alert-dismissible fade show show mt-4"}>
 																						{/* <svg viewBox="0 0 24 24" width={24} height={24} stroke="currentColor" strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" className="me-2">
 																							<polyline points="9 11 12 14 22 4">
 																							</polyline>

@@ -139,7 +139,7 @@ const Registration = () => {
             });
     }
     return (
-        <div className="" style={{ backgroundImage: `url(${bgImg})`, backgroundSize: 'cover', height: "70rem" }}>
+        <div style={{ backgroundImage: `url(${bgImg})`, backgroundSize: 'cover', height: "70rem" }}>
             <div className="container" style={{ width: "65%" }}>
                 <div className="row align-items-center justify-contain-center">
                     <div className="col-xl-12 mt-4">

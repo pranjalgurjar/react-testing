@@ -1,10 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 const PrevYearPapers = () => {
-
-    useEffect(()=>{
-      
-    },[])
     return (
         <>
             <div className="container-fluid">

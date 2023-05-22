@@ -5,26 +5,26 @@ import { Tokens } from "../../App"
 import { useCallback } from 'react'
 import { isSubscription } from '../../utils'
 import Loader from '../../components/loader/Loader'
-
+import { Box, Tab} from '@mui/material'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
 
 
 const LiveClasses = (props) => {
+
   let issubs = isSubscription()
   const token = useContext(Tokens)
-  // console.log(token)
   const [live, setLive] = useState()
   const [loading,setloading] = useState(false)
-  const [each_coures, setEach_course] = useState()
   const course_slug = JSON.parse(localStorage.getItem("userdata"))
-  
+  const [value, setValue] = useState(course_slug?.subscriptions[0]?.course?.slug)
 
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
+    liveClasses(newValue)
+  }
   // for live classes
   const liveClasses = useCallback((slugs) => {
     setloading(true)
-    const course_slug = JSON.parse(localStorage.getItem("userdata"))
-    if(slugs===undefined){
-      slugs = course_slug?.subscriptions[0]?.course?.slug
-    }
     fetch(TEST_endPointUrl + `api/student/get_live_classes/${slugs}/`, {
       method: 'GET',
       headers: {
@@ -44,24 +44,30 @@ const LiveClasses = (props) => {
   }, [token])
 
   useEffect(() => {
-    liveClasses()
-  }, [liveClasses])
+    liveClasses(value)
+  }, [liveClasses,value])
 
   return (
     <>{issubs ? <div className="container-fluid">
       <div className="border-0 pb-0 mt-2">
         <h4 className="card-title"><i className="bi-collection-play-fill me-2"></i> Live Classes - Schedules ({(live && live.length) ? live.length : 0})
-        </h4>
+        </h4> 
       </div>
 
       <div className="course-details-tab style-2">
-        <nav>
-          <div className="nav nav-tabs justify-content-start tab-auto itemscroll" id="nav-tab" role="tablist">
-            {course_slug?.subscriptions.map((item, index) => <button className={((each_coures && each_coures.length) ? each_coures[0] : course_slug?.subscriptions[0]?.course?.slug) === item.course?.slug ? "nav-link line active" : "nav-link line"} onClick={() => { liveClasses(item?.course?.slug); setEach_course([item?.course?.slug]) }} id="nav-about-tab" key={index} type="button" role="tab" aria-selected="true">{item?.course?.name}</button>)}
-          </div>
-        </nav>
-      </div>
-     {loading? <div className="container-fluid">
+      <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList
+            onChange={handleChange}
+            variant='scrollable'
+            scrollButtons='auto'
+            aria-label="secondary tabs example"
+            TabIndicatorProps={{style:{background:'#886ffe',color:"#886ffe"}}}
+            >
+            {course_slug?.subscriptions?.map((item, index) =><Tab style={value===item?.course?.slug?{color:"#886ffe"}:{}} label={item?.course?.name} value={(value ===undefined)?course_slug?.subscriptions[0]?.course?.slug:item?.course?.slug} key={index}/>)}
+          </TabList>
+        </Box>
+        <TabPanel value={value}>{loading? <div className="container-fluid">
                     <Loader />
                 </div>:<div className="card mt-4">
         <div className="card-body mr-2">
@@ -120,6 +126,8 @@ const LiveClasses = (props) => {
           </div>
         </div>
       </div>}
+      </TabPanel>
+     </TabContext> </div>
     </div> : <>
       <div className="container-fluid mt-1">
         <div className="tab-content" id="nav-tabContent">
