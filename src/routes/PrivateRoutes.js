@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { isLogin } from "../utils";
+import { LOGIN } from "../route/route";
 
 
 const PrivateRoutes = () => {
@@ -8,7 +9,7 @@ const PrivateRoutes = () => {
     const auth = isLogin()
 
 
-    return auth ? <Outlet /> : <Navigate to="/login" />
+    return( auth ? <Outlet /> : <Navigate to={LOGIN} />)
 
 }
 

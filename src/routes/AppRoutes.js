@@ -1,116 +1,95 @@
 import React, { useContext, useState } from 'react';
 import { Navigate, Route, Routes } from "react-router-dom";
-import Login from "../pages/login/Login";
-import Registration from "../pages/registration/register"
-import CurrentAffairs from '../pages/currentAffairs/currentAffairs';
-import Courses from '../pages/courses/courses';
-import MySubscription from '../pages/mySubscription/mySubscription';
-import LiveClasses from '../pages/liveClasses/liveClasses';
-import TestSeries from '../pages/testSeries/testSeries';
-import StudyMaterial from '../pages/studyMaterial/studyMaterial';
-import PrevYearPapers from '../pages/Prev Year Papers/PrevYearPapers';
-import MyProfile from '../pages/myPfofile/myProfile';
-import Support from '../pages/support/support';
-import CourseCategories from "../pages/mySubscription/subMySubscription/courseCategory/courseCategories";
-import CoursedetailsTwo from "../pages/mySubscription/subMySubscription/coursedetailsTwo/coursedetailsTwo";
-import VideoPannel from "../pages/mySubscription/subMySubscription/videoPannel/videoPannel";
-import Package from '../pages/courses/package/Package';
-import ErrorPage from '../pages/errorpage/ErrorPage';
-import PrivateRoutes from './PrivateRoutes';
-import CourseDetailsOne from '../pages/courses/coursedetailsone/courseDetailsOne';
-import Layout from '../components/Layout/layout';
-import LivePanel from '../pages/liveClasses/livepanel/livePanel';
-import Testseriesexplore from '../pages/testSeries/testexplore/testseriesexplore';
-import TestseriesAttempt from '../pages/mySubscription/subMySubscription/coursedetailsTwo/testseriesAttempt/testseriesAttempt';
-import Testseriesreport from '../pages/mySubscription/subMySubscription/coursedetailsTwo/testseriesreport/testseriesreport';
-import TestSolution from '../pages/mySubscription/subMySubscription/coursedetailsTwo/testseriesreport/testSolution';
-import Forgetpassword from '../pages/login/forgetpassword';
 import { TEST_endPointUrl } from '../common/api/endPointUrl';
 import { Tokens } from '../App';
-import { isLogin, isSubscription} from '../utils';
+import { isLogin, isSubscription } from '../utils';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
+import * as ROUTE from "../route/route"
+import * as view from "../view/view"
+import PrivateRoutes from './PrivateRoutes';
 
 
 function AppRoutes(props) {
     const token = useContext(Tokens)
     const id = localStorage.getItem("eXvctIdv")
-    const { couresPageData,Alldata } = props
+    const { couresPageData, Alldata } = props
     const [profileData, setProfileData] = useState();
-    
+
+
     const ProfileApi = useCallback(() => {
         let isLog = isLogin()
-       if(isLog){
-        fetch(TEST_endPointUrl + `api/student/${id}`, {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        })
-            .then(response => response.json())
-            .then((data) => {
-                if (data?.id) {
-                    setProfileData(data)
+        if (isLog) {
+            fetch(TEST_endPointUrl + `api/student/${id}`, {
+                method: 'GET',
+                headers: {
+                    "Authorization": `Bearer ${token}`
                 }
             })
+                .then(response => response.json())
+                .then((data) => {
+                    if (data?.id) {
+                        setProfileData(data)
+                    }
+                })
         }
-    },[id,token])
-    
-   useEffect(()=>{
-    ProfileApi()
-   },[ProfileApi])
+    }, [id, token])
+
+    useEffect(() => {
+        ProfileApi()
+    }, [ProfileApi])
     return (<>
 
         <Routes>
             <Route path='/react-testing' element={<Navigate to="/" />} />
-            <Route exact path='/' element={<Layout profileData={profileData}/>} >
-                <Route path='/' element={<PrivateRoutes />}>
-                    <Route path='/' element={<Navigate to={isSubscription() ? 'subscription' : 'courses'} />} />
+            <Route exact path={ROUTE.HOME} element={<view.LAYOUT profileData={profileData} />} >
+                <Route path={ROUTE.HOME} element={<PrivateRoutes />}>
+                    <Route path={ROUTE.HOME} element={<Navigate to={isSubscription() ? ROUTE.SUBSCRIPTION : ROUTE.COURSES} />} />
 
-                    <Route exact path={isSubscription() ? '/courses' : 'courses'} element={<PrivateRoutes />}>
-                        <Route index element={<Courses couresPageData={couresPageData} />} />
-                        <Route exact path=':cslug' element={<Package ProfileApi={ProfileApi} />} />
-                        <Route exact path='details/:cdslug' element={<CourseDetailsOne />} />
+                    <Route exact path={isSubscription() ? `/${ROUTE.COURSES}` : ROUTE.COURSES} element={<PrivateRoutes />}>
+                        <Route index element={<view.COURSES couresPageData={couresPageData} />} />
+                        <Route exact path={ROUTE.PACKAGE} element={<view.PACKAGE ProfileApi={ProfileApi} />} />
+                        <Route exact path={ROUTE.COURSE_DETAIL_ONE} element={<view.COURSEDETAILONE />} />
                     </Route>
                     {/* my subscriptions Route */}
-                    <Route path={isSubscription() ? 'subscription' : '/subscription'} element={<PrivateRoutes />} >
-                        <Route index element={<MySubscription couresPageData={couresPageData} profileData={profileData} />} />
-                        <Route path=':slug' element={<PrivateRoutes />} >
-                            <Route index element={<CourseCategories />} />
-                            <Route path=':cslug' element={<PrivateRoutes />} >
-                                <Route index element={<CoursedetailsTwo />} />
-                                <Route path='que/:id/:nameindex/:title' element={<PrivateRoutes />} >
-                                    <Route index element={<TestseriesAttempt />} />
-                                    <Route path='report' element={<PrivateRoutes />} >
-                                        <Route index element={<Testseriesreport />} />
-                                        <Route path='testsolution' element={<TestSolution />} />
+                    <Route path={isSubscription() ? ROUTE.SUBSCRIPTION : `/${ROUTE.SUBSCRIPTION}`} element={<PrivateRoutes />} >
+                        <Route index element={<view.SUBSCRIPTION couresPageData={couresPageData} profileData={profileData} />} />
+                        <Route path={ROUTE.COURSE_CATEGORIES} element={<PrivateRoutes />} >
+                            <Route index element={<view.COURSECATEGORIES />} />
+                            <Route path={ROUTE.COURSE_DEATAIL_TWO} element={<PrivateRoutes />} >
+                                <Route index element={<view.COURSEDEATAILTWO />} />
+                                <Route path={ROUTE.TEST_SERIES_ATTEMPT} element={<PrivateRoutes />} >
+                                    <Route index element={<view.TESTSERIESATTEMPT />} />
+                                    <Route path={ROUTE.TEST_SERIES_REPORT} element={<PrivateRoutes />} >
+                                        <Route index element={<view.TESTSERIESREPORT />} />
+                                        <Route path={ROUTE.TEST_SOLUTION} element={<view.TESTSOLUTION />} />
                                     </Route>
                                 </Route>
-                                <Route path='vid/:vslug' element={<VideoPannel />} />
+                                <Route path={ROUTE.VIDEO_PANNEL} element={<view.VIDEOPANNEL />} />
                             </Route>
                         </Route>
                     </Route>
                     {/* end */}
 
-                    <Route path='/liveclasses' element={<PrivateRoutes />} >
-                        <Route index element={<LiveClasses />} />
-                        <Route path=':lslug' element={<LivePanel />} />
+                    <Route path={ROUTE.LIVE_CLASSES} element={<PrivateRoutes />} >
+                        <Route index element={<view.LIVECLASSES />} />
+                        <Route path={ROUTE.LIVE_PANNEL} element={<view.LIVEPANNEL />} />
                     </Route>
-                    <Route path='/currentAffairs' element={<CurrentAffairs />} />
-                    <Route path='/testseries' element={<PrivateRoutes />}>
-                        <Route index element={<TestSeries />} />
-                        <Route path=':tid' element={<Testseriesexplore />} />
+                    <Route path={ROUTE.CURRENT_AFFAIRS} element={<view.CURRENTAFFAIRS />} />
+                    <Route path={ROUTE.TEST_SERIES} element={<PrivateRoutes />}>
+                        <Route index element={<view.TESTSERIES />} />
+                        <Route path={ROUTE.TEST_SERIES_EXPLORE} element={<view.TESTSERIESEXPLORE />} />
                     </Route>
-                    <Route path='/studymaterial' element={<StudyMaterial />} />
-                    <Route path='/prevyearpapers' element={<PrevYearPapers />} />
-                    <Route path='/myprofile' element={<MyProfile profileData={profileData} ProfileApi={ProfileApi} />} />
-                    <Route path='/support' element={<Support />} />
+                    <Route path={ROUTE.STUDY_MATERIAL} element={<view.STUDYMATERIAL />} />
+                    <Route path={ROUTE.PREV_YEAR_PAPER} element={<view.PREVYEARPAPER />} />
+                    <Route path={ROUTE.MY_PROFILE} element={<view.MYPROFILE profileData={profileData} ProfileApi={ProfileApi} />} />
+                    <Route path={ROUTE.SUPPORT} element={<view.SUPPORT />} />
                 </Route>
             </Route>
-            <Route path='/forgot' element={<Forgetpassword />} />
-            <Route path='/login' element={<Login setProfileData={setProfileData} Alldata={Alldata} />} />
-            <Route path='/registration' element={<Registration />} />
-            <Route path='*' element={<ErrorPage />} />
+            <Route path={ROUTE.FORGOT_PASS} element={<view.FORGOTPASS />} />
+            <Route path={ROUTE.LOGIN} element={<view.LOGIN setProfileData={setProfileData} Alldata={Alldata} />} />
+            <Route path={ROUTE.REGISTRATION} element={<view.REGISTRATION />} />
+            <Route path={ROUTE.ERROR_PAGE} element={<view.ERRORPAGE />} />
         </Routes >
     </>)
 }

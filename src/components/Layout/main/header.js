@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
+import * as ROUTE from "../../../route/route"
 
 
 const Header = (props) => {
@@ -16,14 +16,14 @@ const Header = (props) => {
         localStorage.removeItem("eXvctIdv")
         localStorage.removeItem("userdata")
         sessionStorage.removeItem("CRS")
-        navigate("/login")
+        navigate(ROUTE.LOGIN)
         e.preventDefault()
     }
 
     return (
         <>
             <div className="nav-header bg-black" style={{"width":"15rem"}}>
-                <Link to="/" className="brand-logo" >
+                <Link to={`/${ROUTE.SUBSCRIPTION}`} className="brand-logo" >
                     <img src="https://imagnus.in/images/logo.png" alt='' />
                 </Link>
             </div>
@@ -90,14 +90,14 @@ const Header = (props) => {
                                                 <img src={profileData?.id ? profileData?.dp : profileDp?.dp} width={20} alt="" />
                                             </Link>
                                             <div className={dp ? "dropdown-menu dropdown-menu-end show" : "dropdown-menu dropdown-menu-end"} data-bs-popper={dp ? "none" : ""}>
-                                                <Link to="/myprofile" className="dropdown-item ai-icon" onClick={() => { setDp(!dp) }}>
+                                                <Link to={ROUTE.MY_PROFILE} className="dropdown-item ai-icon" onClick={() => { setDp(!dp) }}>
                                                     <svg id="icon-user2" xmlns="http://www.w3.org/2000/svg" className="text-primary" width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                                                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                                         <circle cx={12} cy={7} r={4} />
                                                     </svg>
                                                     <span className="ms-2">Profile </span>
                                                 </Link>
-                                                <Link to="/subscription" className="dropdown-item ai-icon" onClick={() => { setDp(!dp) }}>
+                                                <Link to={`/${ROUTE.SUBSCRIPTION}`} className="dropdown-item ai-icon" onClick={() => { setDp(!dp) }}>
                                                     <i className="bi-cast text-secondary" />
                                                     <span className="ms-2">My Subscription </span>
                                                 </Link>

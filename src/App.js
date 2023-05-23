@@ -9,7 +9,7 @@ import { useCallback } from 'react';
 
 const Tokens = createContext();
 function App() {
-  
+
   const [token, setToken] = useState()
   const [couresPageData, setCouresPageData] = useState()
 
@@ -41,24 +41,24 @@ function App() {
 
   var Alldata = useCallback(() => {
     let isLog = isLogin()
-    if(isLog){
-     fetch(TEST_endPointUrl + "api/student/get_all_preferences/", {
-       method: 'GET',
-       headers: {
-         'Authorization': 'Bearer ' + token,
-         'Content-Type': 'application/json'
-       }
-     }).then(response => response.json()).then(res => {
-       if (res.length) {
-         setCouresPageData(res)
-       }
-     })
-   };
-   },[token])
+    if (isLog) {
+      fetch(TEST_endPointUrl + "api/student/get_all_preferences/", {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then(response => response.json()).then(res => {
+        if (res.length) {
+          setCouresPageData(res)
+        }
+      })
+    };
+  }, [token])
 
   useEffect(() => {
     Alldata()
-  }, [token,Alldata])
+  }, [token, Alldata])
 
   return (
     <>
