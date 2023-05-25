@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom'
 import Loader from '../../../components/loader/Loader'
 import { AssemblePrefData, SubscriptionPageData } from './js/assembledata'
 import { isSubscription } from '../../../utils'
+import { useDocumentTitle } from '../../../coustomhook'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 
 const MySubscription = (props) => {
+    useDocumentTitle("I-Magnus | Subscriptions")
     const { couresPageData ,profileData } = props
     let issubs = isSubscription()
     couresPageData?.filter(item => item)
@@ -63,9 +67,9 @@ const MySubscription = (props) => {
                                                     <div className="courses-bx">
                                                         <div className="row">
                                                             <div className="col-xl-4 col-md-4">
-                                                                <div className="dlab-media mb-2">
+                                                            {SubscriptionData?.[index]?<div className="dlab-media mb-2">
                                                                     <img src={SubscriptionData?.[index]?.web_icon} alt="img" />
-                                                                </div>
+                                                                </div>:<Skeleton borderRadius={10} highlightColor='#ccccff' height={235} width={313}/>}
                                                             </div>
                                                             <div className="col-xl-8 col-md-8">
                                                                 <div className="dlab-info">
@@ -123,9 +127,9 @@ const MySubscription = (props) => {
                                                     <div className="d-flex justify-content-between content align-items-center">
                                                         <h5><i className="bi-patch-exclamation-fill text-danger" /> <span className="text-danger">Expired at:</span>
                                                             &nbsp;  {new Date(ele?.expiry_date).toDateString()}</h5>
-                                                        <Link to={`${ele?.course?.slug}`} className="btn btn-primary btn-sm">
+                                                            {SubscriptionData?.[index]?<Link to={`${ele?.course?.slug}`} className="btn btn-primary btn-sm">
                                                             <i className="bi-emoji-heart-eyes"> View Course </i>
-                                                        </Link>
+                                                        </Link>:<Skeleton borderRadius={10} highlightColor='#ccccff' height={30} width={120}/>}
                                                     </div>
                                                 </div>
                                             </div>

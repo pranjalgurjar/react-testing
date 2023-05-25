@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import { useDocumentTitle } from '../../../coustomhook'
 const Support = () => {
+    useDocumentTitle("I-magnus | Support")
     const[tab1,setTab1] = useState(true)
     const[tab2,setTab2] = useState(false)
     const[tab3,setTab3] = useState(false)

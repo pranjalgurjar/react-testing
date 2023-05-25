@@ -7,9 +7,11 @@ import { regExpMobile } from '../../../RegExp/RegExp';
 import Image1 from './images/3.gif';
 import bgImg from "./images/bg-1.jpg"
 import { FORGOT_PASS, HOME, REGISTRATION } from '../../../route/route';
+import { useDocumentTitle } from '../../../coustomhook';
 
 
 function Login(props) {
+    useDocumentTitle("I-Magnus | Login")
     let {setProfileData,Alldata } = props
     const navigate = useNavigate()
     const [isSubmitted, setIsSubmitted] = useState(false);

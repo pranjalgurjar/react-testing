@@ -7,16 +7,25 @@ import { isSubscription } from '../../../utils'
 import Loader from '../../../components/loader/Loader'
 import { Box, Tab} from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { useDocumentTitle } from '../../../coustomhook'
 
 
 const LiveClasses = (props) => {
-
+  useDocumentTitle("I-Magnus | Live Classes")
   let issubs = isSubscription()
   const token = useContext(Tokens)
   const [live, setLive] = useState()
   const [loading,setloading] = useState(false)
   const course_slug = JSON.parse(localStorage.getItem("userdata"))
   const [value, setValue] = useState(course_slug?.subscriptions[0]?.course?.slug)
+  // remove duplicates from subscriptions
+  var dps = {}
+  const subscription_plan = course_slug?.subscriptions?.filter((item)=>{ 
+    let hash = item?.course?.id
+    let isdup = dps[hash]
+    dps[hash] = true
+    return !isdup
+  });
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -64,7 +73,7 @@ const LiveClasses = (props) => {
             aria-label="secondary tabs example"
             TabIndicatorProps={{style:{background:'#886ffe',color:"#886ffe"}}}
             >
-            {course_slug?.subscriptions?.map((item, index) =><Tab style={value===item?.course?.slug?{color:"#886ffe"}:{}} label={item?.course?.name} value={(value ===undefined)?course_slug?.subscriptions[0]?.course?.slug:item?.course?.slug} key={index}/>)}
+            {subscription_plan && subscription_plan?.map((item, index) =><Tab style={value===item?.course?.slug?{color:"#886ffe"}:{}} label={item?.course?.name} value={(value ===undefined)?course_slug?.subscriptions[0]?.course?.slug:item?.course?.slug} key={index}/>)}
           </TabList>
         </Box>
         <TabPanel value={value}>{loading? <div className="container-fluid">

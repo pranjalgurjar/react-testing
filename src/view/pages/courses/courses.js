@@ -1,9 +1,11 @@
 import {useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import Loader from "../../../components/loader/Loader"
+import { useDocumentTitle } from "../../../coustomhook"
 
 
 const Courses = (props) => {
+    useDocumentTitle("I-Magnus | Courses")
     const {couresPageData} = props
     const [All_prefences, setAll_prefences] = useState()
     const [each_prefrence, setEachprefrence] = useState()
@@ -92,7 +94,7 @@ const Courses = (props) => {
                                             </div>
                                             <div className="card-footer">
                                                 <div className="d-flex justify-content-between content align-items-center">
-                                                    <Link onClick={() => { localStorage.setItem("course_data", JSON.stringify(item)) }} to={`details/${item?.slug}`} className="btn btn-warning btn-sm">
+                                                    <Link onClick={()=>{ localStorage.setItem("course_data", JSON.stringify(item)) }} to={`details/${item?.slug}`} className="btn btn-warning btn-sm">
                                                         <i className="bi-view-list"></i> Explore </Link>
                                                     <Link to={`${item?.slug}`} className="btn btn-primary btn-sm" onClick={() => { sessionStorage.setItem("CRS", JSON.stringify(item)) }}>
                                                         <i className="bi-cart3"></i> Buy Now </Link>

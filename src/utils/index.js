@@ -39,6 +39,7 @@ export const pathName = () => {
 	} else if (name.includes("/support")) {
 		return "support"
 	}
+	
 }
 
 /* for url checking is subscription available or not   */
