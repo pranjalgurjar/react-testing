@@ -21,7 +21,7 @@ const MySubscription = (props) => {
     const [myCourseTab, setMyCourseTab] = useState(true)
     const [testSeriesTab, setTestSeriesTab] = useState(false)
     const [studyMaterialTab, setStudyMaterialTab] = useState(false)
-console.log(SubscriptionData);
+
     const SliderTab = (id) => {
         if (id === "mycourse") {
             setMyCourseTab(true)
