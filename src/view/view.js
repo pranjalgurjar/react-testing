@@ -22,3 +22,6 @@ export {default as TESTSERIESREPORT} from "./pages/mySubscription/subMySubscript
 export {default as TESTSOLUTION} from "./pages/mySubscription/subMySubscription/coursedetailsTwo/testseriesreport/testSolution";
 export {default as FORGOTPASS} from "./pages/login/forgetpassword";
 export {default as SUBSCRIPTION} from "./pages/mySubscription/mySubscription";
+export {default as VIDEO_LECTURES} from "./pages/mySubscription/subMySubscription/coursedetailsTwo/videoLectures"
+export {default as TEST_SERIES_TAB} from "./pages/mySubscription/subMySubscription/coursedetailsTwo/testSeriesTab"
+export {default as PDF_NOTES_TAB} from "./pages/mySubscription/subMySubscription/coursedetailsTwo/PdfNotesTab"

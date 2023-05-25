@@ -7,16 +7,15 @@ import degree from "./images/svg/degree-certificate.svg"
 import microscope from "./images/svg/microscope.svg"
 import cup from "./images/svg/cup.svg"
 import education from "./images/svg/education-website.svg"
-import planet from "./images/svg/planet.svg"
-import skill from "./images/svg/skill.svg"
-import readingtime from "./images/svg/readingtime.svg"
-import puzzle from "./images/svg/puzzle.svg"
 import { isSubscription } from "../../../utils";
 import { useEffect } from "react";
 import { SUBSCRIPTION } from "../../../route/route";
+import { useDocumentTitle } from "../../../coustomhook";
+import ProfileCard from "./ProfileCard";
 
 let postsPerPage = 5
 const MyProfile = (props) => {
+    useDocumentTitle("I-Magnus | MyProfile")
     const { profileData, ProfileApi } = props
     let issubs = isSubscription()
     const mypro = JSON.parse(localStorage.getItem("userdata"))
@@ -143,55 +142,7 @@ const MyProfile = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-xl-4 col-xxl-4">
-                        <div className="card instructors-box h-auto">
-                            <div className="card-body">
-                                <div className="instructors-media mt-3">
-                                    <div className="instructors-media-info text-center mt-4">
-                                        <img src={profileData?.dp} alt="" />
-                                        <ul className="list-group list-group-flush mt-4">
-                                            <li className="list-group-item d-flex px-0 justify-content-between">
-                                                <strong>Student</strong>
-                                                <span className="mb-0">{profileData?.fullname}</span>
-                                            </li>
-                                            <li className="list-group-item d-flex px-0 justify-content-between">
-                                                <strong>Mobile</strong>
-                                                <span className="mb-0">{profileData?.mobile}</span>
-                                            </li>
-                                            <li className="list-group-item d-flex px-0 justify-content-between">
-                                                <strong>Email</strong>
-                                                <span className="mb-0">{profileData?.email}</span>
-                                            </li>
-                                            <li className="list-group-item d-flex px-0 justify-content-between">
-                                                <strong>Member Since</strong>
-                                                <span className="mb-0">{new Date(profileData?.created_at).toDateString()}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="achievements ">
-                                    <div className="card-schedule mb-4">
-                                        <div className="d-flex justify-content-between content align-items-center">
-                                            <button className="btn btn-primary btn-sm text-left"
-                                                onClick={handleEditClick}>
-                                                <i className="bi-pencil-square"></i> Edit details
-                                            </button>
-
-                                        </div>
-                                    </div>
-
-                                    <h4 className="text-start mb-4">Achievements</h4>
-                                    <div className="achievements-content flex-wrap">
-                                        <span><img src={planet} alt="" /></span>
-                                        <span><img src={skill} alt="" /></span>
-                                        <span><img src={readingtime} alt="" /></span>
-                                        <span><img src={puzzle} alt="" /></span>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                   <ProfileCard profileData={profileData} handleEditClick={handleEditClick} />
                     <div className="col-xl-12 col-xxl-12">
                         <div className="card students-list h-auto">
                             <div className="card-body pt-2">

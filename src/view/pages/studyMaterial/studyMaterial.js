@@ -1,6 +1,8 @@
 import React from 'react'
+import { useDocumentTitle } from '../../../coustomhook'
 
 const StudyMaterial = () => {
+    useDocumentTitle("I-magnus | Study Material")
     return (
         <>
             <div className="container-fluid">

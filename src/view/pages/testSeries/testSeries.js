@@ -5,8 +5,10 @@ import { TEST_endPointUrl } from '../../../common/api/endPointUrl';
 import Loader from '../../../components/loader/Loader';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Box, Tab } from '@mui/material';
+import { useDocumentTitle } from '../../../coustomhook';
 
 const TestSeries = () => {
+    useDocumentTitle("I-Magnus | Test Series")
     const token = useContext(Tokens)
     const studentID = localStorage.getItem("eXvctIdv")
     const [prefrence, setPrefrence] = useState()

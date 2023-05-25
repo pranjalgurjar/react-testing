@@ -176,7 +176,7 @@ const TestSeriesAttempt = () => {
                 window.history.pushState(null, null, window.location.href)
             }
         }
-        window.history.pushState(null, null, window.location.pathname); // preventing back initially
+        window.history.pushState(null, document.title, window.location.pathname); // preventing back initially
         window.addEventListener('popstate', confirmBack);
         return () => { window.removeEventListener('popstate', confirmBack) };
 

@@ -74,16 +74,16 @@ const Module = (props) => {
                         <form onSubmit={update} >
                             <div className="mb-3">
                                 <label className="mb-2"><strong>Student Name</strong></label>
-                                <input type="text" className="form-control" placeholder="Enter Student Name" value={currentUser?.fullname} name="fullname" onChange={handleChange} />
+                                <input type="text" className="form-control" placeholder="Enter Student Name" value={currentUser && currentUser?.fullname} name="fullname" onChange={handleChange} />
                                 <label className="errorfield"><strong>{nameErr}</strong></label>
                             </div>
                             <div className="mb-3">
                                 <label className="mb-2"><strong>Mobile Number</strong></label>
-                                <input type="tel" className="form-control text-danger" placeholder="Enter Mobile Number" value={currentUser?.mobile} name="mobile" disabled />
+                                <input type="tel" className="form-control text-danger" placeholder="Enter Mobile Number" value={currentUser && currentUser?.mobile} name="mobile" disabled />
                             </div>
                             <div className="mb-3">
                                 <label className="mb-2"><strong>Email</strong></label>
-                                <input type="email" className="form-control" placeholder="Enter Emial Id" value={currentUser?.email} name="email" onChange={handleChange} />
+                                <input type="email" className="form-control" placeholder="Enter Emial Id" value={currentUser && currentUser?.email} name="email" onChange={handleChange} />
                                 <label className="errorfield"><strong>{emailErr}</strong></label>
                             </div>{isUpdate?<div className="text-center text-primary">
                                                         <div className="spinner-border" role="status">
