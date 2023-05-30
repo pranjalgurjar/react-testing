@@ -25,3 +25,6 @@ export {default as SUBSCRIPTION} from "./pages/mySubscription/mySubscription";
 export {default as VIDEO_LECTURES} from "./pages/mySubscription/subMySubscription/coursedetailsTwo/videoLectures"
 export {default as TEST_SERIES_TAB} from "./pages/mySubscription/subMySubscription/coursedetailsTwo/testSeriesTab"
 export {default as PDF_NOTES_TAB} from "./pages/mySubscription/subMySubscription/coursedetailsTwo/PdfNotesTab"
+export {default as HEADER} from "../components/Layout/header"
+export {default as SIDEBAR} from "../components/Layout/sidebar"
+export {default as FOOTER} from "../components/Layout/footer"

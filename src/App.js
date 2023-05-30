@@ -1,64 +1,57 @@
 import './App.css';
 import AppRoutes from './routes/AppRoutes';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { TEST_endPointUrl } from './common/api/endPointUrl';
 import { createContext } from "react"
-import { isLogin } from './utils';
+import { isLogin } from './utils/index';
 import { useCallback } from 'react';
+import axiosClient from "./webServices/webservice"
+import { webUrls } from './webServices/webUrls';
+
 
 const Tokens = createContext();
 function App() {
 
-  const [token, setToken] = useState()
-  const [couresPageData, setCouresPageData] = useState()
+  const [token, setToken] = useState(null)
+  const [couresPageData, setCouresPageData] = useState([])
 
 
   useEffect(() => {
-    const Token = () => {
+    const Token = async () => {
       const data = new FormData();
       data.append('username', 'ImagnusAPIs');
       data.append('password', '5EFGJd6m');
-
-      const config = {
-        method: 'post',
-        url: TEST_endPointUrl + 'api/student/v2/auth/token/',
-        data: data
-      };
-
-      axios(config)
-        .then((response) => {
-          if (response.data.access_token) {
-            setToken(response.data.access_token)
-          }
-        })
-        .catch((error) => {
-          // console.log(error);
-        });
+      try {
+        let response = await axiosClient.post(webUrls.TOKEN_URL, data)
+        if (response.data.access_token) {
+          setToken(response.data.access_token)
+        }
+      } catch (e) {
+        // console.log(e)
+      }
     }
     Token()
   }, [token])
 
-  var Alldata = useCallback(() => {
+  var Alldata = useCallback(async () => {
     let isLog = isLogin()
-    if (isLog) {
-      fetch(TEST_endPointUrl + "api/student/get_all_preferences/", {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer ' + token,
-          'Content-Type': 'application/json'
+    if (isLog && token) {
+      const headers = {
+        'Authorization': 'Bearer ' + token,
+      }
+      try {
+        let response = await axiosClient.get(webUrls.ALL_PREFRENCE_URL, { headers: headers })
+        if (response.data.length) {
+          setCouresPageData(response.data)
         }
-      }).then(response => response.json()).then(res => {
-        if (res.length) {
-          setCouresPageData(res)
-        }
-      })
+      } catch (e) {
+        // console.log(e);
+      }
     };
   }, [token])
 
   useEffect(() => {
     Alldata()
-  }, [token, Alldata])
+  }, [Alldata, token])
 
   return (
     <>

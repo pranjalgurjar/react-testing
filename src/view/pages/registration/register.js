@@ -1,7 +1,6 @@
-import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { TEST_endPointUrl } from '../../../common/api/endPointUrl'
+import axiosClient from "../../../webServices/webservice"
 import "./res.scss";
 import { Tokens } from '../../../App';
 import { regExpEmail, regExpMobile, regExpName, regExpPassword } from '../../../RegExp/RegExp';
@@ -9,6 +8,7 @@ import Image1 from './images/3.gif';
 import bgImg from "./images/bg-1.jpg"
 import { LOGIN } from '../../../route/route';
 import { useDocumentTitle } from '../../../coustomhook';
+import { webUrls } from '../../../webServices/webUrls'
 
 const Registration = () => {
     useDocumentTitle("I-Magnus | Registration")
@@ -106,41 +106,36 @@ const Registration = () => {
         })
     };
 
-    const resData = () => {
+    const resData = async () => {
+        let data = JSON.stringify({
+            "fullname": nam,
+            "mobile": mob,
+            "email": ema,
+            "password": pass,
+        })
 
-        var config = {
-            method: 'POST',
-            url: TEST_endPointUrl + 'api/student/register',
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
-            },
-            data: JSON.stringify({
-                "fullname": nam,
-                "mobile": mob,
-                "email": ema,
-                "password": pass,
-            })
-        };
-        axios(config)
-            .then((response) => {
-                if (response.data.status) {
-                    setUser(response.data)
-                    setTimeout(() => {
-                        navigate(LOGIN);
-                    }, 3000)
-                    setMsg(false)
-                    setServerError(false)
-                } else {
-                    setMsg(true)
-                    setServerError(true)
-                    setUser(response.data)
+        try {
+            let response = await axiosClient.post(webUrls.REGISTRATION_URL, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 }
-
             })
-            .catch(function (error) {
-                // console.log(error);
-            });
+            if (response.data.status) {
+                setUser(response.data)
+                setTimeout(() => {
+                    navigate(LOGIN);
+                }, 3000)
+                setMsg(false)
+                setServerError(false)
+            } else {
+                setMsg(true)
+                setServerError(true)
+                setUser(response.data)
+            }
+        } catch (e) {
+            // console.log(e);
+        }
     }
     return (
         <div style={{ backgroundImage: `url(${bgImg})`, backgroundSize: 'cover', height: "70rem" }}>
@@ -164,22 +159,22 @@ const Registration = () => {
                                             <form className="mt-4" onSubmit={onSubmit}>
                                                 <div className="mb-2">
                                                     <label className="mb-2"><strong>Full Name</strong></label>
-                                                    <input type="text" className="form-control" maxLength={25} name='fullname' value={state.fullname} placeholder="Enter Full Name" onChange={formValChange} required />
+                                                    <input type="text" className="form-control" maxLength={25} name='fullname' value={nam} placeholder="Enter Full Name" onChange={formValChange} required />
                                                     <label className="errorfield"><strong>{state.isError.fullname}</strong></label>
                                                 </div>
                                                 <div className="mb-2">
                                                     <label className="mb-2"><strong>Mobile Number</strong></label>
-                                                    <input type="tel" className="form-control" name='mobile' maxLength={10} value={state.mobile} placeholder="Enter Mobile Number" onChange={formValChange} required />
+                                                    <input type="tel" className="form-control" name='mobile' maxLength={10} value={mob} placeholder="Enter Mobile Number" onChange={formValChange} required />
                                                     <label className="errorfield"><strong>{state.isError.mobile}</strong></label>
                                                 </div>
                                                 <div className="mb-2">
                                                     <label className="mb-2"><strong>Email</strong></label>
-                                                    <input type="email" className="form-control" maxLength={25} name='email' value={state.email} placeholder="Enter Emial Id" onChange={formValChange} required />
+                                                    <input type="email" className="form-control" maxLength={25} name='email' value={ema} placeholder="Enter Emial Id" onChange={formValChange} required />
                                                     <label className="errorfield"><strong>{state.isError.email}</strong></label>
                                                 </div>
                                                 <div className="mb-2">
                                                     <label className="mb-2"><strong>Password</strong></label>
-                                                    <input type="password" className="form-control" maxLength={18} name='password' value={state.password} placeholder="Enter Password" onChange={formValChange} required />
+                                                    <input type="password" className="form-control" maxLength={18} name='password' value={pass} placeholder="Enter Password" onChange={formValChange} required />
                                                     <label className="errorfield"><strong>{state.isError.password}</strong></label>
                                                 </div>
                                                 <div className="mt-1">

@@ -9,11 +9,10 @@ export const AssemblePrefData = (couresPageData) => {
 
 
  export const SubscriptionPageData = (data) => {
-	let BS = JSON.parse(localStorage.getItem("userdata"))
-    let BuySubscriptions = BS?.subscriptions
+	let BS = JSON.parse(localStorage.getItem("user_subscription"))
 	let sub = []
-	for (let index = 0; index < BuySubscriptions?.length; index++) {
-		let element = BuySubscriptions[index].course?.id;
+	for (let index = 0; index < BS?.length; index++) {
+		let element = BS[index].course?.id;
 		let ele = data?.find(item => item?.id === element)
 		sub?.push(ele)
 	}

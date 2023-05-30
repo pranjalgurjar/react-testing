@@ -1,18 +1,20 @@
-import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Tokens } from '../../../../../App'
-import { TEST_endPointUrl } from '../../../../../common/api/endPointUrl'
+import axiosClient from "../../../../../webServices/webservice"
 import Loader from '../../../../../components/loader/Loader'
 import { ProtectUrl } from '../../../../../utils'
 import * as view from "../../../../view"
 import Modal from './modal'
+import { COURSES, SUBSCRIPTION } from '../../../../../route/route'
+import { webUrls } from '../../../../../webServices/webUrls'
 
 const CoursedetailsTwo = () => {
     const navigate = useNavigate()
     const { slug, cslug } = useParams()
     const token = useContext(Tokens)
     const [modal, setModal] = useState()
+    const [loading, setLoading] = useState(false)
     const [indexdata, setIndexdata] = useState()
     const [details, setDetails] = useState()
     const [getSearchData, setGetSearchData] = useState()
@@ -21,8 +23,8 @@ const CoursedetailsTwo = () => {
     const [pdfNotesTab, setPdfNotesTab] = useState(false)
     const [testSeriesTab, setTestSeriesTab] = useState(false)
     const [testSrModelShow, setTestSrModelShow] = useState(false)
-    const user = JSON.parse(localStorage.getItem("userdata"))
-    const myId = user?.id
+    const user = JSON.parse(localStorage.getItem("user_data"))
+    const myId = localStorage.getItem("eXvctIdv")
 
     const handleclick = (data, index) => {
         setModal(data)
@@ -31,38 +33,36 @@ const CoursedetailsTwo = () => {
     }
 
     useEffect(() => {
-        const response = () => {
-            if (ProtectUrl(slug)) {
-                var data = JSON.stringify({
-                    mobile: user.mobile
-                });
-                var config = {
-                    method: 'post',
-                    url: TEST_endPointUrl + 'api/student/course_category/' + slug + "/" + cslug + "/" + myId + "/",
-
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                        'Content-Type': 'application/json'
-                    },
-                    data: data
-                };
-                axios(config)
-                    .then((response) => {
-                        setGetSearchData(response?.data?.Lectures)
-                        setDetails(response?.data)
-                    })
-                    .catch(function (error) {
-                        // console.log(error);
-                    });
-            } else {
-                navigate(`/courses/${slug}`)
+        if (token) {
+            const CourseCategory = async () => {
+                if (ProtectUrl(slug)) {
+                    setLoading(true)
+                    try {
+                        let data = JSON.stringify({
+                            mobile: user.mobile
+                        });
+                        let response = await axiosClient.post(`${webUrls.COURSE_CATEGORY_URL}/${slug}/${cslug}/${myId}/`, data, {
+                            headers: {
+                                'Authorization': 'Bearer ' + token,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        if (response.status === 200) {
+                            setLoading(false)
+                            setGetSearchData(response?.data?.Lectures)
+                            setDetails(response?.data)
+                        }
+                    } catch (e) {
+                        console.log(e);
+                    }
+                } else {
+                    navigate(`/${COURSES}/${slug}`)
+                }
             }
+            CourseCategory()
         }
-        response()
     }, [token, slug, cslug, myId, user.mobile, navigate])
 
-   
-    // console.log(details);
 
     const LecturesData = () => {
         setGetSearchData({ Data: details?.Lectures, cat_name: "CategoryLectures" })
@@ -105,12 +105,11 @@ const CoursedetailsTwo = () => {
         }
 
     }
-    // console.log(searchData,"sea");
     return (<>
         <div className="container-fluid">
             <ol className="breadcrumb">
                 <li className="breadcrumb-item active">
-                    <Link to={`/subscription/${slug}`} className="d-flex align-self-center">
+                    <Link to={`/${SUBSCRIPTION}/${slug}`} className="d-flex align-self-center">
                         <svg width={25} height={25} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8.99981 12C8.99905 11.8684 9.02428 11.7379 9.07404 11.6161C9.12381 11.4942 9.19713 11.3834 9.28981 11.29L13.2898 7.28999C13.4781 7.10168 13.7335 6.9959 13.9998 6.9959C14.2661 6.9959 14.5215 7.10168 14.7098 7.28999C14.8981 7.47829 15.0039 7.73369 15.0039 7.99999C15.0039 8.26629 14.8981 8.52168 14.7098 8.70999L11.4098 12L14.6998 15.29C14.8636 15.4813 14.9492 15.7274 14.9395 15.979C14.9298 16.2307 14.8255 16.4695 14.6474 16.6475C14.4693 16.8256 14.2305 16.93 13.9789 16.9397C13.7272 16.9494 13.4811 16.8638 13.2898 16.7L9.28981 12.7C9.10507 12.5137 9.00092 12.2623 8.99981 12Z" fill="#374557" />
                         </svg> Back
@@ -149,7 +148,7 @@ const CoursedetailsTwo = () => {
                                         </div>
                                     </div>
                                 </nav>
-                                {((details && details?.Lectures?.length) || (details && details?.Notes?.length) || (details && details?.TestSeries?.length)) ? <>
+                                {!loading ? <>
                                     <div className="tab-content" id="nav-tabContent">
                                         <view.VIDEO_LECTURES details={details} videoLecturesTab={videoLecturesTab} searchData={searchData} />
                                         <view.PDF_NOTES_TAB details={details} pdfNotesTab={pdfNotesTab} searchData={searchData} />

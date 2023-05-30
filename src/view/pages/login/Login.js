@@ -1,18 +1,18 @@
-import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { TEST_endPointUrl } from '../../../common/api/endPointUrl'
 import { Tokens } from '../../../App';
 import { regExpMobile } from '../../../RegExp/RegExp';
 import Image1 from './images/3.gif';
 import bgImg from "./images/bg-1.jpg"
 import { FORGOT_PASS, HOME, REGISTRATION } from '../../../route/route';
 import { useDocumentTitle } from '../../../coustomhook';
+import { webUrls } from '../../../webServices/webUrls';
+import axiosClient from '../../../webServices/webservice';
 
 
 function Login(props) {
     useDocumentTitle("I-Magnus | Login")
-    let {setProfileData,Alldata } = props
+    let { setProfileData, Alldata } = props
     const navigate = useNavigate()
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [passShow, setPassShow] = useState(false);
@@ -90,39 +90,35 @@ function Login(props) {
         })
     };
     // for login Api fetch
-    const saveData = () => {
+    const saveData = async () => {
+
         const data = JSON.stringify({ "mobile": mob, "password": pass })
-        var config1 = {
-            method: 'post',
-            url: TEST_endPointUrl + 'api/student/login',
-            headers: {
-
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
-            },
-            data: data
-        };
-        axios(config1)
-            .then((response) => {
-                if (response.data.status) {
-                    setProfileData(response.data.message)
-                    setServerError(false)
-                    localStorage.setItem("eXvctIdv", response.data.message.id)
-                    localStorage.setItem("userdata", JSON.stringify(response.data.message))
-                    navigate(HOME);
-                    Alldata()
-                    setIsSubmitted(false)
-                } else {
-                    setIsSubmitted(false)
-                    setUser(response.data)
-                    setMsg(true);
-                    setServerError(true)
+        try {
+            let response = await axiosClient.post(webUrls.LOGIN_URL, data, {
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
                 }
-
-            }).catch((error) => {
+            })
+            if (response.data.status) {
+                setProfileData(response.data.message)
+                setServerError(false)
+                localStorage.setItem("eXvctIdv", response?.data?.message?.id)
+                localStorage.setItem("user_data", JSON.stringify({ mobile: response?.data?.message?.mobile, name: response?.data?.message?.fullname, email: response?.data?.message?.email }))
+                localStorage.setItem("user_subscription", JSON.stringify(response?.data?.message?.subscriptions))
+                localStorage.setItem("is_subscription", JSON.stringify(response?.data?.message?.subscriptions?.length))
+                navigate(HOME);
+                Alldata()
                 setIsSubmitted(false)
-                // console.log("error", error);
-            });
+            } else {
+                setIsSubmitted(false)
+                setUser(response.data)
+                setMsg(true);
+                setServerError(true)
+            }
+        } catch (e) {
+            setIsSubmitted(false)
+        }
     }
 
     return (

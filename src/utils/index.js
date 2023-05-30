@@ -6,11 +6,20 @@ export const isLogin = () => {
     return false;
 }
 
+// for logOut function
+export const LogOut = (params)=> {
+	localStorage.removeItem("eXvctIdv")
+	localStorage.removeItem("user_data")
+	localStorage.removeItem("user_subscription")
+	sessionStorage.removeItem("CRS")
+	localStorage.removeItem("is_subscription")
+}
+
+
  // for client requirement, if user has subscription then show scription page otherwise show buy course page
  export const isSubscription = () => {
-    let userdata = JSON.parse(localStorage.getItem("userdata"))
-    let subst = userdata?.subscriptions
-	if(subst?.length){
+    let subscription = JSON.parse(localStorage.getItem("is_subscription"))
+	if(subscription>0){
 		return true;
 	}else{
 		 return false
@@ -38,14 +47,16 @@ export const pathName = () => {
 		return "myprofile"
 	} else if (name.includes("/support")) {
 		return "support"
+	}else if(name.includes(" ")){
+    return isSubscription()?"subscription":"courses"
 	}
 	
 }
 
 /* for url checking is subscription available or not   */
 export const ProtectUrl = (slug)=>{
-let user = JSON.parse(localStorage.getItem("userdata"))
-const issubscrip = user?.subscriptions?.filter(item=>item?.course?.slug===slug)
+let user = JSON.parse(localStorage.getItem("user_subscription"))
+const issubscrip = user?.filter(item=>item?.course?.slug===slug)
 if(issubscrip?.length){
 	return true
 }else{

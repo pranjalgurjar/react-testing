@@ -1,11 +1,11 @@
-import axios from 'axios'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { TEST_endPointUrl } from '../../../../../../common/api/endPointUrl'
+import axiosClient from "../../../../../../webServices/webservice"
 import Button from 'react-bootstrap/Button';
 import Modale from './module';
 import { Tokens } from '../../../../../../App';
 import { ProtectUrl } from '../../../../../../utils';
+import { webUrls } from '../../../../../../webServices/webUrls'
 
 
 const TestSeriesAttempt = () => {
@@ -81,32 +81,29 @@ const TestSeriesAttempt = () => {
     /* test timer function*/
 
     useEffect(() => {
-        const testData = () => {
-            if (ProtectUrl(slug)) {
-                var config = {
-                    method: 'get',
-                    url: TEST_endPointUrl + 'api/student/test_series/' + id + "/",
-                    headers: {
-                        'Authorization': 'Bearer ' + token
+        if (token) {
+            const testData = async () => {
+                if (ProtectUrl(slug)) {
+                    try {
+                        let response = await axiosClient.get(`${webUrls.TESTSERIES_URL}/${id}/`, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                        if (response.status === 200) {
+                            setStudent(response.data)
+                            setTime(response.data[0].time_duration)
+                        }
+                    } catch (e) {
+                        console.log(e);
                     }
-                };
-                axios(config)
-                    .then(function (response) {
-                        setStudent(response.data)
-                        setTime(response.data[0].time_duration)
-                        // console.log(response.data[0].time_duration, "tttt")
-
-                    })
-                    .catch(function (error) {
-                        // console.log(error);
-                    })
-            } else {
-                navigate(`/courses/${slug}`)
+                } else {
+                    navigate(`/courses/${slug}`)
+                }
             }
+            testData()
+            clearTimer(getDeadTime());
         }
-        testData()
-        clearTimer(getDeadTime());
-
     }, [time, id, token, slug, navigate, clearTimer, getDeadTime])
 
     /* test testAttempt function*/

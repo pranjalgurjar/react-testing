@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { Navigate, Route, Routes } from "react-router-dom";
-import { TEST_endPointUrl } from '../common/api/endPointUrl';
+import axiosClient from "../webServices/webservice"
 import { Tokens } from '../App';
-import { isLogin, isSubscription } from '../utils';
+import { isLogin, isSubscription } from '../utils/index';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
 import * as ROUTE from "../route/route"
 import * as view from "../view/view"
 import PrivateRoutes from './PrivateRoutes';
+import { webUrls } from '../webServices/webUrls';
 
 
 function AppRoutes(props) {
@@ -17,21 +18,22 @@ function AppRoutes(props) {
     const [profileData, setProfileData] = useState();
 
 
-    const ProfileApi = useCallback(() => {
+    const ProfileApi = useCallback(async () => {
         let isLog = isLogin()
-        if (isLog) {
-            fetch(TEST_endPointUrl + `api/student/${id}`, {
-                method: 'GET',
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            })
-                .then(response => response.json())
-                .then((data) => {
-                    if (data?.id) {
-                        setProfileData(data)
+        if (isLog && token) {
+            try {
+                let response = await axiosClient.get(`${webUrls.PROFILE_URL}${id}`, {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
                     }
                 })
+                if (response?.data?.id) {
+                    localStorage.setItem("user_subscription", JSON.stringify(response?.data?.subscriptions))
+                    setProfileData(response?.data)
+                }
+            } catch (e) {
+                // console.log(e)
+            }
         }
     }, [id, token])
 
@@ -48,7 +50,7 @@ function AppRoutes(props) {
 
                     <Route exact path={isSubscription() ? `/${ROUTE.COURSES}` : ROUTE.COURSES} element={<PrivateRoutes />}>
                         <Route index element={<view.COURSES couresPageData={couresPageData} />} />
-                        <Route exact path={ROUTE.PACKAGE} element={<view.PACKAGE ProfileApi={ProfileApi} />} />
+                        <Route exact path={ROUTE.PACKAGE} element={<view.PACKAGE ProfileApi={ProfileApi} couresPageData={couresPageData} />} />
                         <Route exact path={ROUTE.COURSE_DETAIL_ONE} element={<view.COURSEDETAILONE />} />
                     </Route>
                     {/* my subscriptions Route */}

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Tokens } from '../../../../App'
-import { TEST_endPointUrl } from '../../../../common/api/endPointUrl'
+import { TEST_endPointUrl } from '../../../../ApiBaseUrl/endPointUrl'
 
 const Testseriesexplore = () => {
 	const token = useContext(Tokens)
@@ -23,7 +23,7 @@ const Testseriesexplore = () => {
 					bundle_id: tid,
 					student_id: studentID
 				})
-			}).then(response => response.json()).then(result => setExploreData(result)).catch(err =>{ 
+			}).then(response => response.json()).then(result => setExploreData(result)).catch(err => {
 				console.log(err)
 			})
 		}

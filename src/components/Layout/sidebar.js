@@ -7,18 +7,18 @@ import { COURSES, CURRENT_AFFAIRS, LIVE_CLASSES, MY_PROFILE, PREV_YEAR_PAPER, ST
 
 
 function Sidebar(props) {
-    const { pathname,setPathname } = props
+    const { pathname, setPathname } = props
 
-    useEffect(()=>{
-        window.onpopstate = ()=>{
-          let nn =  pathName()
-          setPathname(nn)
+    useEffect(() => {
+        window.onpopstate = () => {
+            let nn = pathName()
+            setPathname(nn)
         }
-        window.onclick = ()=>{
-          let nn =  pathName()
-          setPathname(nn)
+        window.onclick = () => {
+            let nn = pathName()
+            setPathname(nn)
         }
-      },[setPathname])
+    }, [setPathname])
 
 
     return (

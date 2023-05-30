@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { TEST_endPointUrl } from '../../../../common/api/endPointUrl'
+import axiosClient from "../../../../webServices/webservice"
 import { Tokens } from '../../../../App'
 import { ProtectUrl } from '../../../../utils'
-
+import { webUrls } from '../../../../webServices/webUrls'
 
 const LivePanel = () => {
 
@@ -13,33 +13,34 @@ const LivePanel = () => {
 	const liveClasses = JSON.parse(sessionStorage.getItem("li_ve"))
 	const [live_video, setLive_video] = useState([])
 	const [playlist, setPlaylist] = useState()
-	// console.log(live_video, "l")
-	// console.log(liveClasses)
 
 
-	const livepanel = useCallback((slug) => {
+	const livepanel = useCallback(async (slug) => {
 		if (ProtectUrl(slug)) {
-			fetch(TEST_endPointUrl + `api/student/get_live_classes/${slug}/`, {
-				method: 'GET',
-				headers: {
-					'Authorization': 'Bearer ' + token,
-					'Accept': "application/json",
-					'Content-Type': 'application/json'
-				},
-			})
-				.then(res => res.json())
-				.then(result => {
-					if (result) {
-						setLive_video(result)
+			try {
+				let response = await axiosClient.get(`${webUrls.GET_LIVE_CLASSES_URL}/${slug}/`, {
+					headers: {
+						'Authorization': `Bearer ${token}`,
+						'Content-Type': 'application/json'
 					}
 				})
+				if (response.status === 200) {
+					setLive_video(response.data)
+				}
+			} catch (e) {
+				console.log(e);
+			}
 		} else {
 			navigate(`/courses/${slug}`)
 		}
 	}, [token, navigate])
+
+
 	useEffect(() => {
-		livepanel(lslug)
-	}, [livepanel, lslug])
+		if (token) {
+			livepanel(lslug)
+		}
+	}, [livepanel, lslug, token])
 
 	return (
 		<>

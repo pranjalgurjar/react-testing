@@ -18,17 +18,16 @@ const MyProfile = (props) => {
     useDocumentTitle("I-Magnus | MyProfile")
     const { profileData, ProfileApi } = props
     let issubs = isSubscription()
-    const mypro = JSON.parse(localStorage.getItem("userdata"))
     const [user, setUser] = useState([])
     const [showModal, setShowModal] = useState(false)
     const [searchData, setSearchData] = useState([])
     const [currentPage, setCurrentPage] = useState(0);
     const indexOfLastPost = (currentPage + 1) * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentTableData = mypro?.subscriptions?.slice(indexOfFirstPost, indexOfLastPost);
+    const currentTableData = profileData?.subscriptions?.slice(indexOfFirstPost, indexOfLastPost);
 
     const pageNumbers = [];
-    for (let i = 0; i < Math.ceil(mypro?.subscriptions?.length + 1 / postsPerPage); i++) {
+    for (let i = 0; i < Math.ceil(profileData?.subscriptions?.length + 1 / postsPerPage); i++) {
         pageNumbers.push(i);
     }
 
@@ -52,7 +51,7 @@ const MyProfile = (props) => {
 
     const Search = (e) => {
         let search = e.target.value
-        let data = mypro?.subscriptions?.filter(item => item.course.name.toLowerCase().includes(search.toLowerCase()))
+        let data = profileData?.subscriptions?.filter(item => item.course.name.toLowerCase().includes(search.toLowerCase()))
         setSearchData(data)
     }
     useEffect(()=>{
@@ -184,7 +183,7 @@ const MyProfile = (props) => {
                                             </tbody>
                                         </table> : <div className="text-center"><h4 className="text-center text-primary">You Have Not Purchased Any Subscriptions</h4></div>}
 
-                                        <div className="dataTables_info mt-3" id="example3_info" >Showing {mypro?.subscriptions.length} of {mypro?.subscriptions.length} entries</div>
+                                        <div className="dataTables_info mt-3" id="example3_info" >Showing {profileData?.subscriptions.length} of {profileData?.subscriptions.length} entries</div>
 
                                         <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} incrementPageNumber={incrementPageNumber} decrementPageNumber={decrementPageNumber} pageNumbers={pageNumbers} />
                                     </div>

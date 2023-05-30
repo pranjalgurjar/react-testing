@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import PrivateRoutes from '../../routes/PrivateRoutes'
-import Sidebar from '../sidebar/sidebar'
-import Header from './main/header'
+import * as view from "../../view/view"
 import { useState } from 'react'
 import { pathName } from '../../utils'
 
@@ -15,8 +14,8 @@ const Layout = (props) => {
   return (
     <>
       <div id="main-wrapper" className="show">
-        <Header pathname={pathname} profileData={profileData} />
-        <Sidebar pathname={pathname} setPathname={setPathname} />
+        <view.HEADER pathname={pathname} profileData={profileData} />
+        <view.SIDEBAR pathname={pathname} setPathname={setPathname} />
         <div className="content-body mt-1">
           <PrivateRoutes />
         </div>

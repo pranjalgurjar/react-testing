@@ -13,8 +13,6 @@ const MySubscription = (props) => {
     useDocumentTitle("I-Magnus | Subscriptions")
     const { couresPageData ,profileData } = props
     let issubs = isSubscription()
-    couresPageData?.filter(item => item)
-
     const [paginate, setpaginate] = useState(2)
     let data = AssemblePrefData(couresPageData)?.flat()
     let SubscriptionData = SubscriptionPageData(data)

@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Tokens } from '../../../App'
-import { TEST_endPointUrl } from '../../../common/api/endPointUrl'
 import { regExpMobile, regExpPassword } from '../../../RegExp/RegExp'
 import OtpInput from 'react-otp-input';
 import "./forgetPass.css"
 import  Image1  from './images/3.gif';
 import bgImg from "./images/bg-1.jpg"
 import { LOGIN } from '../../../route/route'
+import axiosClient from "../../../webServices/webservice"
+import { webUrls } from '../../../webServices/webUrls'
 
 const Forgetpassword = () => {
 	const navigate = useNavigate()
@@ -45,24 +46,25 @@ const Forgetpassword = () => {
 			setErrMsg("Please Enter valid mobile number")
 		} else {
 			setIsError(false)
-			let data = await fetch(TEST_endPointUrl + "api/send_otp/?mobile=" + mobile, {
-				method: "POST",
+			try{
+			let response = await axiosClient.post(`${webUrls.SEND_OTP}${mobile}`,{},{
 				headers: {
 					'Authorization': 'Bearer ' + token,
 					"Content-Type": 'application/json'
 				}
 			})
-
-			data = await data.json()
-			if (data.status === "success") {
+			if (response.data.status === "success") {
 				setIsSubmitted(true)
 				setLoading(false)
-				setOtpData(data)
+				setOtpData(response.data)
 			} else {
 				setIsSubmitted(false)
 				setLoading(false)
 				setOtpErrMsg("OTP send failed")
 			}
+		}catch(e){
+			// console.log(e);
+		}
 		}
 	}
 
@@ -101,16 +103,12 @@ const Forgetpassword = () => {
 			setIspss(false)
 			setPassErr("")
 			// code api here
-			let data = await fetch(TEST_endPointUrl + "api/student/forgot_password?mobile=" + mobile + "&new_password=" + password, {
-				method: "POST",
-				headers: {
-					'Authorization': 'Bearer ' + token,
-					"Content-Type": 'application/json'
-				}
-			});
-			data = await data.json()
-			// console.log(data);
-			if (data.status === true) {
+			try{
+			let response = await axiosClient.post(`${webUrls.FORGOT_PASS_URL}mobile=${mobile}&new_password=${password}`,{},{headers: {
+				'Authorization': `Bearer ${token}`,
+				'Content-Type': 'application/json'
+			}})
+			if (response.data.status === true) {
 				setLoading(false)
 				setIspss(false)
 				setIsChangepss(false)
@@ -119,11 +117,15 @@ const Forgetpassword = () => {
 			} else {
 				setLoading(false)
 			}
-
+		}catch(e){
+			setLoading(false)
+			// console.log(e)
+		}
 		} else {
 			setIspss(true)
 			setPassErr("new password and comfirm password are not same")
 		}
+	
 	}
 	return (
 		<> <div className="body" style={{ backgroundImage: `url(${bgImg})`, backgroundSize: "cover", height: "54rem" }}>

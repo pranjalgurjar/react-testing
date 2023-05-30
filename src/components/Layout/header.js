@@ -1,21 +1,19 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import * as ROUTE from "../../../route/route"
+import * as ROUTE from "../../route/route"
+import { LogOut } from '../../utils/index'
 
 
 const Header = (props) => {
-    const profileDp = JSON.parse(localStorage.getItem("userdata"))
     const { pathname, profileData } = props
     const navigate = useNavigate()
     const [dp, setDp] = useState(false)
     const [showNotification, setShowNotification] = useState(false)
 
 
-    const LogOut = (e) => {
+    const handleLogOut = (e) => {
         setDp(!dp)
-        localStorage.removeItem("eXvctIdv")
-        localStorage.removeItem("userdata")
-        sessionStorage.removeItem("CRS")
+        LogOut()
         navigate(ROUTE.LOGIN)
         e.preventDefault()
     }
@@ -87,7 +85,7 @@ const Header = (props) => {
                                     <ul>
                                         <li className="nav-item dropdown header-profile mt-2">
                                             <Link className={dp ? "nav-link show" : "nav-link"} role="button" data-bs-toggle="dropdown" aria-expanded={dp ? true : false} onClick={() => { setDp(!dp) }}>
-                                                <img src={profileData?.id ? profileData?.dp : profileDp?.dp} width={20} alt="" />
+                                                <img src={profileData && profileData?.dp} width={20} alt="" />
                                             </Link>
                                             <div className={dp ? "dropdown-menu dropdown-menu-end show" : "dropdown-menu dropdown-menu-end"} data-bs-popper={dp ? "none" : ""}>
                                                 <Link to={ROUTE.MY_PROFILE} className="dropdown-item ai-icon" onClick={() => { setDp(!dp) }}>
@@ -101,7 +99,7 @@ const Header = (props) => {
                                                     <i className="bi-cast text-secondary" />
                                                     <span className="ms-2">My Subscription </span>
                                                 </Link>
-                                                <Link onClick={LogOut} className="dropdown-item ai-icon">
+                                                <Link onClick={handleLogOut} className="dropdown-item ai-icon">
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="text-danger" width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                                                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                                                         <polyline points="16 17 21 12 16 7" />

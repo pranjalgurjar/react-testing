@@ -1,26 +1,30 @@
-import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { TEST_endPointUrl, TEST_KEY } from '../../../../common/api/endPointUrl'
+import { TEST_KEY } from '../../../../ApiBaseUrl/endPointUrl'
+import axiosClient from "../../../../webServices/webservice"
 import img from "./favicon.png"
 import CouponModel from './couponModel'
 import { Tokens } from '../../../../App'
 import Loader from '../../../../components/loader/Loader'
 import { COURSES } from '../../../../route/route'
 import FAQs from './FAQs'
+import { webUrls } from '../../../../webServices/webUrls'
+import useOtherJs from '../../../../coustomhook/UseOtherJs'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const Package = (props) => {
-    const { ProfileApi } = props
+    const { ProfileApi, couresPageData } = props
     const token = useContext(Tokens)
-    const student_data = JSON.parse(localStorage.getItem("userdata"))
-    const corsename = JSON.parse(sessionStorage.getItem("CRS"))
-
     const { cslug } = useParams()
+    const coursePackage = useOtherJs(couresPageData, cslug)
+    const user_id = localStorage.getItem("eXvctIdv")
+    const user_data = JSON.parse(localStorage.getItem("user_data"))
+    const sub_scription = JSON.parse(localStorage.getItem("user_subscription"))
     const [user, setUser] = useState([])
-    // console.log(user);
     const [coupons, setCoupons] = useState()
     const [subscription, setSubscription] = useState()
-    // console.log(subscription);
+
     // for filter coupans data
     const [applyCoupan, setApply] = useState(0)
     const [coupanData, setCoupanData] = useState([])
@@ -34,36 +38,32 @@ const Package = (props) => {
     const [PaymetSuccessData, setPaymetSuccessData] = useState()
     const [alreadyBuy, setAlreadyBuy] = useState(false)
     const [payMsg, setPayMsg] = useState(false)
-    const id = student_data?.id
     /* for expand FAQ's Questions */
-   
-
 
 
     useEffect(() => {
         // for pakage data 
-        const saveData = () => {
-            setPackageLoading(false)
-            var config = {
-                method: 'GET',
-                url: TEST_endPointUrl + "api/student/subscription_plans/course/" + cslug + "/" + id + "/",
-                headers: {
-                    'Authorization': 'Bearer ' + token
+        if (cslug && user_id && token) {
+            const saveData = async () => {
+                setPackageLoading(false)
+                try {
+                    let response = await axiosClient.get(`${webUrls.SUBSCRIPTION_PLANS_URL}${cslug}/${user_id}/`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                    if (response.status === 200) {
+                        setUser(response.data)
+                        setPackageLoading(true)
+                        setSubscription(response.data?.[0])
+                    }
+                } catch (e) {
+                    console.log(e);
                 }
-            };
-            axios(config)
-                .then((response) => {
-                    // console.log(response.data, "response")
-                    setUser(response.data)
-                    setPackageLoading(true)
-                    setSubscription(response.data?.[0])
-                })
-                .catch((error) => {
-                    // console.log(error);
-                });
+            }
+            saveData()
         }
-        saveData()
-    }, [cslug, id, token])
+    }, [cslug, user_id, token])
 
 
     //  for select plane price button change
@@ -90,8 +90,7 @@ const Package = (props) => {
 
     // for amount and order id generate
     const handlePayment = async (Amount, sid) => {
-        console.log(Amount);
-        let isSubscription = student_data?.subscriptions?.find(item => item?.subscription?.id === sid)
+        let isSubscription = sub_scription?.find(item => item?.subscription?.id === sid)
         if (isSubscription?.subscription?.id === sid) {
             setAlreadyBuy(true)
             function removeAlret() {
@@ -101,111 +100,109 @@ const Package = (props) => {
         } else {
 
             if (Amount > 0) {
-                setLoading(true)
-                const res = await loadScript(
-                    "https://checkout.razorpay.com/v1/checkout.js"
-                );
+                try {
+                    setLoading(true)
+                    const res = await loadScript(
+                        "https://checkout.razorpay.com/v1/checkout.js"
+                    );
 
-                if (!res) {
-                    alert("Razorpay SDK failed to load. Are you online?");
-                    setLoading(false)
-                    return;
-                }
+                    if (!res) {
+                        alert("Razorpay SDK failed to load. Are you online?");
+                        setLoading(false)
+                        return;
+                    }
 
-                var result = await fetch(TEST_endPointUrl + "api/create_razorpay_order_id/", {
-                    method: "POST",
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                        "Content-Type": 'application/json'
-                    },
-                    body: JSON.stringify({ amount: Amount })
-                })
+                    let orderData = JSON.stringify({ amount: Amount })
 
-                result = await result.json()
-                if (!result) {
-                    setLoading(false)
-                    alert("Server error. Are you online?");
-                    return;
-                } else {
-                    setLoading(false)
-                }
-                const amount = result.amount * 100;
-                // console.log(result ? amount : "");
-                const order_id = result.order_id
-
-                const options = {
-                    'key': TEST_KEY, // Enter the Key ID generated from the Dashboard
-                    'amount': amount,
-                    'currency': "INR",
-                    'name': "Imagnus",
-                    'description': corsename?.description,
-                    'image': img,
-                    'order_id': order_id,
-                    'handler': async function (response) {
-                        let data = {
-                            payment_id: response.razorpay_payment_id,
-                            order_id: response.razorpay_order_id,
-                            gateway_name: "razorpay",
-                            coupon: ApplyCoupan?.status ? coupanName?.name : "",
-                            coupon_discount: ApplyCoupan?.status ? ApplyCoupan?.coupon_discount : 0,
-                            notes: subscription?.SubscriptionPlan?.name,
-                            source: "web",
-                            bill_amount: amount,
-                            student_id: student_data.id,
-                            subscription_id: subscription?.id
+                    let result = await axiosClient.post(webUrls.CREATE_ORDER_ID_URL, orderData, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            "Content-Type": 'application/json'
                         }
+                    })
+                    if (!result.data.status === 200) {
+                        setLoading(false)
+                        alert("Server error. Are you online?");
+                        return;
+                    } else {
+                        setLoading(false)
+                    }
+                    const amount = Amount * 100;
+                    const order_id = result.data.order_id
 
-                        let paymentDone = await fetch(TEST_endPointUrl + "api/place_order", {
-                            method: "POST",
-                            headers: {
-                                'Authorization': 'Bearer ' + token,
-                                "Content-Type": 'application/json'
-                            },
-                            body: JSON.stringify(data)
-                        })
+                    const options = {
+                        'key': TEST_KEY, // Enter the Key ID generated from the Dashboard
+                        'amount': amount,
+                        'currency': "INR",
+                        'name': "Imagnus",
+                        'description': coursePackage?.description,
+                        'image': img,
+                        'order_id': order_id,
+                        'handler': async function (response) {
+                            let data = JSON.stringify({
+                                payment_id: response.razorpay_payment_id,
+                                order_id: response.razorpay_order_id,
+                                gateway_name: "razorpay",
+                                coupon: ApplyCoupan?.status ? coupanName?.name : "",
+                                coupon_discount: ApplyCoupan?.status ? ApplyCoupan?.coupon_discount : 0,
+                                notes: subscription?.SubscriptionPlan?.name,
+                                source: "web",
+                                bill_amount: amount,
+                                student_id: user_id,
+                                subscription_id: subscription?.id
+                            })
 
-                        paymentDone = await paymentDone.json()
-                        if (paymentDone?.status === true) {
-                            ProfileApi()
-                        }
-                        setPaymetSuccessData(paymentDone)
+                            let paymentDone = await axiosClient.post(webUrls.PLACE_ORDER_URL, data, {
+                                headers: {
+                                    'Authorization': `Bearer ${token}`,
+                                    "Content-Type": 'application/json'
+                                }
+                            })
+                            if (paymentDone?.status === 200) {
+                                ProfileApi()
+                                setPaymetSuccessData(paymentDone)
+                            } else {
+                                console.log(paymentDone.data)
+                            }
 
-                    },
-                    'prefill': {
-                        'name': student_data?.name,
-                        'email': student_data?.email,
-                        'contact': student_data?.mobile,
-                    },
-                    'readonly': {
-                        'contact': true,
-                        'email': true,
-                    },
-                    theme: {
-                        color: "#8A2BE2",
-                    },
-                };
+                        },
+                        'prefill': {
+                            'name': user_data?.name,
+                            'email': user_data?.email,
+                            'contact': user_data?.mobile,
+                        },
+                        'readonly': {
+                            'contact': true,
+                            'email': true,
+                        },
+                        theme: {
+                            color: "#8A2BE2",
+                        },
+                    };
 
-                const paymentObject = new window.Razorpay(options);
-                paymentObject.open()
+                    const paymentObject = new window.Razorpay(options);
+                    paymentObject.open()
+                } catch (e) {
+                    console.log(e);
+                }
             } else {
                 if (Amount === 0 || Amount === undefined) {
-                    setLoading(true)
-                    let data = {
-                        "mobile": [
-                            student_data?.mobile
-                        ],
-                        "subscription_id": subscription?.id,
-                        "bill_amount": 0
-                    }
-                    fetch(TEST_endPointUrl + "api/place_manual_order", {
-                        method: "POST",
-                        headers: {
-                            'Authorization': 'Bearer ' + token,
-                            "Content-Type": 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    }).then(response => response.json()).then(data => {
-                        if (data?.success?.[0].status_code === 200) {
+                    try {
+                        setLoading(true)
+                        let data = JSON.stringify({
+                            "mobile": [
+                                user_data?.mobile
+                            ],
+                            "subscription_id": subscription?.id,
+                            "bill_amount": 0
+                        })
+                        let response = await axiosClient.post(webUrls.PLACE_MANUAL_ORDER_URL, data, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                "Content-Type": 'application/json'
+                            }
+                        })
+                        if (response.data?.success?.[0].status_code === 200) {
                             ProfileApi()
                             setLoading(false)
                             setPayMsg(true)
@@ -216,7 +213,9 @@ const Package = (props) => {
                             }
                             removeAlert()
                         }
-                    })
+                    } catch (e) {
+                        console.log(e);
+                    }
                 }
             }
         }
@@ -234,40 +233,52 @@ const Package = (props) => {
 
     useEffect(() => {
         // for get coupons 
-        const Coupan = () => {
-            fetch(TEST_endPointUrl + "api/student/get_coupons_by_student/", {
-                method: "POST",
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    "Content-Type": 'application/json'
-                },
-                body: JSON.stringify({
-                    student_id: student_data?.id,
-                    course_id: corsename?.id
-                })
-            }).then(response => response.json()).then(res => setCoupons(res))
-        }
-
-        Coupan()
-    }, [token, student_data?.id, corsename?.id])
-
-    const ApplyCoupan = (item) => {
-        setCoupanName(item)
-        fetch(TEST_endPointUrl + "api/student/apply_coupon/", {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify({ student_id: id, coupon: item?.name, course_id: corsename?.id, subscription_id: item?.subscription_id })
-        }).then(response => response.json()).then(res => {
-            if (res.status) {
-                setTotalprice(subscription?.plan_price - res?.coupon_discount)
-                setApply(res)
+        if (token && coursePackage?.id) {
+            const Coupan = async () => {
+                try {
+                    let reqData = JSON.stringify({
+                        student_id: user_id,
+                        course_id: coursePackage?.id
+                    })
+                    let response = await axiosClient.post(webUrls.GET_COUPON_URL, reqData, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            "Content-Type": 'application/json'
+                        }
+                    })
+                    if (response.status === 200) {
+                        setCoupons(response.data)
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
             }
-        })
+            Coupan()
+        }
+    }, [token, user_id, coursePackage?.id])
 
-
+    const ApplyCoupan = async (item) => {
+        try {
+            setCoupanName(item)
+            let reqData = JSON.stringify({
+                student_id: user_id,
+                coupon: item?.name,
+                course_id: coursePackage?.id,
+                subscription_id: item?.subscription_id
+            })
+            let response = await axiosClient.post(webUrls.APPLY_COUPON_URL, reqData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': "application/json"
+                }
+            })
+            if (response.status === 200) {
+                setTotalprice(subscription?.plan_price - response.data?.coupon_discount)
+                setApply(response.data)
+            }
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     return (
@@ -319,15 +330,15 @@ const Package = (props) => {
                                                                     <div className="dlab-info">
                                                                         <div className="dlab-title d-flex justify-content-between">
                                                                             <div className="mt-2">
-                                                                                <h5>
-                                                                                    <Link >{corsename?.name}
+                                                                                {coursePackage?<h5>
+                                                                                    <Link >{coursePackage?.name}
                                                                                     </Link><br />
                                                                                     <p className="mt-2 text-primary"><i className="bi-clipboard" /> {pdata?.SubscriptionPlan?.name} - {pdata.validity} months</p>
-                                                                                </h5>
+                                                                                </h5>:<Skeleton borderRadius={10} highlightColor='#ccccff' height={30} width={350} />}
                                                                             </div>
                                                                             <div className="course_price ml-auto text-primary">
-                                                                                <span>₹0</span>
-                                                                                <br />₹{pdata?.plan_price}
+                                                                                <span>₹{coursePackage && coursePackage ? coursePackage?.CourseSubscriptionPlans_course[index]?.discount_price : 0}</span>
+                                                                                <br />₹{pdata && pdata ? pdata?.plan_price : 0}
                                                                             </div>
                                                                         </div>
                                                                         <div className="row mt-2">
@@ -336,7 +347,7 @@ const Package = (props) => {
                                                                                     <li>
                                                                                         <div className="timeline-badge info" />
                                                                                         <Link className="timeline-panel text-muted" >
-                                                                                            <p className="mb-0">{pdata?.no_of_videos ? pdata?.no_of_videos : 0}+ Video Lectures</p>
+                                                                                            <p className="mb-0">{pdata && pdata ? pdata?.no_of_videos : 0}+ Video Lectures</p>
                                                                                         </Link>
                                                                                     </li>
                                                                                     <li>
@@ -405,7 +416,7 @@ const Package = (props) => {
                             <ul className="list-group list-group-flush">
                                 <li className="list-group-item d-flex justify-content-between align-items-center">
                                     <span><b>Course Name </b></span>
-                                    <span className="badge-pill">{corsename?.name}</span>
+                                    {coursePackage?<span className="badge-pill">{coursePackage?.name}</span>:<Skeleton borderRadius={10} highlightColor='#ccccff' height={30} width={350} />}
                                 </li>
                                 <li className="list-group-item d-flex justify-content-between align-items-center">
                                     <span><b>Course Price </b></span>
@@ -437,15 +448,15 @@ const Package = (props) => {
                                 <div className="spinner-border" role="status">
                                     <span className="visually-hidden">Loading...</span>
                                 </div>
-                            </div> : <button onClick={() => handlePayment(totalPrice, subscription?.id)} className="btn btn-primary btn-xl w-100" disabled={user?.length?false:true} >Buy Now</button> : loading ? <div className="text-center text-primary">
+                            </div> : <button onClick={() => handlePayment(totalPrice, subscription?.id)} className="btn btn-primary btn-xl w-100" disabled={user?.length ? false : true} >Buy Now</button> : loading ? <div className="text-center text-primary">
                                 <div className="spinner-border" role="status">
                                     <span className="visually-hidden">Loading...</span>
                                 </div>
-                            </div> : <button onClick={() => handlePayment(subscription?.plan_price, subscription?.id)} className="btn btn-primary btn-xl w-100" disabled={user?.length?false:true}>Buy Now</button>}
+                            </div> : <button onClick={() => handlePayment(subscription?.plan_price, subscription?.id)} className="btn btn-primary btn-xl w-100" disabled={user?.length ? false : true}>Buy Now</button>}
                         </div>
                     </div>
                 </div>
-               <FAQs/>
+                <FAQs />
             </div>
             <CouponModel coupanData={coupanData} setIscheck={setIscheck} isCheck={isCheck} ApplyCoupan={ApplyCoupan} setShowCoupanModal={setShowCoupanModal} showCoupanModal={showCoupanModal} />
             <div className={showCoupanModal ? "modal-backdrop fade show" : ""}></div>

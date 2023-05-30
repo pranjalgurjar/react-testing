@@ -1,8 +1,9 @@
 import { React, useState, useEffect, useContext } from 'react'
 import { Link, useParams } from 'react-router-dom';
-import { TEST_endPointUrl } from '../../../../common/api/endPointUrl';
+import axiosClient from "../../../../webServices/webservice"
 import { Tokens } from "../../../../App"
 import Loader from '../../../../components/loader/Loader';
+import { webUrls } from '../../../../webServices/webUrls';
 
 const CourseDetailsOne = () => {
     const token = useContext(Tokens)
@@ -12,27 +13,35 @@ const CourseDetailsOne = () => {
     const [showVideo, setShowVideo] = useState(false)
     const [showPdf, setShowPdf] = useState(false)
     const [showTestSeries, setShowTestSeries] = useState(false)
-    const [loading,setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
 
-    // console.log(course);
 
     useEffect(() => {
-        const cor_data = () => {
-            setLoading(true)
-            fetch(TEST_endPointUrl + "api/student/course/course_overview/" + cdslug + "/", {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+        const cor_data = async () => {
+            if (token && cdslug) {
+                setLoading(true)
+                try {
+                    let response = await axiosClient.get(`${webUrls.COURSE_OVERVIEW_URL}${cdslug}/`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    if (response) {
+                        setCourse(response.data)
+                        setLoading(false)
+                    }
+                } catch (e) {
+                    // console.log(e);
                 }
-            }).then(response => response.json()).then(res => { setCourse(res);setLoading(false) }).catch(err => console.log(err))
+            }
         }
         cor_data()
     }, [cdslug, token])
 
     return (
-        <>{loading?<div className="container-fluid mt-2"><Loader/></div>
-            :<div className="container-fluid mt-2">
+        <>{loading ? <div className="container-fluid mt-2"><Loader /></div>
+            : <div className="container-fluid mt-2">
                 <div className="row">
                     <div className="col-xl-4 col-xxl-4">
                         <div className="custome-accordion">
@@ -162,7 +171,7 @@ const CourseDetailsOne = () => {
                     </div>
                 </div>
             </div>}
-           
+
         </>
     );
 }
