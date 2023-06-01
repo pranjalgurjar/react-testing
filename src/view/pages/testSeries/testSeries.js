@@ -5,13 +5,13 @@ import axiosClient from "../../../webServices/webservice"
 import Loader from '../../../components/loader/Loader';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Box, Tab } from '@mui/material';
-import { useDocumentTitle } from '../../../coustomhook';
+import { Title, useDocumentTitle } from '../../../coustomhook';
 import { COURSES } from '../../../route/route';
 import { webUrls } from '../../../webServices/webUrls';
 
 
 const TestSeries = () => {
-    useDocumentTitle("I-Magnus | Test Series")
+    useDocumentTitle(`${Title.documentTitle} | TestSeries | ${Title.backTitle}`)
     const token = useContext(Tokens)
     const studentID = localStorage.getItem("eXvctIdv")
     const [prefrence, setPrefrence] = useState()

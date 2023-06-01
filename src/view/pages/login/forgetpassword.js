@@ -4,13 +4,15 @@ import { Tokens } from '../../../App'
 import { regExpMobile, regExpPassword } from '../../../RegExp/RegExp'
 import OtpInput from 'react-otp-input';
 import "./forgetPass.css"
-import  Image1  from './images/3.gif';
+import Image1 from './images/3.gif';
 import bgImg from "./images/bg-1.jpg"
 import { LOGIN } from '../../../route/route'
 import axiosClient from "../../../webServices/webservice"
 import { webUrls } from '../../../webServices/webUrls'
+import { Title, useDocumentTitle } from '../../../coustomhook';
 
 const Forgetpassword = () => {
+	useDocumentTitle(`${Title.documentTitle} | Forget Password | ${Title.backTitle}`)
 	const navigate = useNavigate()
 	const token = useContext(Tokens)
 	const [isSubmitted, setIsSubmitted] = useState(false)
@@ -46,25 +48,28 @@ const Forgetpassword = () => {
 			setErrMsg("Please Enter valid mobile number")
 		} else {
 			setIsError(false)
-			try{
-			let response = await axiosClient.post(`${webUrls.SEND_OTP}${mobile}`,{},{
-				headers: {
-					'Authorization': 'Bearer ' + token,
-					"Content-Type": 'application/json'
+			try {
+				let response = await axiosClient.post(webUrls.SEND_OTP, {}, {
+					params: {
+						mobile: mobile
+					},
+					headers: {
+						'Authorization': 'Bearer ' + token,
+						"Content-Type": 'application/json'
+					}
+				})
+				if (response.data.status === "success") {
+					setIsSubmitted(true)
+					setLoading(false)
+					setOtpData(response.data)
+				} else {
+					setIsSubmitted(false)
+					setLoading(false)
+					setOtpErrMsg("OTP send failed")
 				}
-			})
-			if (response.data.status === "success") {
-				setIsSubmitted(true)
-				setLoading(false)
-				setOtpData(response.data)
-			} else {
-				setIsSubmitted(false)
-				setLoading(false)
-				setOtpErrMsg("OTP send failed")
+			} catch (e) {
+				// console.log(e);
 			}
-		}catch(e){
-			// console.log(e);
-		}
 		}
 	}
 
@@ -103,33 +108,39 @@ const Forgetpassword = () => {
 			setIspss(false)
 			setPassErr("")
 			// code api here
-			try{
-			let response = await axiosClient.post(`${webUrls.FORGOT_PASS_URL}mobile=${mobile}&new_password=${password}`,{},{headers: {
-				'Authorization': `Bearer ${token}`,
-				'Content-Type': 'application/json'
-			}})
-			if (response.data.status === true) {
+			try {
+				let response = await axiosClient.post(webUrls.FORGOT_PASS_URL, {}, {
+					params: {
+						mobile: mobile,
+						new_password: password.toString()
+					},
+					headers: {
+						'Authorization': `Bearer ${token}`,
+						'Content-Type': 'application/json'
+					}
+				})
+				if (response.data.status === true) {
+					setLoading(false)
+					setIspss(false)
+					setIsChangepss(false)
+					navigate(LOGIN)
+					alert("password Updated")
+				} else {
+					setLoading(false)
+				}
+			} catch (e) {
 				setLoading(false)
-				setIspss(false)
-				setIsChangepss(false)
-				navigate(LOGIN)
-				alert("password Updated")
-			} else {
-				setLoading(false)
+				// console.log(e)
 			}
-		}catch(e){
-			setLoading(false)
-			// console.log(e)
-		}
 		} else {
 			setIspss(true)
 			setPassErr("new password and comfirm password are not same")
 		}
-	
+
 	}
 	return (
 		<> <div className="body" style={{ backgroundImage: `url(${bgImg})`, backgroundSize: "cover", height: "54rem" }}>
-			<div className="container" style={{width:"90%"}}>
+			<div className="container" style={{ width: "90%" }}>
 				<div className="row align-items-center justify-contain-center">
 					<div className="col-xl-12 mt-4">
 						<div className="card mt-4">

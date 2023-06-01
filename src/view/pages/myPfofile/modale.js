@@ -36,7 +36,13 @@ const Module = (props) => {
         setIsUpdate(true)
         if (!(nameErr?.length > 0 || emailErr?.length > 0)) {
             try {
-                let response = await axiosClient.put(`${webUrls.UPDATE_STUDENT_URL}uid=${currentUser.id}&name=${currentUser.fullname}&fcm_token=${token}&email=${currentUser.email}`, {}, {
+                let response = await axiosClient.put(`${webUrls.UPDATE_STUDENT_URL}`, {}, {
+                    params: {
+                        uid: currentUser.id,
+                        name: currentUser.fullname,
+                        fcm_token: token,
+                        email: currentUser.email
+                    },
                     headers: {
                         "Authorization": "Bearer " + token
                     }

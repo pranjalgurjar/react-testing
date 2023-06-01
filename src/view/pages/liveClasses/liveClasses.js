@@ -7,12 +7,12 @@ import { isSubscription } from '../../../utils'
 import Loader from '../../../components/loader/Loader'
 import { Box, Tab } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { useDocumentTitle } from '../../../coustomhook'
+import { Title, useDocumentTitle } from '../../../coustomhook'
 import { webUrls } from '../../../webServices/webUrls'
 
 
 const LiveClasses = () => {
-  useDocumentTitle("I-Magnus | Live Classes")
+  useDocumentTitle(`${Title.documentTitle} | LiveClasses | ${Title.backTitle}`)
   let issubs = isSubscription()
   const token = useContext(Tokens)
   const [live, setLive] = useState()

@@ -26,7 +26,7 @@ const TestSeriesTab = (props) => {
                                                             <div className="col-xl-10 col-sm-10">
                                                                 <p>TEST:{index + 1} {testdata?.title}</p>
                                                             </div>
-                                                            <div className="col-xl-2 col-sm-2" key={index}>
+                                                            <div className="col-xl-2 col-sm-2">
                                                                 <Link className="btn btn-primary btn-xs" onClick={() => handleclick(testdata, index)}>
                                                                     <i className="bi-journal-text" />
                                                                 </Link>

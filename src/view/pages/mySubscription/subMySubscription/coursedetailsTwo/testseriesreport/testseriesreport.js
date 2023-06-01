@@ -11,11 +11,11 @@ const Testseriesreport = () => {
   const studentId = localStorage.getItem("eXvctIdv")
   const result = JSON.parse(sessionStorage.getItem("test_result"))
 
-  const correctScore = (result?.Right / result?.student?.[0]?.no_of_qstns) * 100;
-  const wrongScore = (result?.Wrong / result?.student?.[0]?.no_of_qstns) * 100
-  const notAttemptScore = (result?.notAttempt / result?.student?.[0]?.no_of_qstns) * 100
+  const correctScore = (result?.Right / result?.testSeriesQuestions?.[0]?.no_of_qstns) * 100;
+  const wrongScore = (result?.Wrong / result?.testSeriesQuestions?.[0]?.no_of_qstns) * 100
+  const notAttemptScore = (result?.notAttempt / result?.testSeriesQuestions?.[0]?.no_of_qstns) * 100
 
-  const testName = result?.student[0]?.title
+  const testName = result?.testSeriesQuestions[0]?.title
   const percentage = result?.Right
   const percentages = result?.Wrong
   const percentag = result?.notAttempt
@@ -126,7 +126,7 @@ const Testseriesreport = () => {
                         <div className="media ai-icon">
                           <div className="media-body">
                             <p className="mb-1"><i className="fa fa-pie-chart text-success" aria-hidden="true" /> Score</p>
-                            <h4 className="mb-0"><b>{result?.Right}</b>/{result?.student?.[0]?.no_of_qstns}</h4>
+                            <h4 className="mb-0"><b>{result?.Right}</b>/{result?.testSeriesQuestions?.[0]?.no_of_qstns}</h4>
                           </div>
                         </div>
                       </div>

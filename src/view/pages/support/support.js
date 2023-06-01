@@ -1,35 +1,35 @@
 import React, { useState } from 'react'
-import { useDocumentTitle } from '../../../coustomhook'
+import { Title, useDocumentTitle } from '../../../coustomhook'
 const Support = () => {
-    useDocumentTitle("I-magnus | Support")
-    const[tab1,setTab1] = useState(true)
-    const[tab2,setTab2] = useState(false)
-    const[tab3,setTab3] = useState(false)
-    const[tab4,setTab4] = useState(false)
-    
-    const tabs = (id)=>{
+    useDocumentTitle(`${Title.documentTitle} | Support | ${Title.backTitle}`)
+    const [tab1, setTab1] = useState(true)
+    const [tab2, setTab2] = useState(false)
+    const [tab3, setTab3] = useState(false)
+    const [tab4, setTab4] = useState(false)
 
-  if(id==="Contact"){
-    setTab1(true)
-    setTab2(false)
-    setTab3(false)
-    setTab4(false)
-  }else if(id==="Privacy"){
-    setTab1(false)
-    setTab2(true)
-    setTab3(false)
-    setTab4(false)
-  }else if(id==="Terms"){
-    setTab1(false)
-    setTab2(false)
-    setTab3(true)
-    setTab4(false)
-  } else if(id==="Disclaimer"){
-    setTab1(false)
-    setTab2(false)
-    setTab3(false)
-    setTab4(true)
-  }
+    const tabs = (id) => {
+
+        if (id === "Contact") {
+            setTab1(true)
+            setTab2(false)
+            setTab3(false)
+            setTab4(false)
+        } else if (id === "Privacy") {
+            setTab1(false)
+            setTab2(true)
+            setTab3(false)
+            setTab4(false)
+        } else if (id === "Terms") {
+            setTab1(false)
+            setTab2(false)
+            setTab3(true)
+            setTab4(false)
+        } else if (id === "Disclaimer") {
+            setTab1(false)
+            setTab2(false)
+            setTab3(false)
+            setTab4(true)
+        }
     }
     return (
         <>
@@ -37,14 +37,14 @@ const Support = () => {
                 <div className="course-details-tab style-2">
                     <nav>
                         <div className="nav nav-tabs justify-content-start tab-auto" id="nav-tab" role="tablist">
-                            <button className={tab1?"nav-link active":"nav-link"} id="nav-about-tab" onClick={()=>tabs("Contact")} >Contact Us</button>
-                            <button className={tab2?"nav-link active":"nav-link"} id="nav-privacy-tab" onClick={()=>tabs("Privacy")} >Privacy Policy</button>
-                            <button className={tab3?"nav-link active":"nav-link"} id="nav-terms-tab" onClick={()=>tabs("Terms")} >Terms &amp; Conditions</button>
-                            <button className={tab4?"nav-link active":"nav-link"} id="nav-disclaimer-tab" onClick={()=>tabs("Disclaimer")} >Disclaimer</button>
+                            <button className={tab1 ? "nav-link active" : "nav-link"} id="nav-about-tab" onClick={() => tabs("Contact")} >Contact Us</button>
+                            <button className={tab2 ? "nav-link active" : "nav-link"} id="nav-privacy-tab" onClick={() => tabs("Privacy")} >Privacy Policy</button>
+                            <button className={tab3 ? "nav-link active" : "nav-link"} id="nav-terms-tab" onClick={() => tabs("Terms")} >Terms &amp; Conditions</button>
+                            <button className={tab4 ? "nav-link active" : "nav-link"} id="nav-disclaimer-tab" onClick={() => tabs("Disclaimer")} >Disclaimer</button>
                         </div>
                     </nav>
                     <div className="tab-content" id="nav-tabContent">
-                        <div className={tab1?"tab-pane active show":"tab-pane"} id="nav-about" >
+                        <div className={tab1 ? "tab-pane active show" : "tab-pane"} id="nav-about" >
                             <div className="card all-crs-wid h-auto mt-4">
                                 <div className="card-body">
                                     <div className="row align-items-center">
@@ -77,7 +77,7 @@ const Support = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={tab2?"tab-pane active show":"tab-pane"} id="nav-disclaimer" >
+                        <div className={tab2 ? "tab-pane active show" : "tab-pane"} id="nav-disclaimer" >
                             <div className="row mt-4">
                                 <div className="col-xl-12 col-md-12">
                                     <div className="card all-crs-wid h-auto">
@@ -97,7 +97,7 @@ const Support = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={tab3?"tab-pane active show":"tab-pane"} id="nav-privacy" >
+                        <div className={tab3 ? "tab-pane active show" : "tab-pane"} id="nav-privacy" >
                             <div className="row mt-4">
                                 <div className="col-xl-12 col-md-12">
                                     <div className="card all-crs-wid h-auto">
@@ -148,7 +148,7 @@ const Support = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={tab4?"tab-pane active show":"tab-pane"} id="nav-terms" >
+                        <div className={tab4 ? "tab-pane active show" : "tab-pane"} id="nav-terms" >
                             <div className="row mt-4">
                                 <div className="col-xl-12 col-md-12">
                                     <div className="card all-crs-wid">

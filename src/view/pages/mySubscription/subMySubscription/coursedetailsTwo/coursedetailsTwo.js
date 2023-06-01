@@ -103,7 +103,6 @@ const CoursedetailsTwo = () => {
             let data = getSearchData?.Data?.[0]?.CategoryTestSeries?.filter(item => item?.title?.toLowerCase().includes(search.toLowerCase()))
             setSearchData(data)
         }
-
     }
     return (<>
         <div className="container-fluid">

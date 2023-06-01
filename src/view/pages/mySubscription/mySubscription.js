@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom'
 import Loader from '../../../components/loader/Loader'
 import { AssemblePrefData, SubscriptionPageData } from './js/assembledata'
 import { isSubscription } from '../../../utils'
-import { useDocumentTitle } from '../../../coustomhook'
+import { Title, useDocumentTitle } from '../../../coustomhook'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 
 
 const MySubscription = (props) => {
-    useDocumentTitle("I-Magnus | Subscriptions")
+    useDocumentTitle(`${Title.documentTitle} | Subscription | ${Title.backTitle}`)
     const { couresPageData ,profileData } = props
     let issubs = isSubscription()
     const [paginate, setpaginate] = useState(2)

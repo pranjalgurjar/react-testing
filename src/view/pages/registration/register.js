@@ -7,11 +7,11 @@ import { regExpEmail, regExpMobile, regExpName, regExpPassword } from '../../../
 import Image1 from './images/3.gif';
 import bgImg from "./images/bg-1.jpg"
 import { LOGIN } from '../../../route/route';
-import { useDocumentTitle } from '../../../coustomhook';
+import { Title, useDocumentTitle } from '../../../coustomhook';
 import { webUrls } from '../../../webServices/webUrls'
 
 const Registration = () => {
-    useDocumentTitle("I-Magnus | Registration")
+    useDocumentTitle(`${Title.documentTitle} | Registration | ${Title.backTitle}`)
     const navigate = useNavigate()
     const [user, setUser] = useState()
     const [msg, setMsg] = useState(false)

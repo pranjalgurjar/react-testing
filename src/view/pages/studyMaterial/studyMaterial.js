@@ -1,8 +1,8 @@
 import React from 'react'
-import { useDocumentTitle } from '../../../coustomhook'
+import { Title, useDocumentTitle } from '../../../coustomhook'
 
 const StudyMaterial = () => {
-    useDocumentTitle("I-magnus | Study Material")
+    useDocumentTitle(`${Title.documentTitle} | Study Material | ${Title.backTitle}`)
     return (
         <>
             <div className="container-fluid">

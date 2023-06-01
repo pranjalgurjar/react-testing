@@ -2,8 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Modal, Button } from 'react-bootstrap';
 const Modale = (props) => {
-    const { show, handleClose, student, Attempt, notAttempt, dataSubmit } = props
-  
+    const { show,setShow,student, Attempt, notAttempt, dataSubmit } = props
+    const handleClose = () => setShow(false);
     return (
         <>
             <Modal show={show} onHide={handleClose} animation={false} size="lg" aria-labelledby="example-modal-sizes-title-lg">
@@ -21,9 +21,9 @@ const Modale = (props) => {
                             </thead>
                             <tbody>
                                 <tr className="fs-18">
-                                    <td>{student.length? student[0]?.CategoryTestSeriesQuestions?.length:"0"}</td>
-                                    <td>{student.length?Attempt:"0"}</td>
-                                    <td>{student.length?notAttempt:"0"}</td>
+                                    <td>{student[0]?.CategoryTestSeriesQuestions?.length}</td>
+                                    <td>{Attempt}</td>
+                                    <td>{notAttempt}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -33,7 +33,7 @@ const Modale = (props) => {
                     <Button variant="btn btn-danger light" onClick={handleClose} >
                         Close
                     </Button>
-                    <Link to="report">
+                    <Link>
                         <Button variant="primary" onClick={dataSubmit}>
                             Submit Test
                         </Button>

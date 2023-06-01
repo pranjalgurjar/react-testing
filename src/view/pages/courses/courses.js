@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import Loader from "../../../components/loader/Loader"
-import { useDocumentTitle } from "../../../coustomhook"
+import { Title, useDocumentTitle } from "../../../coustomhook"
 
 
 const Courses = (props) => {
-    useDocumentTitle("I-Magnus | Courses")
+    useDocumentTitle(`${Title.documentTitle} | Courses | ${Title.backTitle}`)
     const { couresPageData } = props
     const [All_prefences, setAll_prefences] = useState()
     const [each_prefrence, setEachprefrence] = useState()

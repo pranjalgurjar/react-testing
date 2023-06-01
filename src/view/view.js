@@ -28,3 +28,5 @@ export {default as PDF_NOTES_TAB} from "./pages/mySubscription/subMySubscription
 export {default as HEADER} from "../components/Layout/header"
 export {default as SIDEBAR} from "../components/Layout/sidebar"
 export {default as FOOTER} from "../components/Layout/footer"
+export {default as TEST_QUESTIONS} from "./pages/mySubscription/subMySubscription/coursedetailsTwo/testseriesAttempt/testQuestions"
+export {default as TEST_TIMER} from "./pages/mySubscription/subMySubscription/coursedetailsTwo/testseriesAttempt/testTimer"

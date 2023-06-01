@@ -12,8 +12,11 @@ import { webUrls } from '../../../../webServices/webUrls'
 import useOtherJs from '../../../../coustomhook/UseOtherJs'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { Title, useDocumentTitle } from '../../../../coustomhook'
 
 const Package = (props) => {
+
+    useDocumentTitle(`${Title.documentTitle} | Packages | ${Title.backTitle}`)
     const { ProfileApi, couresPageData } = props
     const token = useContext(Tokens)
     const { cslug } = useParams()

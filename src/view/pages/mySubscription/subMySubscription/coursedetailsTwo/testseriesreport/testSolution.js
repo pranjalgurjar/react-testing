@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const TestSolution = () => {
 
 	const result = JSON.parse(sessionStorage.getItem("test_result"))
-	const name = result?.student?.[0]?.title
+	const name = result?.testSeriesQuestions?.[0]?.title
 	const iddata = result?.option
 	const [showQuestions, setShowQuestions] = useState(true)
 
@@ -22,7 +22,7 @@ const TestSolution = () => {
 				</li>
 			</ol>
 			<div className="row p-4">
-				{result?.student?.map((data, index) => {
+				{result?.testSeriesQuestions?.map((data, index) => {
 					return (
 						<div className="col-xl-12 col-xxl-12" key={index}>
 							<div className="card">

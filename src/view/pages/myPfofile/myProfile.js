@@ -10,12 +10,12 @@ import education from "./images/svg/education-website.svg"
 import { isSubscription } from "../../../utils";
 import { useEffect } from "react";
 import { SUBSCRIPTION } from "../../../route/route";
-import { useDocumentTitle } from "../../../coustomhook";
+import { Title, useDocumentTitle } from "../../../coustomhook";
 import ProfileCard from "./ProfileCard";
 
 let postsPerPage = 5
 const MyProfile = (props) => {
-    useDocumentTitle("I-Magnus | MyProfile")
+    useDocumentTitle(`${Title.documentTitle} | Profile | ${Title.backTitle}`)
     const { profileData, ProfileApi } = props
     let issubs = isSubscription()
     const [user, setUser] = useState([])

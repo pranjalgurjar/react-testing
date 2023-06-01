@@ -5,13 +5,13 @@ import { regExpMobile } from '../../../RegExp/RegExp';
 import Image1 from './images/3.gif';
 import bgImg from "./images/bg-1.jpg"
 import { FORGOT_PASS, HOME, REGISTRATION } from '../../../route/route';
-import { useDocumentTitle } from '../../../coustomhook';
+import { Title, useDocumentTitle } from '../../../coustomhook';
 import { webUrls } from '../../../webServices/webUrls';
 import axiosClient from '../../../webServices/webservice';
 
 
 function Login(props) {
-    useDocumentTitle("I-Magnus | Login")
+    useDocumentTitle(`${Title.documentTitle} | Login | ${Title.backTitle}`)
     let { setProfileData, Alldata } = props
     const navigate = useNavigate()
     const [isSubmitted, setIsSubmitted] = useState(false);
