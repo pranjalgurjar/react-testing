@@ -4,6 +4,8 @@ import axiosClient from "../../../../webServices/webservice"
 import { Tokens } from '../../../../App'
 import { ProtectUrl } from '../../../../utils'
 import { webUrls } from '../../../../webServices/webUrls'
+import * as view from "../../../view"
+import { COURSES } from '../../../../route/route'
 
 const LivePanel = () => {
 
@@ -31,7 +33,7 @@ const LivePanel = () => {
 				console.log(e);
 			}
 		} else {
-			navigate(`/courses/${slug}`)
+			navigate(`/${COURSES}/${slug}`)
 		}
 	}, [token, navigate])
 
@@ -47,11 +49,11 @@ const LivePanel = () => {
 			<div className="container-fluid">
 				<div className="row page-titles">
 					<ol className="breadcrumb">
-						<Link onClick={() => { window.history.back() }} ><i className="bi-arrow-left mr-2 font-w600" /></Link>
+					<view.BACK_KEY path={null} /> -
 						<li className="breadcrumb-item active">{liveClasses?.course?.name}</li>
 						<li className="breadcrumb-item">{(playlist && playlist.id) ? playlist?.title : liveClasses?.title}</li>
-						{/* <li className="breadcrumb-item">Paper Fist Part B</li> */}
 					</ol>
+					
 				</div>
 				<div className="row">
 					<div className="col-xl-8 col-xxl-8">
@@ -110,7 +112,7 @@ const LivePanel = () => {
 														<b>Other  live Classes</b>
 													</h4>
 													<div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-														{((live_video && live_video.length) ? live_video : [])?.map((item, index) => <div className="accordion-body card-body p-0" key={index}>
+														{live_video.length && live_video?.map((item, index) => <div className="accordion-body card-body p-0" key={index}>
 															<div className="acc-courses">
 																<div className="d-flex justify-content-between align-items-center">
 																	<div className="d-flex align-items-center">

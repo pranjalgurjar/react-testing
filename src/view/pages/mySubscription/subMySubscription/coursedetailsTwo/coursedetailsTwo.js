@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Tokens } from '../../../../../App'
 import axiosClient from "../../../../../webServices/webservice"
@@ -64,14 +64,18 @@ const CoursedetailsTwo = () => {
     }, [token, slug, cslug, myId, user.mobile, navigate])
 
 
-    const LecturesData = () => {
+    const LecturesData = useCallback(() => {
         setGetSearchData({ Data: details?.Lectures, cat_name: "CategoryLectures" })
         setSearchData([])
         setVideolectureTab(true)
         setPdfNotesTab(false)
 
         setTestSeriesTab(false)
-    }
+    }, [details?.Lectures])
+
+    useEffect(() => {
+        LecturesData()
+    }, [LecturesData])
 
     const notesData = () => {
         setGetSearchData({ Data: details?.Notes, cat_name: "CategoryNotes" })

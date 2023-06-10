@@ -1,20 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Title, useDocumentTitle } from '../../../coustomhook'
+import * as view from "../../view"
 
-const StudyMaterial = () => {
+
+const StudyMaterial = (props) => {
     useDocumentTitle(`${Title.documentTitle} | Study Material | ${Title.backTitle}`)
+
+    const { couresPageData } = props
+    const [All_prefences, setAll_prefences] = useState()
+    const [filterdata, setFilterdata] = useState()
+    const [value, setValue] = useState()
+
+
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue)
+        const filter = All_prefences?.find(dt => dt.slug === newValue && dt?.is_active)
+        setFilterdata(filter)
+    }
+
+    useEffect(() => {
+        if (couresPageData) {
+            setAll_prefences(couresPageData)
+            setFilterdata(couresPageData?.[0])
+            setValue(couresPageData?.[0]?.slug)
+        }
+    }, [couresPageData])
+
     return (
         <>
             <div className="container-fluid">
                 <div className="course-details-tab style-2">
-                    <nav>
-                        <div className="nav nav-tabs justify-content-start tab-auto" id="nav-tab" role="tablist">
-                            <button className="nav-link active" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about" type="button" role="tab" aria-controls="nav-about" aria-selected="true">MPPSC Civil Services</button>
-                            <button className="nav-link" id="nav-reviews-tab" data-bs-toggle="tab" data-bs-target="#nav-reviews" type="button" role="tab" aria-controls="nav-reviews" aria-selected="false">MPPSC Forest Services</button>
-                            <button className="nav-link" id="nav-reviews-tab" data-bs-toggle="tab" data-bs-target="#nav-reviews" type="button" role="tab" aria-controls="nav-reviews" aria-selected="false">UPSC Civil Services</button>
-                            <button className="nav-link" id="nav-reviews-tab" data-bs-toggle="tab" data-bs-target="#nav-reviews" type="button" role="tab" aria-controls="nav-reviews" aria-selected="false">One Day Exam Preparation</button>
-                        </div>
-                    </nav>
+                    <view.SCROLL_TABS
+                        handleChange={handleChange}
+                        value={value}
+                        data={{
+                            tabs: All_prefences,
+                            tabPannel: filterdata
+                        }}
+                        Component={view.COURSE_CARD}
+                    />
                     <div className="tab-content" id="nav-tabContent">
                         <div className="card mt-4">
                             <div className="card-body mr-2">

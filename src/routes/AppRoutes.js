@@ -82,7 +82,7 @@ function AppRoutes(props) {
                         <Route index element={<view.TESTSERIES />} />
                         <Route path={ROUTE.TEST_SERIES_EXPLORE} element={<view.TESTSERIESEXPLORE />} />
                     </Route>
-                    <Route path={ROUTE.STUDY_MATERIAL} element={<view.STUDYMATERIAL />} />
+                    <Route path={ROUTE.STUDY_MATERIAL} element={<view.STUDYMATERIAL couresPageData={couresPageData} />} />
                     <Route path={ROUTE.PREV_YEAR_PAPER} element={<view.PREVYEARPAPER />} />
                     <Route path={ROUTE.MY_PROFILE} element={<view.MYPROFILE profileData={profileData} ProfileApi={ProfileApi} />} />
                     <Route path={ROUTE.SUPPORT} element={<view.SUPPORT />} />

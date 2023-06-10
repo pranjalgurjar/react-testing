@@ -9,8 +9,8 @@ const Header = (props) => {
     const navigate = useNavigate()
     const [dp, setDp] = useState(false)
     const [showNotification, setShowNotification] = useState(false)
-
-
+    const today = new Date()
+    var options = { year: 'numeric', month: 'long', day: 'numeric' }
     const handleLogOut = (e) => {
         setDp(!dp)
         LogOut()
@@ -63,7 +63,7 @@ const Header = (props) => {
                                                                     <div className="media me-2 media-info"> KG </div>
                                                                     <div className="media-body">
                                                                         <h6 className="mb-1">Resport created successfully</h6>
-                                                                        <small className="d-block">29 July 2020 - 02:26 PM</small>
+                                                                        <small className="d-block">{today.toLocaleDateString("hi-IN",options)}-{today.toLocaleTimeString()}</small>
                                                                     </div>
                                                                 </div>
                                                             </li>
