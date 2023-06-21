@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import * as ROUTE from "../../route/route"
 import { LogOut } from '../../utils/index'
@@ -8,8 +8,9 @@ const Header = (props) => {
     const { pathname, profileData } = props
     const navigate = useNavigate()
     const [dp, setDp] = useState(false)
+    const [show_date, setShow_date] = useState()
     const [showNotification, setShowNotification] = useState(false)
-    const today = new Date()
+
     var options = { year: 'numeric', month: 'long', day: 'numeric' }
     const handleLogOut = (e) => {
         setDp(!dp)
@@ -18,9 +19,16 @@ const Header = (props) => {
         e.preventDefault()
     }
 
+    useEffect(() => {
+        setInterval(() => {
+            let today = new Date()
+            setShow_date(today)
+        }, 1000)
+    }, [show_date])
+
     return (
         <>
-            <div className="nav-header bg-black" style={{"width":"15rem"}}>
+            <div className="nav-header bg-black" style={{ "width": "15rem" }}>
                 <Link to={`/${ROUTE.SUBSCRIPTION}`} className="brand-logo" >
                     <img src="https://imagnus.in/images/logo.png" alt='' />
                 </Link>
@@ -63,7 +71,7 @@ const Header = (props) => {
                                                                     <div className="media me-2 media-info"> KG </div>
                                                                     <div className="media-body">
                                                                         <h6 className="mb-1">Resport created successfully</h6>
-                                                                        <small className="d-block">{today.toLocaleDateString("hi-IN",options)}-{today.toLocaleTimeString()}</small>
+                                                                        <small className="d-block">{show_date?.toLocaleDateString("hi-IN", options)}-{show_date?.toLocaleTimeString()}</small>
                                                                     </div>
                                                                 </div>
                                                             </li>
