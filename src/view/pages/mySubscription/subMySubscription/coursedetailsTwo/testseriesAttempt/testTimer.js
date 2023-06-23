@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
-import useTimer from '../../../../../../coustomhook/useTimer';
+import { CountDownComponent } from '../../../../../../components/count down/CountDownComponent';
 
 const TestTimer = (props) => {
 
 	const { testSeriesQuestions, option, dataAdd, setShow, dataSubmit } = props
-	const timer = useTimer(testSeriesQuestions[0]?.time_duration)
+	const ti_me = testSeriesQuestions[0]?.time_duration
 
-	useEffect(() => {
-		if (timer === "00:00:00") {
-			setShow(true)
-			dataAdd()
-			dataSubmit()
-		}
-	}, [timer, dataAdd, dataSubmit, setShow])
+
+	function TimeEnd() {
+		setShow(true)
+		dataAdd()
+		dataSubmit()
+	}
+
 	return (
 		<div className="col-lg-4 col-md-5" >
 			{testSeriesQuestions && testSeriesQuestions?.map((data, index) => {
@@ -22,8 +22,7 @@ const TestTimer = (props) => {
 					<div className="bg-v fixedd mt-6" style={{ width: "300px", position: "sticky" }} key={index}>
 						<div className="card-header d-block">
 							<h5 className="card-title">Time Left
-								{/* {timer === "00:00:00" ? document.getElementById('button').click() : ""} */}
-								<span className="test-timer">{timer}</span>
+								<CountDownComponent ti_me={ti_me} handleTimeEnd={TimeEnd} />
 							</h5>
 						</div>
 						<h4 className="background-warning text-center">Section: Practise Test</h4>

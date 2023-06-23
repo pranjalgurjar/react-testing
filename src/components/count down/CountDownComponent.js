@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const useTimer = (time) => {
+export const CountDownComponent = (props) => {
+	const { ti_me, handleTimeEnd } = props
 	const Ref = useRef(null);
 	const [timer, setTimer] = useState(null)
 	/* test timer function*/
@@ -38,17 +39,26 @@ const useTimer = (time) => {
 
 	const getDeadTime = useCallback(() => {
 		let deadline = new Date();
-		deadline.setHours(deadline.getHours() + (time / 60));
-		deadline.setMinutes(deadline.getMinutes() + (time % 60));
+		deadline.setHours(deadline.getHours() + (ti_me / 60));
+		deadline.setMinutes(deadline.getMinutes() + (ti_me % 60));
 		return deadline;
-	}, [time])
+	}, [ti_me])
 	/* test timer function*/
 	useEffect(() => {
-		if (time) {
+		if (ti_me) {
 			clearTimer(getDeadTime());
 		}
-	},[clearTimer,getDeadTime,time])
-	return timer
+	}, [clearTimer, getDeadTime, ti_me])
+
+	useEffect(() => {
+		if (timer === "00:00:00") {
+			handleTimeEnd()
+		}
+	})
+
+	return (<>
+		<span className="test-timer">{timer}</span>
+	</>)
 }
 
-export default useTimer
+

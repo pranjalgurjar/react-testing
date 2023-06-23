@@ -1,31 +1,36 @@
+import { LOGIN } from "../route/route";
+
 // for user login or not login
 export const isLogin = () => {
-    if (localStorage.getItem("eXvctIdv")) {
-        return true;
-    }
-    return false;
+	if (localStorage.getItem("eXvctIdv")) {
+		return true;
+	}
+	return false;
 }
 
 // for logOut function
-export const LogOut = (params)=> {
+export const LogOut = (e) => {
 	localStorage.removeItem("eXvctIdv")
 	localStorage.removeItem("user_data")
 	localStorage.removeItem("user_subscription")
 	sessionStorage.removeItem("CRS")
 	localStorage.removeItem("is_subscription")
+	let url = window.location.href
+	url.replace(pathName, LOGIN)
+	window.location.assign(url)
 }
 
 
- // for client requirement, if user has subscription then show scription page otherwise show buy course page
- export const isSubscription = () => {
-    let subscription = JSON.parse(localStorage.getItem("is_subscription"))
-	if(subscription>0){
+// for client requirement, if user has subscription then show scription page otherwise show buy course page
+export const isSubscription = () => {
+	let subscription = JSON.parse(localStorage.getItem("is_subscription"))
+	if (subscription > 0) {
 		return true;
-	}else{
-		 return false
+	} else {
+		return false
 	}
-  }
- 
+}
+
 // for path match
 export const pathName = () => {
 	let name = window.location.pathname
@@ -47,19 +52,19 @@ export const pathName = () => {
 		return "myprofile"
 	} else if (name.includes("/support")) {
 		return "support"
-	}else if(name.includes(" ")){
-    return isSubscription()?"subscription":"courses"
+	} else if (name.includes(" ")) {
+		return isSubscription() ? "subscription" : "courses"
 	}
-	
+
 }
 
 /* for url checking is subscription available or not   */
-export const ProtectUrl = (slug)=>{
-let user = JSON.parse(localStorage.getItem("user_subscription"))
-const issubscrip = user?.filter(item=>item?.course?.slug===slug)
-if(issubscrip?.length){
-	return true
-}else{
-	return false
-}
+export const ProtectUrl = (slug) => {
+	let user = JSON.parse(localStorage.getItem("user_subscription"))
+	const issubscrip = user?.filter(item => item?.course?.slug === slug)
+	if (issubscrip?.length) {
+		return true
+	} else {
+		return false
+	}
 }

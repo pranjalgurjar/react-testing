@@ -1,16 +1,12 @@
-import axios from 'axios';
-import React, { useContext, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ProgressBar } from 'react-bootstrap';
-import { TEST_endPointUrl } from '../../../../../../ApiBaseUrl/endPointUrl';
-import { Tokens } from '../../../../../../App';
+import { SUBSCRIPTION } from '../../../../../../route/route';
 
 const Testseriesreport = () => {
-  const token = useContext(Tokens)
   const { id, nameindex, title, slug, cslug } = useParams()
-  const studentId = localStorage.getItem("eXvctIdv")
+  const navigate = useNavigate()
   const result = JSON.parse(sessionStorage.getItem("test_result"))
-
   const correctScore = (result?.Right / result?.testSeriesQuestions?.[0]?.no_of_qstns) * 100;
   const wrongScore = (result?.Wrong / result?.testSeriesQuestions?.[0]?.no_of_qstns) * 100
   const notAttemptScore = (result?.notAttempt / result?.testSeriesQuestions?.[0]?.no_of_qstns) * 100
@@ -20,42 +16,48 @@ const Testseriesreport = () => {
   const percentages = result?.Wrong
   const percentag = result?.notAttempt
 
+  // useEffect(() => {
+  //   const saveData = () => {
+  //     const data = JSON.stringify({
+  //       "student_id": studentId,
+  //       "test_series_id": id,
+  //       "correct_ans": result?.Right,
+  //       "wrong_ans": result?.Wrong,
+  //       "skipped_qns": '2'
+  //     });
+
+  //     const config = {
+  //       method: 'post',
+  //       // maxBodyLength: Infinity,
+  //       url: `${TEST_endPointUrl}api/student/test_record/`,
+  //       headers: {
+  //         'Authorization': 'Bearer ' + token,
+  //         'Content-Type': 'application/json'
+  //       },
+  //       data: data
+  //     };
+
+  //     axios(config)
+  //       .then(function (response) {
+
+  //       })
+  //       .catch(function (error) {
+  //         // console.log(error);
+  //       });
+  //   }
+  //   saveData();
+  // }, [id, token, result?.Right, result?.Wrong, studentId])
+
   useEffect(() => {
-    const saveData = () => {
-      const data = JSON.stringify({
-        "student_id": studentId,
-        "test_series_id": id,
-        "correct_ans": result?.Right,
-        "wrong_ans": result?.Wrong,
-        "skipped_qns": '2'
-      });
-
-      const config = {
-        method: 'post',
-        // maxBodyLength: Infinity,
-        url: `${TEST_endPointUrl}api/student/test_record/`,
-        headers: {
-          'Authorization': 'Bearer ' + token,
-          'Content-Type': 'application/json'
-        },
-        data: data
-      };
-
-      axios(config)
-        .then(function (response) {
-
-        })
-        .catch(function (error) {
-          // console.log(error);
-        });
+    window.onpopstate = () => {
+      navigate(`/${SUBSCRIPTION}/${slug}/${cslug}`)
     }
-    saveData();
-  }, [id, token, result?.Right, result?.Wrong, studentId])
+  })
   return (
     <div className="container">
       <ol className="breadcrumb">
         <li className="breadcrumb-item active">
-          <Link to={`/subscription/${slug}/${cslug}`} className="d-flex align-self-center">
+          <Link to={`/${SUBSCRIPTION}/${slug}/${cslug}`} className="d-flex align-self-center">
             <svg width={25} height={25} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.99981 12C8.99905 11.8684 9.02428 11.7379 9.07404 11.6161C9.12381 11.4942 9.19713 11.3834 9.28981 11.29L13.2898 7.28999C13.4781 7.10168 13.7335 6.9959 13.9998 6.9959C14.2661 6.9959 14.5215 7.10168 14.7098 7.28999C14.8981 7.47829 15.0039 7.73369 15.0039 7.99999C15.0039 8.26629 14.8981 8.52168 14.7098 8.70999L11.4098 12L14.6998 15.29C14.8636 15.4813 14.9492 15.7274 14.9395 15.979C14.9298 16.2307 14.8255 16.4695 14.6474 16.6475C14.4693 16.8256 14.2305 16.93 13.9789 16.9397C13.7272 16.9494 13.4811 16.8638 13.2898 16.7L9.28981 12.7C9.10507 12.5137 9.00092 12.2623 8.99981 12Z" fill="#374557" />
             </svg>
@@ -170,7 +172,7 @@ const Testseriesreport = () => {
               <div className="card-footer d-sm-flex justify-content-between align-items-center">
                 <div className="card-footer-link mb-4 mb-sm-0">
 
-                  <Link to={`/subscription/${slug}/${cslug}/que/${id}/${nameindex}/${title}/`} className="btn btn-danger"><i className="bi-broadcast-pin" /> Re-attempt </Link>
+                  <Link to={`/${SUBSCRIPTION}/${slug}/${cslug}/que/${id}/${nameindex}/${title}/`} className="btn btn-danger"><i className="bi-broadcast-pin" /> Re-attempt </Link>
 
                 </div>
                 <Link to="testsolution">

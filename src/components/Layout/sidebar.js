@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { pathName } from '../../utils';
+import { LogOut, pathName } from '../../utils';
 import { useEffect } from 'react';
 import { COURSES, CURRENT_AFFAIRS, LIVE_CLASSES, MY_PROFILE, PREV_YEAR_PAPER, STUDY_MATERIAL, SUBSCRIPTION, SUPPORT, TEST_SERIES } from '../../route/route';
 
@@ -86,6 +86,13 @@ function Sidebar(props) {
                             <Link to={SUPPORT} >
                                 <i className="bi-info-square"></i>
                                 <span className="nav-text">Help & Support</span>
+                            </Link>
+                        </li>
+
+                        <li className="">
+                            <Link onClick={LogOut}>
+                                <i className="bi bi-box-arrow-left"></i>
+                                <span className="nav-text">Log Out</span>
                             </Link>
                         </li>
 
