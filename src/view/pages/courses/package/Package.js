@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TEST_KEY } from '../../../../ApiBaseUrl/endPointUrl'
 import axiosClient from "../../../../webServices/webservice"
-import img from "./favicon.png"
+import img from "./images/favicon.png"
 import CouponModel from './couponModel'
 import { Tokens } from '../../../../App'
 import { COURSES } from '../../../../route/route'

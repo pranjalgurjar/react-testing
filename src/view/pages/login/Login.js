@@ -4,7 +4,7 @@ import { Tokens } from '../../../App';
 import { regExpMobile } from '../../../RegExp/RegExp';
 import Image1 from './images/3.gif';
 import bgImg from "./images/bg-1.jpg"
-import { FORGOT_PASS, HOME, REGISTRATION } from '../../../route/route';
+import { COURSES, FORGOT_PASS, REGISTRATION, SUBSCRIPTION } from '../../../route/route';
 import { Title, useDocumentTitle } from '../../../coustomhook';
 import { webUrls } from '../../../webServices/webUrls';
 import axiosClient from '../../../webServices/webservice';
@@ -12,7 +12,7 @@ import axiosClient from '../../../webServices/webservice';
 
 function Login(props) {
     useDocumentTitle(`${Title.documentTitle} | Login | ${Title.backTitle}`)
-    let { setProfileData, Alldata } = props
+    let { ProfileApi, Alldata } = props
     const navigate = useNavigate()
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [passShow, setPassShow] = useState(false);
@@ -100,15 +100,17 @@ function Login(props) {
                     'Content-Type': 'application/json'
                 }
             })
-            if (response.data.status) {
-                setProfileData(response.data.message)
+            if (response.status === 200) {
                 setServerError(false)
-                localStorage.setItem("eXvctIdv", response?.data?.message?.id)
-                localStorage.setItem("user_data", JSON.stringify({ mobile: response?.data?.message?.mobile, name: response?.data?.message?.fullname, email: response?.data?.message?.email }))
-                localStorage.setItem("user_subscription", JSON.stringify(response?.data?.message?.subscriptions))
-                localStorage.setItem("is_subscription", JSON.stringify(response?.data?.message?.subscriptions?.length))
-                navigate(HOME);
+                localStorage.setItem("eXvctIdv", response.data.message.id)
+                localStorage.setItem("user_data", JSON.stringify({ mobile: response.data.message.mobile, name: response.data.message.fullname, email: response.data.message.email }))
                 Alldata()
+                ProfileApi()
+                if (response.data.message.subscriptions.length) {
+                    navigate(`/${SUBSCRIPTION}`);
+                } else {
+                    navigate(`/${COURSES}`);
+                }
                 setIsSubmitted(false)
             } else {
                 setIsSubmitted(false)

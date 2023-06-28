@@ -23,7 +23,7 @@ function Sidebar(props) {
 
     return (
         <>
-            <div className="dlabnav">
+            <div className="dlabnav col-md-2 col-sm-1">
                 <div className="dlabnav-scroll itemscroll mm-active ps--active-y">
                     <ul className="metismenu mm-show scrollmenu" id="menu">
                         <li className="nav-divider ng-scope" translate="">Subscription Plans</li>

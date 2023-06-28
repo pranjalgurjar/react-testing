@@ -1,4 +1,4 @@
-export { default as SUPPORT } from "./pages/support/support";
+export { default as SUPPORT } from "./pages/support/index";
 export { default as LOGIN } from "./pages/login/Login";
 export { default as REGISTRATION } from "./pages/registration/register";
 export { default as CURRENTAFFAIRS } from "./pages/currentAffairs/currentAffairs";
@@ -36,4 +36,5 @@ export { default as LOADER } from "../components/loader/Loader"
 export { default as PACKAGE_DETAILS } from "./pages/courses/package/packageDetails"
 export { default as SCROLL_TABS } from "../components/scrollTabs/scrollTabs"
 export { default as COURSE_CARD } from "./pages/courses/card"
+export { default as COMING_SOON } from "../components/upcomming/comingSoon"
 // export {default as LIVE_CLASS_CARD} from "./pages/liveClasses/liveClassCard"

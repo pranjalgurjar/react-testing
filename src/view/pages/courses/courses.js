@@ -8,7 +8,7 @@ const Courses = (props) => {
     const { couresPageData } = props
     const [All_prefences, setAll_prefences] = useState()
     const [filterdata, setFilterdata] = useState()
-    const [value, setValue] = useState('0')
+    const [value, setValue] = useState("0")
     // console.log(filterdata);
 
     const handleChange = (event, newValue) => {
@@ -45,4 +45,4 @@ const Courses = (props) => {
     </>)
 }
 
-export default Courses
+export default Courses;

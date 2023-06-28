@@ -23,7 +23,7 @@ export const LogOut = (e) => {
 
 // for client requirement, if user has subscription then show scription page otherwise show buy course page
 export const isSubscription = () => {
-	let subscription = JSON.parse(localStorage.getItem("is_subscription"))
+	let subscription = localStorage.getItem("is_subscription")
 	if (subscription > 0) {
 		return true;
 	} else {

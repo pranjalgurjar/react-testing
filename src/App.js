@@ -15,6 +15,7 @@ function App() {
   const [couresPageData, setCouresPageData] = useState([])
 
 
+
   useEffect(() => {
     const Token = async () => {
       const data = new FormData();
@@ -22,7 +23,7 @@ function App() {
       data.append('password', '5EFGJd6m');
       try {
         let response = await axiosClient.post(webUrls.TOKEN_URL, data)
-        if (response.data.access_token) {
+        if (response.status === 200) {
           setToken(response.data.access_token)
         }
       } catch (e) {
@@ -40,7 +41,7 @@ function App() {
       }
       try {
         let response = await axiosClient.get(webUrls.ALL_PREFRENCE_URL, { headers: headers })
-        if (response.data.length) {
+        if (response.status === 200) {
           setCouresPageData(response.data)
         }
       } catch (e) {

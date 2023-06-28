@@ -11,7 +11,7 @@ const Card = (props) => {
 				<div className='row mt-2'>
 					{tabPannel && tabPannel?.courses?.map((item, index) => {
 						return (
-							<div className="col-xl-4 col-md-4" key={index}>
+							<div className="col-xl-4 col-md-6 col-sm-12" key={index}>
 								<div className="card all-crs-wid h-auto">
 									<div className="card-body">
 										<div className="courses-bx">

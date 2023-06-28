@@ -129,7 +129,7 @@ const TestSeries = () => {
                         <TabPanel value={value}>
                             {(prefrence && prefrence?.courses?.length) ?
                                 <div className="row mt-3">
-                                    {isloading ? (testseries && testseries?.length ? testseries : [])?.map((item, index) =>
+                                    {isloading ? testseries && testseries?.map((item, index) =>
                                         <div className="col-xl-4 col-md-4" key={index}>
                                             <div className="card all-crs-wid">
                                                 <div className="card-body">

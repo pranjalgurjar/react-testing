@@ -1,5 +1,5 @@
 import React from 'react'
-import img2 from "./faq-right.png"
+import img2 from "./images/faq-right.png"
 import { useState } from 'react'
 
 const FAQs = () => {
