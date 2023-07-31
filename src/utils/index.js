@@ -1,5 +1,3 @@
-import { LOGIN } from "../route/route";
-
 // for user login or not login
 export const isLogin = () => {
 	if (localStorage.getItem("eXvctIdv")) {
@@ -15,9 +13,6 @@ export const LogOut = (e) => {
 	localStorage.removeItem("user_subscription")
 	sessionStorage.removeItem("CRS")
 	localStorage.removeItem("is_subscription")
-	let url = window.location.href
-	url.replace(pathName, LOGIN)
-	window.location.assign(url)
 }
 
 

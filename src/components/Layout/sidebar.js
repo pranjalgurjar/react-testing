@@ -1,13 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LogOut, pathName } from '../../utils';
 import { useEffect } from 'react';
-import { COURSES, CURRENT_AFFAIRS, LIVE_CLASSES, MY_PROFILE, PREV_YEAR_PAPER, STUDY_MATERIAL, SUBSCRIPTION, SUPPORT, TEST_SERIES } from '../../route/route';
+import { COURSES, CURRENT_AFFAIRS, LIVE_CLASSES, LOGIN, MY_PROFILE, PREV_YEAR_PAPER, STUDY_MATERIAL, SUBSCRIPTION, SUPPORT, TEST_SERIES } from '../../route/route';
 
 
 
 function Sidebar(props) {
+    const navigate = useNavigate()
     const { pathname, setPathname } = props
+
+    function Log_Out() {
+        LogOut()
+        navigate(LOGIN)
+    }
 
     useEffect(() => {
         window.onpopstate = () => {
@@ -90,7 +96,7 @@ function Sidebar(props) {
                         </li>
 
                         <li className="">
-                            <Link onClick={LogOut}>
+                            <Link onClick={Log_Out}>
                                 <i className="bi bi-box-arrow-left"></i>
                                 <span className="nav-text">Log Out</span>
                             </Link>
