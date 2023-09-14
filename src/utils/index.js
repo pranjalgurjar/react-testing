@@ -7,7 +7,7 @@ export const isLogin = () => {
 }
 
 // for logOut function
-export const LogOut = (e) => {
+export const LogOut = () => {
 	localStorage.removeItem("eXvctIdv")
 	localStorage.removeItem("user_data")
 	localStorage.removeItem("user_subscription")

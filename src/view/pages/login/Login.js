@@ -8,6 +8,8 @@ import { COURSES, FORGOT_PASS, REGISTRATION, SUBSCRIPTION } from '../../../route
 import { Title, useDocumentTitle } from '../../../coustomhook';
 import { webUrls } from '../../../webServices/webUrls';
 import axiosClient from '../../../webServices/webservice';
+import { useEffect } from 'react';
+import { LogOut } from '../../../utils';
 
 
 function Login(props) {
@@ -122,7 +124,9 @@ function Login(props) {
             setIsSubmitted(false)
         }
     }
-
+    useEffect(() => {
+        LogOut()
+    }, [])
     return (
         <>
             <div style={{ backgroundImage: `url(${bgImg})`, backgroundSize: "cover", height: "60rem", backgroundRepeat: "no-repeat" }}>
