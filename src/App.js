@@ -12,9 +12,6 @@ const Tokens = createContext();
 function App() {
 
 
-
-  
-
   const [token, setToken] = useState(null)
   const [couresPageData, setCouresPageData] = useState([])
 
